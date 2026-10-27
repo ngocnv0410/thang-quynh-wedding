@@ -8,7 +8,7 @@ for(const [device,width,height] of [['desktop',1440,1000],['mobile',390,844]]) {
  const errors=[];page.on('pageerror',e=>errors.push(e.message))
  await page.goto('http://127.0.0.1:5173/?to=Bạn%20Ngọc')
  await page.evaluate(()=>document.fonts.ready)
- await page.waitForTimeout(1800)
+ await page.waitForTimeout(3300)
  await page.screenshot({path:`${output}/${device}-entry.png`})
  await page.locator('#envelope-seal').click()
  await page.waitForTimeout(1600)

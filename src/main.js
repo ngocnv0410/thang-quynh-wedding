@@ -23,7 +23,7 @@ document.querySelectorAll('dialog').forEach(dialog => {
  dialog.addEventListener('click', event => { if(event.target === dialog) { const r=dialog.getBoundingClientRect(); if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom) closeDialog(dialog) } })
 })
 const guest = new URLSearchParams(location.search).get('to')?.trim().slice(0, 80)
-if (guest) $('#invited-guest').textContent = guest
+if (guest) document.querySelectorAll('[data-invited-guest]').forEach(el => { el.textContent = guest })
 const music = $('#music')
 function updateMusic() { const playing=!music.paused; $('#music-toggle').setAttribute('aria-pressed',String(playing)); $('#music-toggle').setAttribute('aria-label',playing?'Tắt nhạc nền':'Bật nhạc nền'); $('#music-label').textContent=playing?'Đang phát':'Bật nhạc' }
 async function playMusic() { try { music.volume=.4; await music.play() } catch { toast('Chạm nút nhạc để bật giai điệu cho ngày vui.') } updateMusic() }

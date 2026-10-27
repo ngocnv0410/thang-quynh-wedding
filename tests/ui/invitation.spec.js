@@ -26,6 +26,7 @@ for(const size of viewports){
   const errors=[];page.on('pageerror',error=>errors.push(error.message))
   await page.goto('/')
   await page.evaluate(()=>document.fonts.ready)
+  await expect(page.locator('.opening-flowers-right')).toHaveCSS('opacity','1')
   await expect(page.locator('#wedding-site')).toBeHidden()
   const envelope=await page.locator('.entry-envelope-wrap').boundingBox()
   expect(envelope.x).toBeGreaterThanOrEqual(0)
@@ -191,4 +192,29 @@ test('background music plays only on user action and can be paused',async({page}
  await expect(page.locator('#music-label')).toHaveText('Đang phát')
  await page.locator('#music-toggle').click()
  await expect(page.locator('#music-toggle')).toHaveAttribute('aria-pressed','false')
+})
+
+
+test('floral opening matches the reference composition and loads its artwork',async({page},testInfo)=>{
+ await page.setViewportSize({width:420,height:765})
+ await page.goto('/?to=Bạn%20Ngọc')
+ await page.evaluate(()=>document.fonts.ready)
+ await expect(page.locator('.opening-flowers-right')).toHaveCSS('opacity','1')
+ const result=await page.evaluate(()=>{
+  const stage=document.querySelector('.entry-stage').getBoundingClientRect()
+  const relative=selector=>{const r=document.querySelector(selector).getBoundingClientRect();return {x:r.x-stage.x,y:r.y-stage.y,width:r.width,height:r.height}}
+  return {envelope:relative('.entry-envelope-wrap'),left:relative('.opening-flowers-left'),right:relative('.opening-flowers-right'),images:[...document.querySelectorAll('#entry-gate img')].map(img=>({src:img.getAttribute('src'),loaded:img.complete&&img.naturalWidth>0})),fonts:[...document.fonts].filter(f=>f.family.startsWith('Opening')).map(f=>({family:f.family,status:f.status}))}
+ })
+ // Original reference canvas: 420 × 765.178, within 1px after responsive rounding.
+ for(const [name,expected] of Object.entries({envelope:[42.315,237.226,347,226.102],left:[-5,173.86,133.149,255.374],right:[275.4,327.7,144.6,310.6]})){
+  const actual=result[name]
+  for(const [index,key] of ['x','y','width','height'].entries())expect(Math.abs(actual[key]-expected[index])).toBeLessThan(1)
+ }
+ expect(result.images.every(img=>img.loaded)).toBe(true)
+ expect(result.fonts).toHaveLength(2)
+ expect(result.fonts.every(font=>font.status==='loaded')).toBe(true)
+ await expect(page.locator('#invited-guest')).toHaveText('Bạn Ngọc')
+ await expect(page.locator('.opening-seal')).toHaveCSS('animation-name','opening-pulse')
+ await expect(page.locator('.opening-hand')).toHaveCSS('animation-name','opening-bounce')
+ await page.screenshot({path:testInfo.outputPath('floral-reference-match.png')})
 })

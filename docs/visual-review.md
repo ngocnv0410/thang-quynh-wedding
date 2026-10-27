@@ -4,12 +4,13 @@
 
 ## Thay đổi theo phản hồi mới nhất
 
-- Bỏ hình cổng vòm ở cả phần lời mời và xác nhận tham dự. Ảnh dùng khung chữ nhật giấy ngà; kiểm thử CSS xác nhận bán kính góc bằng 0 ở cả bảy viewport.
-- Khi mở link, màn phong bì hiển thị trước. Phần nội dung thiệp có `hidden` và `inert`, không thể xem/cuộn/tab tới trước khi chạm thư.
-- Chạm bất kỳ chỗ nào trên phong bì sẽ mở nắp, nâng lá thư, làm mờ màn mở đầu và tự vào đầu thiệp sau khoảng 2,55 giây. Không cần bấm nút tiếp tục; Escape không bỏ qua màn đầu. Tải lại link sẽ hiển thị lại phong bì.
-- Nhạc chỉ bắt đầu sau lần chạm mở thư. Nếu nhạc lỗi, quá trình vào thiệp vẫn hoạt động. Chế độ giảm chuyển động bỏ thời gian chờ hiệu ứng.
-- Lá thư nhận tên khách qua query `?to=...` và hiển thị bằng textContent.
-- Đã xem ảnh render màn phong bì, trạng thái nâng thư, khung chữ nhật ở lời mời/RSVP trên desktop và mobile.
+- Màn mở đầu dùng đúng artwork của mẫu `https://jmiiwedding.com/duyanhhamauu/`: phong bì ren, hai cụm hoa trắng/lá xanh, dấu sáp xanh và bàn tay.
+- Dùng đúng hai font của mẫu cho lời kính mời, tên khách và ngày tiệc. Tỷ lệ/vị trí các lớp lấy từ canvas 420×765.178; một bài kiểm tra Chromium đối chiếu vị trí với sai số dưới 1px trên canvas gốc.
+- Phong bì hiện sau 1 giây, hoa trái hiện trong 1,5 giây sau khoảng chờ 1 giây, hoa phải hiện sau khoảng chờ 1,5 giây; con dấu pulse, bàn tay bounce theo chu kỳ 1 giây như mẫu.
+- Nền dùng ảnh cưới của Thắng và Quỳnh; ngày hiển thị 29.11.2026. Tên khách cá nhân hoá qua `?to=...` được hiển thị an toàn cả ở màn đầu và lá thư.
+- Nội dung thiệp vẫn ẩn và inert trước khi chạm thư. Một lần chạm mở lá thư rồi tự chuyển vào thiệp; nhạc lỗi không chặn luồng vào. Tôn trọng chế độ giảm chuyển động.
+- Các ảnh chữ nhật và toàn bộ phần nội dung thiệp giữ bố cục đã sửa ở lượt trước.
+- Xem [nguồn artwork và thông số chuyển động](opening-artwork.md).
 
 ## Màn mở đầu mới
 
@@ -28,7 +29,7 @@
 ## Kết quả kiểm thử
 
 - **14/14** kiểm thử logic và DOM: múi giờ Việt Nam, ranh giới đếm ngược, lịch năm nhuận, ICS và escaping, lưu trữ lỗi, mở thiệp, album, RSVP và lời chúc an toàn.
-- **14/14** kiểm thử trình duyệt: bảy viewport, luồng phong bì/keyboard, album/keyboard, RSVP/reload, lời chúc, tải lịch, reduced motion/storage bị chặn, nhạc bật/tắt.
+- **15/15** kiểm thử trình duyệt: bảy viewport, đối chiếu bố cục/font/artwork/animation với mẫu, luồng phong bì/keyboard, album/keyboard, RSVP/reload, lời chúc, tải lịch, reduced motion/storage bị chặn, nhạc bật/tắt.
 - Viewport: **320×740, 375×812, 390×844, 430×932, 768×1024, 1440×900, 1920×1080**.
 - Đã đọc ảnh chụp cover điện thoại nhỏ/tablet/desktop, lời mời, sự kiện, album, RSVP, lời chúc và phong bì trên mobile/desktop; không có lỗi JavaScript trong lần thu ảnh mobile/desktop.
 - Chưa kiểm chứng trên Safari/iOS thật. Screenshot và kiểm tra bounding box không thay thế việc đánh giá thẩm mỹ của cô dâu chú rể.

@@ -27,7 +27,7 @@ npm run preview
 
 ## Tính năng
 
-- Mở link luôn hiển thị phong bì trước, nội dung thiệp được ẩn và khóa tương tác. Một lần chạm/click mở nắp, nâng thư và chuyển vào thiệp; nhạc bật sau thao tác khách. Không có nút đóng/Escape để bỏ qua màn mở thư.
+- Mở link luôn hiển thị phong bì trước, nội dung thiệp được ẩn và khóa tương tác. Một lần chạm/click nâng thư và chuyển vào thiệp; nhạc bật sau thao tác khách. Không có nút đóng/Escape để bỏ qua màn mở thư.
 - Khung ảnh chữ nhật kiểu ảnh in, hiệu ứng nghiêng 2.5D trên thiết bị có con trỏ, hiện nội dung theo cuộn. Tôn trọng `prefers-reduced-motion`.
 - Đếm ngược đúng giờ Việt Nam; lịch tháng 11 đánh dấu ngày 29; tải sự kiện `.ics`.
 - Album 18 ảnh, tải thêm mỗi lần 6 ảnh; xem toàn màn hình, vuốt trên điện thoại, phím mũi tên và Escape.
@@ -56,7 +56,7 @@ Workflow tự đặt `BASE_PATH=/thang-quynh-wedding/`. Nếu đổi tên repo, 
 ## Kiểm chứng
 
 - `npm test`: **14 bài kiểm tra** về múi giờ, đếm ngược, lịch, file ICS, lỗi lưu trữ, album, phong bì, RSVP và chèn HTML vào lời chúc.
-- `npm run test:ui`: **14 bài kiểm tra Chromium thực tế**, kiểm tra màn hình 320×740, 375×812, 390×844, 430×932, 768×1024, 1440×900 và 1920×1080; tiêu đề/ngày/nút mở thiệp phải nằm trong viewport, các section không tràn ngang. Kiểm tra mở thiệp 3D, bàn phím, album, nhạc, tải lịch, RSVP, lưu lại dữ liệu, lời chúc và trường hợp trình duyệt chặn lưu trữ.
+- `npm run test:ui`: **15 bài kiểm tra Chromium thực tế**, kiểm tra màn hình 320×740, 375×812, 390×844, 430×932, 768×1024, 1440×900 và 1920×1080; tiêu đề/ngày/nút mở thiệp phải nằm trong viewport, các section không tràn ngang. Kiểm tra mở thiệp 3D, bàn phím, album, nhạc, tải lịch, RSVP, lưu lại dữ liệu, lời chúc và trường hợp trình duyệt chặn lưu trữ.
 - Test UI tự khởi chạy Vite khi cần. Cài Chromium qua `npx playwright install chromium`; nếu đã có Chromium hệ thống, dùng `CHROMIUM_PATH=/usr/bin/chromium npm run test:ui`.
 - GitHub Actions bắt buộc chạy unit + browser tests trước build; ảnh cover cho 7 kích thước màn hình, báo cáo HTML và trace khi lỗi được lưu trong artifact `browser-test-evidence`.
 - `npm run review:ui` chụp cover, lời mời, sự kiện, album, RSVP, lời chúc và phong bì trên desktop/mobile, xuất vào `artifacts/visual-review`. Chạy `npm run dev -- --port 5173` trước. Hỗ trợ `CHROMIUM_PATH` và `REVIEW_DIR`.
@@ -67,3 +67,5 @@ Workflow tự đặt `BASE_PATH=/thang-quynh-wedding/`. Nếu đổi tên repo, 
 - Mẫu bố cục/mở thiệp: https://jmiiwedding.com/duyanhhamauu và trang bên trong https://jmiiwedding.com/duyanhmau.
 - Tham khảo cấu trúc các phần, accessibility và phân biệt nội dung thật/demo trong repo `ngocnv0410/ngoc-thuy-wedding`. Không sao chép dữ liệu riêng hay cấu hình backend của repo đó.
 - Ảnh: https://drive.google.com/drive/folders/1KJGv_e1GDBI6u0QTpxz097C1xIuCiLUT.
+
+Artwork phần mở thư và font theo mẫu: xem [nguồn và thông số](docs/opening-artwork.md).
