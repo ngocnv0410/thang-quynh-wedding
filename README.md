@@ -1,6 +1,6 @@
 # Duy Thắng & Thuý Quỳnh · 29.11.2026
 
-Thiệp cưới tiếng Việt theo bố cục Chinh–Linh: giấy kem xanh có vân, phong bì xanh lá trầm, giấy ren, hoa trắng lá xanh, ngọc trai và dải ảnh. Nội dung hiển thị dạng một cuốn thiệp dọc trên điện thoại và máy tính. Không có mục Our Story.
+Thiệp cưới tiếng Việt theo bố cục Chinh–Linh: giấy trắng có vân, phong bì xanh lá trầm, giấy ren, hoa trắng lá xanh, ngọc trai và dải ảnh. Nội dung hiển thị dạng một cuốn thiệp dọc trên điện thoại và máy tính. Không có mục Our Story.
 
 Website: https://ngocnv0410.github.io/thang-quynh-wedding/
 
@@ -25,7 +25,7 @@ Có thể dùng Chromium hệ thống với `CHROMIUM_PATH=/usr/bin/chromium npm
 2. Chạm vào dấu sáp/phong bì: mặt phong bì hạ trong phối cảnh, giấy mời và ảnh trượt lên, nhạc bắt đầu và màn mở đầu chuyển vào thiệp. Tôn trọng reduced motion; lỗi phát nhạc không chặn luồng vào.
 3. Trang 1: bố cục phong bì, giấy ren Save the Date, tên hai bạn, ngày cưới và đếm ngược.
 4. Trang 2: ảnh cưới toàn khung với “We are Getting Married”.
-5. Tiếp theo: hai gia đình, giờ/địa điểm, lịch trình dự kiến, gợi ý trang phục, lịch tháng, album, RSVP, lời chúc, mừng cưới và cảm ơn. Đã bỏ phần kể chuyện tình yêu.
+5. Tiếp theo: hai gia đình và khung giấy ren chứa tên/ngày giờ/địa điểm, lịch trình dự kiến, lịch tháng đánh dấu ngày 29 bằng trái tim, album một ảnh vuông lớn cùng dải ảnh nhỏ, RSVP, lời chúc, mừng cưới và phong thư cảm ơn mở ra một ảnh cưới. Đã bỏ phần kể chuyện tình yêu.
 
 Thiệp cá nhân hoá: thêm `?to=Bạn%20Ngọc`. Tên khách được hiển thị an toàn bằng textContent. Mỗi lần tải lại link đều trở về màn mở thiệp.
 
@@ -43,7 +43,7 @@ Ngày, địa điểm, danh sách ảnh và endpoint RSVP ở `src/content.js`. 
 ## Dữ liệu demo cần bổ sung
 
 - Địa điểm hiện là **Tư gia nhà trai — Demo / Hoàn Kiếm, Hà Nội (địa chỉ minh hoạ)**; cập nhật cả tên, địa chỉ và Maps URL trước khi gửi chính thức.
-- Lịch trình **18:30 đón khách / 20:00 lưu lại khoảnh khắc** là minh hoạ, có ghi nhãn. **19:00 tiệc chung vui** là giờ thật được cung cấp. Màu trang phục là gợi ý.
+- Lịch trình **18:30 đón khách / 20:00 lưu lại khoảnh khắc** là minh hoạ, có ghi nhãn. **19:00 tiệc chung vui** là giờ thật được cung cấp.
 - RSVP mặc định lưu riêng trên thiết bị. Để gửi thật, cung cấp API POST nhận `{ name, attendance, count, createdAt }`, đặt `rsvpEndpoint` và cập nhật chú thích demo. Không đưa khoá bí mật vào frontend.
 - Lời chúc lưu riêng trên thiết bị; ba lời chúc minh hoạ có ghi nhãn. Đồng bộ nhiều khách cần backend.
 - Mừng cưới nhà trai: **Techcombank — 1905 0359 9540 16**. QR VietQR được sinh trong dự án, không đặt sẵn số tiền hay lời nhắn. Có sao chép số tài khoản và tải mã PNG. Chưa có thông tin nhà gái nên không hiển thị tài khoản nhà gái.
@@ -51,7 +51,7 @@ Ngày, địa điểm, danh sách ảnh và endpoint RSVP ở `src/content.js`. 
 ## Kiểm chứng và triển khai
 
 - **17 bài logic/DOM**: múi giờ, đếm ngược, lịch, ICS, lưu trữ bị chặn, album, RSVP, lời chúc an toàn, gate chống mở lặp và reduced motion.
-- **17 bài Chromium**: bảy viewport từ 320px đến 1920px, phong bì/mở thiệp, trang 1–2 và loại bỏ Our Story, album, phím điều hướng, tải lịch, nhạc, RSVP/reload và lời chúc.
+- **19 bài Chromium**: bảy viewport từ 320px đến 1920px, phong bì/mở thiệp, trang 1–2 và loại bỏ Our Story, album, phím điều hướng, tải lịch, nhạc, RSVP/reload và lời chúc.
 - Xem [biên bản và ảnh giao diện](docs/visual-review.md).
 - `npm run review:ui` chụp màn mở, trang 1, trang 2 và các phần còn lại. Khởi chạy Vite ở cổng 5173 trước; hỗ trợ `CHROMIUM_PATH` và `REVIEW_DIR`.
 - GitHub Actions chạy test và browser tests trước khi build/triển khai Pages; lưu artifact `browser-test-evidence`.
@@ -73,4 +73,12 @@ Cấu hình ở `wedding.gift.groom` trong `src/content.js`. Mã BIN Techcombank
 
 ## Tông xanh và hoa
 
-Giữ bố cục Chinh–Linh, đổi sang xanh lá trầm/giấy kem. Hai cụm hoa trắng lá xanh theo mẫu https://jmiiwedding.com/duyanhhamauu được lưu trong `public/images/floral-white`. Các lớp phong bì/dấu sáp được đổi tông qua CSS; ảnh cưới và QR thanh toán không áp bộ lọc màu.
+Giữ bố cục Chinh–Linh, đổi sang trắng và xanh lá trầm. Hai cụm hoa trắng lá xanh theo mẫu https://jmiiwedding.com/duyanhhamauu được lưu trong `public/images/floral-white`. Các lớp phong bì/dấu sáp được đổi tông qua CSS; ảnh cưới và QR thanh toán không áp bộ lọc màu.
+
+## Bố cục trắng xanh và font tiếng Việt
+
+Trang 3 theo ảnh tham chiếu: hai gia đình nằm phía trên, tên cô dâu chú rể và thông tin tiệc nằm trong một tấm giấy ren oval, điểm hoa trắng lá xanh/ngọc trai. Khung oval chỉ dành cho giấy mời, không cắt ảnh chân dung thành vòm. Đã bỏ hoàn toàn dress code.
+
+Lora cho tên và tiêu đề, Be Vietnam Pro cho nội dung/biểu mẫu; font tự lưu trong bản build qua Fontsource, gồm tập ký tự tiếng Việt. Không dùng font thư pháp uốn lượn.
+
+Album có một ảnh vuông lớn và 18 ảnh thu nhỏ trong dải cuộn ngang. Chọn ảnh nhỏ hoặc dùng nút/phím điều hướng để đổi ảnh lớn; chạm ảnh lớn mở ảnh đầy đủ trong lightbox. Phong thư cuối có nút dấu sáp: mở/khép ảnh, hỗ trợ bàn phím và reduced motion.

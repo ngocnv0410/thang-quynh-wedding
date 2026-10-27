@@ -1,5 +1,9 @@
 import '@fontsource/be-vietnam-pro/400.css'
 import '@fontsource/be-vietnam-pro/500.css'
+import '@fontsource/be-vietnam-pro/600.css'
+import '@fontsource/lora/400.css'
+import '@fontsource/lora/400-italic.css'
+import '@fontsource/lora/500.css'
 import './wedding.css'
 import { initEntryGate } from './entry-gate.js'
 import { renderIcons } from './icons.js'
@@ -34,10 +38,33 @@ function updateCountdown(){countdownTo(wedding.date).forEach((n,i)=>$('#countdow
 updateCountdown();setInterval(updateCountdown,1000)
 $('#save-date').addEventListener('click',()=>{const url=URL.createObjectURL(new Blob([calendarFile(wedding)],{type:'text/calendar;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='thang-quynh-29-11-2026.ics';a.click();setTimeout(()=>URL.revokeObjectURL(url),5000);toast('Đã tải lịch. Địa điểm demo sẽ được cập nhật sau.')})
 let currentPhoto=0
-function showPhoto(index){currentPhoto=(index+wedding.gallery.length)%wedding.gallery.length;$('#lightbox-image').src=`${import.meta.env.BASE_URL}images/${wedding.gallery[currentPhoto]}`;$('#lightbox-image').alt=`Ảnh cưới Duy Thắng và Thuý Quỳnh — khoảnh khắc ${currentPhoto+1}`;$('#photo-counter').textContent=`${String(currentPhoto+1).padStart(2,'0')} / ${wedding.gallery.length}`}
-wedding.gallery.forEach((file,i)=>{const button=document.createElement('button');button.className='gallery-item reveal';button.hidden=i>=6;button.setAttribute('aria-label',`Xem ảnh cưới ${i+1}`);const img=new Image();img.src=`${import.meta.env.BASE_URL}images/${file}`;img.alt=`Khoảnh khắc ${i+1} của Thắng và Quỳnh`;img.loading='lazy';img.decoding='async';button.append(img);const zoom=document.createElement('span');zoom.className='gallery-zoom';zoom.dataset.icon='arrow-up-right';button.append(zoom);button.addEventListener('click',()=>{showPhoto(i);openDialog($('#lightbox'))});$('#gallery').append(button)})
-renderIcons($('#gallery'))
-$('#more-photos').addEventListener('click',()=>{const hidden=[...document.querySelectorAll('.gallery-item[hidden]')];hidden.slice(0,6).forEach(el=>{el.hidden=false;observer?.observe(el)});if(hidden.length<=6)$('#more-photos').hidden=true})
+function selectAlbumPhoto(index, scrollThumbnail=false) {
+ currentPhoto=(index+wedding.gallery.length)%wedding.gallery.length
+ const src=`${import.meta.env.BASE_URL}images/${wedding.gallery[currentPhoto]}`
+ const alt=`Ảnh cưới Duy Thắng và Thuý Quỳnh — khoảnh khắc ${currentPhoto+1}`
+ $('#album-featured-image').src=src
+ $('#album-featured-image').alt=alt
+ $('#album-featured').setAttribute('aria-label',`Mở ảnh cưới ${currentPhoto+1} đầy đủ`)
+ $('#album-counter').textContent=`${String(currentPhoto+1).padStart(2,'0')} / ${wedding.gallery.length}`
+ const thumbs=[...document.querySelectorAll('.gallery-item')]
+ thumbs.forEach((button,i)=>button.setAttribute('aria-pressed',String(i===currentPhoto)))
+ if(scrollThumbnail) {
+  const thumb=thumbs[currentPhoto],strip=$('#gallery')
+  strip.scrollTo?.({left:thumb.offsetLeft-strip.offsetLeft-(strip.clientWidth-thumb.clientWidth)/2,behavior:reduced.matches?'instant':'smooth'})
+ }
+}
+function showPhoto(index){selectAlbumPhoto(index);$('#lightbox-image').src=$('#album-featured-image').src;$('#lightbox-image').alt=$('#album-featured-image').alt;$('#photo-counter').textContent=$('#album-counter').textContent}
+wedding.gallery.forEach((file,i)=>{
+ const button=document.createElement('button');button.className='gallery-item';button.setAttribute('aria-label',`Chọn ảnh cưới ${i+1}`)
+ const img=new Image();img.src=`${import.meta.env.BASE_URL}images/${file}`;img.alt=`Khoảnh khắc ${i+1} của Thắng và Quỳnh`;img.loading='lazy';img.decoding='async';button.append(img)
+ button.addEventListener('click',()=>selectAlbumPhoto(i,true))
+ button.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const next=event.key==='Home'?0:event.key==='End'?wedding.gallery.length-1:currentPhoto+(event.key==='ArrowLeft'?-1:1);selectAlbumPhoto(next,true);$('#gallery').children[currentPhoto].focus({preventScroll:true})})
+ $('#gallery').append(button)
+})
+selectAlbumPhoto(0)
+$('#album-featured').addEventListener('click',()=>{showPhoto(currentPhoto);openDialog($('#lightbox'))})
+$('#album-prev').addEventListener('click',()=>selectAlbumPhoto(currentPhoto-1,true))
+$('#album-next').addEventListener('click',()=>selectAlbumPhoto(currentPhoto+1,true))
 $('#photo-prev').addEventListener('click',()=>showPhoto(currentPhoto-1));$('#photo-next').addEventListener('click',()=>showPhoto(currentPhoto+1))
 $('#lightbox').addEventListener('keydown',event=>{if(event.key==='ArrowLeft')showPhoto(currentPhoto-1);if(event.key==='ArrowRight')showPhoto(currentPhoto+1)})
 let touchStart=0
@@ -84,6 +111,14 @@ $('#gift-button').addEventListener('click',()=>{
  openDialog($('#gift-dialog'))
 })
 $('#gift-to-wishes').addEventListener('click',()=>{closeDialog($('#gift-dialog'));$('#loi-chuc').scrollIntoView({behavior:reduced.matches?'instant':'smooth'});$('#wish-name').focus({preventScroll:true})})
+$('#closing-seal').addEventListener('click',()=>{
+ const opened=$('#closing-seal').getAttribute('aria-expanded')!=='true'
+ $('#closing-seal').setAttribute('aria-expanded',String(opened))
+ $('#closing-seal').setAttribute('aria-label',opened?'Khép thiệp cảm ơn':'Mở thiệp cảm ơn để xem ảnh')
+ $('#closing-envelope').classList.toggle('is-open',opened)
+ $('#closing-photo').setAttribute('aria-hidden',String(!opened))
+ $('#closing-status').textContent=opened?'Hẹn gặp bạn trong ngày hạnh phúc của chúng mình!':'Chạm vào dấu sáp để mở lời cảm ơn'
+})
 let observer
 if('IntersectionObserver' in window){document.body.classList.add('motion-ready');observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}}),{threshold:.08});document.querySelectorAll('.reveal:not([hidden])').forEach(el=>observer.observe(el))}
 if(window.matchMedia('(hover: hover) and (pointer: fine)').matches){document.querySelectorAll('.tilt').forEach(el=>{el.addEventListener('pointermove',event=>{if(reduced.matches)return;const r=el.getBoundingClientRect();const x=(event.clientX-r.left)/r.width-.5;const y=(event.clientY-r.top)/r.height-.5;el.style.transform=`perspective(1200px) rotateX(${-y*5}deg) rotateY(${x*5}deg) translateY(-3px)`});el.addEventListener('pointerleave',()=>el.style.transform='')})}

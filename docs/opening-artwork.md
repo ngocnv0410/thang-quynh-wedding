@@ -1,6 +1,6 @@
 # Bố cục Chinh–Linh và màn mở
 
-Tham chiếu mới nhất: https://jmiiwedding.com/chinhlinhh.
+Tham chiếu bố cục: https://jmiiwedding.com/chinhlinhh.
 
 Phần nội dung đầu của mẫu dùng phong bì đỏ mở sẵn, giấy ren trượt lên, dải ảnh, hoa đỏ/ngọc trai trên nền giấy trắng. Trang kế tiếp là ảnh toàn khung với hai dòng “We are / Getting Married”. Dự án dựng lại các lớp này với ảnh, tên và ngày cưới của Thắng & Quỳnh; không dùng ảnh cặp đôi mẫu hay API/biểu mẫu bên ngoài.
 
@@ -32,13 +32,21 @@ Canvas 420×590 của phần phong bì bám vị trí các phần tử gốc:
 
 Khi chạm: dấu sáp mờ, mặt phong bì xoay -115 độ trong phối cảnh, giấy và ảnh trượt lên. Sau 1,9 giây màn đầu chuyển vào trang thiệp, rồi kết thúc chuyển cảnh sau 650ms. Phần nội dung được giữ inert đến hết chuyển cảnh. Với reduced motion, bỏ thời gian chờ hiệu ứng.
 
-Trang 1 tiếp tục bố cục giấy mời đang mở với ngày/tên và đếm ngược. Trang 2 là ảnh cưới lớn. Các phần bên dưới dùng cùng màu giấy, mực đỏ và chữ của mẫu; bỏ phần kể chuyện tình yêu/Our Story.
+Trang 1 tiếp tục bố cục giấy mời đang mở với ngày/tên và đếm ngược. Trang 2 là ảnh cưới lớn. Các phần bên dưới dùng giấy trắng và mực xanh lá; bỏ phần kể chuyện tình yêu/Our Story.
 
 ## Cập nhật tông xanh theo yêu cầu
 
-Bố cục Chinh–Linh giữ nguyên. Phong bì và dấu sáp dùng CSS hue-rotate/saturate/brightness để chuyển sang xanh lá trầm; nền giấy, chữ và nút đồng bộ xanh–kem. Các bộ lọc chỉ áp dụng cho phong bì/dấu sáp, không áp cho ảnh cưới hay QR ngân hàng.
+Bố cục Chinh–Linh giữ nguyên. Phong bì và dấu sáp dùng CSS hue-rotate/saturate/brightness để chuyển sang xanh lá trầm; nền giấy, chữ và nút đồng bộ trắng–xanh. Các bộ lọc chỉ áp dụng cho phong bì/dấu sáp, không áp cho ảnh cưới hay QR ngân hàng.
 
 Hai cụm hoa trắng/lá xanh dùng đúng artwork của mẫu https://jmiiwedding.com/duyanhhamauu:
 
 - `public/images/floral-white/flowers-left.png`: https://w.ladicdn.com/s450x600/6322a62f2dad980013bb5005/group-4-copyd-20260824201522-rmr0p.png
 - `public/images/floral-white/flowers-right.png`: https://w.ladicdn.com/s450x650/6322a62f2dad980013bb5005/group-5-copy-20260824202453-jngkz.png
+
+## Điều chỉnh theo ảnh người dùng gửi
+
+Trang 3 sử dụng `invitation-paper.png` làm giấy ren chứa tên/ngày giờ/địa điểm và hai chuỗi ngọc trai. Thông tin hai gia đình đặt phía trên. Hoa `floral-white/flowers-right.png` ở cạnh phải. Không dùng phần dress code.
+
+Font hiện dùng Lora và Be Vietnam Pro qua các package Fontsource (có đầy đủ Vietnamese subset), được Vite đóng gói tại chỗ. Các font cũ trong bảng nguồn là tài nguyên tham chiếu lịch sử, không được nạp trong giao diện hiện tại.
+
+Phong thư cảm ơn cuối trang tái sử dụng các lớp phong bì/dấu sáp, chuyển xanh bằng CSS. Khi chạm dấu sáp, một ảnh cưới trượt lên trong phối cảnh và dòng cảm ơn hiện trên ảnh. Nút cho phép khép và mở lại, có trạng thái `aria-expanded`, ảnh có `aria-hidden` tương ứng; giảm chuyển động khi trình duyệt yêu cầu.

@@ -52,13 +52,17 @@ function app() {
  vm.runInContext(source,ctx)
  return {dom,win,doc:win.document}
 }
-test('Invitation personalizes safely; gallery expands and wraps around',async ()=>{
+test('Invitation personalizes safely; album selection and lightbox wrap around',async ()=>{
  const {dom,win,doc}=app()
  assert.equal(doc.querySelector('#invited-guest').textContent,'Bạn Ngọc')
- assert.equal(doc.querySelectorAll('.gallery-item:not([hidden])').length,6)
- doc.querySelector('#more-photos').click()
- assert.equal(doc.querySelectorAll('.gallery-item:not([hidden])').length,12)
- doc.querySelector('.gallery-item').click()
+ assert.equal(doc.querySelectorAll('.gallery-item').length,18)
+ doc.querySelectorAll('.gallery-item')[3].click()
+ assert.match(doc.querySelector('#album-featured-image').src,/39.webp$/)
+ assert.equal(doc.querySelectorAll('.gallery-item[aria-pressed=true]').length,1)
+ doc.querySelector('#album-prev').click()
+ assert.match(doc.querySelector('#album-counter').textContent,/03 \/ 18/)
+ doc.querySelectorAll('.gallery-item')[0].click()
+ doc.querySelector('#album-featured').click()
  assert.ok(doc.querySelector('#lightbox').open)
  doc.querySelector('#photo-prev').click()
  assert.match(doc.querySelector('#photo-counter').textContent,/18 \/ 18/)
