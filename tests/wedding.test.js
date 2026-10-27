@@ -5,6 +5,7 @@ import vm from 'node:vm'
 import { JSDOM } from 'jsdom'
 import { wedding } from '../src/content.js'
 import * as utils from '../src/utils.js'
+import { renderIcons } from '../src/icons.js'
 
 test('Countdown uses Vietnam time and never becomes negative', () => {
  assert.equal(new Date(wedding.date).toISOString(), '2026-11-29T12:00:00.000Z')
@@ -40,6 +41,7 @@ function app() {
  let source=readFileSync(new URL('../src/main.js',import.meta.url),'utf8').replace(/^import .*\n/gm,'').replaceAll('import.meta.env.BASE_URL',"'/'")
  const ctx=dom.getInternalVMContext()
  ctx.wedding=wedding
+ ctx.renderIcons=(root=win.document)=>renderIcons(root)
  Object.assign(ctx,utils)
  // Browser localStorage is needed by storage utilities imported from Node.
  ctx.readStorage=(key,fallback)=>{try{return JSON.parse(win.localStorage.getItem(key))??fallback}catch{return fallback}}
@@ -93,4 +95,32 @@ test('Every static image, audio, and gallery asset exists locally',()=>{
  const media=[...html.matchAll(/(?:src|href|content)="(\/(?:images|audio)\/[^" ]+)"/g)].map(m=>m[1])
  for(const file of [...media,...wedding.gallery.map(f=>'/images/'+f)])assert.ok(existsSync(new URL('../public'+file,import.meta.url)),file)
  assert.ok(readFileSync(new URL('../public/audio/wedding.mp3',import.meta.url)).length>100000)
+})
+
+
+test('countdown handles the final second and exact ceremony time',()=>{
+ const date=Date.parse(wedding.date)
+ assert.deepEqual(utils.countdownTo(wedding.date,date-1000),[0,0,0,1])
+ assert.deepEqual(utils.countdownTo(wedding.date,date),[0,0,0,0])
+})
+test('calendar correctly handles leap day and a Monday month start',()=>{
+ const february=utils.calendarDays(2024,2)
+ assert.equal(february.filter(Boolean).length,29)
+ assert.equal(utils.calendarDays(2026,6)[0],1)
+})
+test('ICS escapes user-provided punctuation and newline in location',()=>{
+ const file=utils.calendarFile({...wedding,venue:{address:'12, Hàng Đào; Hà Nội\nTầng 2'}})
+ assert.ok(file.includes('LOCATION:12\\, Hàng Đào\\; Hà Nội\\nTầng 2'))
+})
+test('storage reads recover from broken JSON and inaccessible storage',()=>{
+ assert.deepEqual(utils.readStorage('key',[],{getItem:()=>'{broken'}),[])
+ assert.equal(utils.readStorage('key','fallback',{getItem:()=>null}),'fallback')
+ assert.equal(utils.readStorage('key','fallback',{getItem:()=>{throw new Error('blocked')}}),'fallback')
+ assert.deepEqual(utils.readStorage('key',[],{getItem:()=>'[1,2]'}),[1,2])
+})
+test('storage writes report quota failures without claiming success',()=>{
+ const saved={}
+ assert.equal(utils.writeStorage('key',{name:'Quỳnh'},{setItem:(key,value)=>saved[key]=value}),true)
+ assert.equal(saved.key,'{"name":"Quỳnh"}')
+ assert.equal(utils.writeStorage('key',{}, {setItem:()=>{throw new Error('quota')}}),false)
 })

@@ -1,6 +1,6 @@
 # Duy Thắng & Thuý Quỳnh · 29.11.2026
 
-Thiệp cưới tiếng Việt, giao diện giấy ngà / đỏ rượu vang, đáp ứng điện thoại và máy tính. Xây mới bằng Vite + JavaScript, không cần backend để xem thiệp.
+Thiệp cưới tiếng Việt, giao diện xanh rừng / giấy ngà / nâu đồng, đáp ứng điện thoại và máy tính. Xây mới bằng Vite + JavaScript, không cần backend để xem thiệp.
 
 ## Chạy dự án
 
@@ -10,6 +10,8 @@ Yêu cầu Node.js 22.12+ (hoặc 24).
 npm ci
 npm run dev
 npm test
+npx playwright install chromium
+npm run test:ui
 npm run build
 npm run preview
 ```
@@ -53,7 +55,12 @@ Workflow tự đặt `BASE_PATH=/thang-quynh-wedding/`. Nếu đổi tên repo, 
 
 ## Kiểm chứng
 
-`npm test` kiểm tra múi giờ, đếm ngược, lịch, file ICS, album, mở phong bì, RSVP demo, chống chèn HTML ở lời chúc và sự tồn tại của tài nguyên. Kiểm thử tương tác chạy với jsdom; chưa thay thế kiểm tra hình ảnh trên Safari/Chrome và điện thoại thật.
+- `npm test`: **12 bài kiểm tra** về múi giờ, đếm ngược, lịch, file ICS, lỗi lưu trữ, album, phong bì, RSVP và chèn HTML vào lời chúc.
+- `npm run test:ui`: **14 bài kiểm tra Chromium thực tế**, kiểm tra màn hình 320×740, 375×812, 390×844, 430×932, 768×1024, 1440×900 và 1920×1080; tiêu đề/ngày/nút mở thiệp phải nằm trong viewport, các section không tràn ngang. Kiểm tra mở thiệp 3D, bàn phím, album, nhạc, tải lịch, RSVP, lưu lại dữ liệu, lời chúc và trường hợp trình duyệt chặn lưu trữ.
+- Test UI tự khởi chạy Vite khi cần. Cài Chromium qua `npx playwright install chromium`; nếu đã có Chromium hệ thống, dùng `CHROMIUM_PATH=/usr/bin/chromium npm run test:ui`.
+- GitHub Actions bắt buộc chạy unit + browser tests trước build; ảnh cover cho 7 kích thước màn hình, báo cáo HTML và trace khi lỗi được lưu trong artifact `browser-test-evidence`.
+- `npm run review:ui` chụp cover, lời mời, sự kiện, album, RSVP, lời chúc và phong bì trên desktop/mobile, xuất vào `artifacts/visual-review`. Chạy `npm run dev -- --port 5173` trước. Hỗ trợ `CHROMIUM_PATH` và `REVIEW_DIR`.
+- Xem [ảnh chụp giao diện và biên bản kiểm tra](docs/visual-review.md). Kiểm tra trực quan đã thực hiện bằng Chromium; chưa xác nhận trên Safari/iOS thật.
 
 ## Nguồn tham khảo
 

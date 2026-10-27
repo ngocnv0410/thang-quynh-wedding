@@ -5,8 +5,11 @@ import '@fontsource/cormorant-garamond/500.css'
 import '@fontsource/cormorant-garamond/400-italic.css'
 import '@fontsource/great-vibes/400.css'
 import './style.css'
+import './refinement.css'
+import { renderIcons } from './icons.js'
 import { wedding } from './content.js'
 import { countdownTo, calendarDays, calendarFile, readStorage, writeStorage } from './utils.js'
+renderIcons()
 const $ = selector => document.querySelector(selector)
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)')
 let toastTimer
@@ -51,7 +54,8 @@ updateCountdown();setInterval(updateCountdown,1000)
 $('#save-date').addEventListener('click',()=>{const url=URL.createObjectURL(new Blob([calendarFile(wedding)],{type:'text/calendar;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='thang-quynh-29-11-2026.ics';a.click();setTimeout(()=>URL.revokeObjectURL(url),5000);toast('Đã tải lịch. Địa điểm demo sẽ được cập nhật sau.')})
 let currentPhoto=0
 function showPhoto(index){currentPhoto=(index+wedding.gallery.length)%wedding.gallery.length;$('#lightbox-image').src=`${import.meta.env.BASE_URL}images/${wedding.gallery[currentPhoto]}`;$('#lightbox-image').alt=`Ảnh cưới Duy Thắng và Thuý Quỳnh — khoảnh khắc ${currentPhoto+1}`;$('#photo-counter').textContent=`${String(currentPhoto+1).padStart(2,'0')} / ${wedding.gallery.length}`}
-wedding.gallery.forEach((file,i)=>{const button=document.createElement('button');button.className='gallery-item reveal';button.hidden=i>=6;button.setAttribute('aria-label',`Xem ảnh cưới ${i+1}`);const img=new Image();img.src=`${import.meta.env.BASE_URL}images/${file}`;img.alt=`Khoảnh khắc ${i+1} của Thắng và Quỳnh`;img.loading='lazy';img.decoding='async';button.append(img);button.addEventListener('click',()=>{showPhoto(i);openDialog($('#lightbox'))});$('#gallery').append(button)})
+wedding.gallery.forEach((file,i)=>{const button=document.createElement('button');button.className='gallery-item reveal';button.hidden=i>=6;button.setAttribute('aria-label',`Xem ảnh cưới ${i+1}`);const img=new Image();img.src=`${import.meta.env.BASE_URL}images/${file}`;img.alt=`Khoảnh khắc ${i+1} của Thắng và Quỳnh`;img.loading='lazy';img.decoding='async';button.append(img);const zoom=document.createElement('span');zoom.className='gallery-zoom';zoom.dataset.icon='arrow-up-right';button.append(zoom);button.addEventListener('click',()=>{showPhoto(i);openDialog($('#lightbox'))});$('#gallery').append(button)})
+renderIcons($('#gallery'))
 $('#more-photos').addEventListener('click',()=>{const hidden=[...document.querySelectorAll('.gallery-item[hidden]')];hidden.slice(0,6).forEach(el=>{el.hidden=false;observer?.observe(el)});if(hidden.length<=6)$('#more-photos').hidden=true})
 $('#photo-prev').addEventListener('click',()=>showPhoto(currentPhoto-1));$('#photo-next').addEventListener('click',()=>showPhoto(currentPhoto+1))
 $('#lightbox').addEventListener('keydown',event=>{if(event.key==='ArrowLeft')showPhoto(currentPhoto-1);if(event.key==='ArrowRight')showPhoto(currentPhoto+1)})
@@ -60,6 +64,11 @@ $('#lightbox-image').addEventListener('touchstart',event=>touchStart=event.chang
 $('#lightbox-image').addEventListener('touchend',event=>{const delta=event.changedTouches[0].clientX-touchStart;if(Math.abs(delta)>50)showPhoto(currentPhoto+(delta<0?1:-1))},{passive:true})
 const savedRSVP=readStorage('tq-rsvp',null)
 if(savedRSVP&&typeof savedRSVP.name==='string'){$('#guest-name').value=savedRSVP.name;$('#rsvp-result').textContent='Bạn đã lưu lời hẹn trên thiết bị này. Có thể cập nhật lại bên trên.'}
+if (savedRSVP && ['yes','no'].includes(savedRSVP.attendance)) {
+ $(`[name=attendance][value=${savedRSVP.attendance}]`).checked=true
+ if (Number.isInteger(savedRSVP.count) && savedRSVP.count>=1 && savedRSVP.count<=5) $('#guest-count').value=String(savedRSVP.count)
+ $('#guest-count').disabled=savedRSVP.attendance==='no'
+}
 const attendanceRadios=document.querySelectorAll('[name=attendance]')
 attendanceRadios.forEach(input=>input.addEventListener('change',()=>{$('#guest-count').disabled=$('[name=attendance]:checked').value==='no'}))
 $('#rsvp-form').addEventListener('submit',async event=>{
@@ -83,3 +92,9 @@ $('#gift-to-wishes').addEventListener('click',()=>{closeDialog($('#gift-dialog')
 let observer
 if('IntersectionObserver' in window){document.body.classList.add('motion-ready');observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}}),{threshold:.08});document.querySelectorAll('.reveal:not([hidden])').forEach(el=>observer.observe(el))}
 if(window.matchMedia('(hover: hover) and (pointer: fine)').matches){document.querySelectorAll('.tilt').forEach(el=>{el.addEventListener('pointermove',event=>{if(reduced.matches)return;const r=el.getBoundingClientRect();const x=(event.clientX-r.left)/r.width-.5;const y=(event.clientY-r.top)/r.height-.5;el.style.transform=`perspective(1200px) rotateX(${-y*5}deg) rotateY(${x*5}deg) translateY(-3px)`});el.addEventListener('pointerleave',()=>el.style.transform='')})}
+if ('IntersectionObserver' in window) {
+ const heroObserver = new IntersectionObserver(([entry]) => {
+  document.body.classList.toggle('hero-in-view', entry.isIntersecting)
+ }, { threshold: .2 })
+ heroObserver.observe($('.hero'))
+}

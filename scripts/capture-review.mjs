@@ -1,0 +1,33 @@
+import { chromium } from '@playwright/test'
+import { mkdir } from 'node:fs/promises'
+const output = process.env.REVIEW_DIR || 'artifacts/visual-review'
+await mkdir(output, {recursive:true})
+const browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH || undefined,args:['--no-sandbox']})
+for(const [device,width,height] of [['desktop',1440,1000],['mobile',390,844]]) {
+ const page=await browser.newPage({viewport:{width,height},deviceScaleFactor:1})
+ const errors=[];page.on('pageerror',e=>errors.push(e.message))
+ await page.goto('http://127.0.0.1:5173/?to=Bạn%20Ngọc')
+ await page.evaluate(()=>document.fonts.ready)
+ await page.waitForTimeout(1800)
+ await page.screenshot({path:`${output}/${device}-hero.png`})
+ await page.emulateMedia({reducedMotion:'reduce'})
+ for(const [section,id] of [['invitation','#loi-moi'],['event','#ngay-chung-doi'],['album','#album'],['rsvp','#xac-nhan'],['wishes','#loi-chuc']]) {
+  await page.locator(id).scrollIntoViewIfNeeded()
+  // A section screenshot can extend beyond the viewport: load its lazy photos first.
+  await page.locator(id).evaluate(async section => {
+   await Promise.all([...section.querySelectorAll('img')].filter(img=>!img.closest('[hidden]')).map(async img=>{img.loading='eager';await img.decode()}))
+  })
+  await page.waitForTimeout(1000)
+  await page.locator(id).screenshot({path:`${output}/${device}-${section}.png`})
+ }
+ await page.evaluate(()=>window.scrollTo(0,0));await page.waitForTimeout(300)
+ await page.locator('#open-invitation').click();await page.waitForTimeout(300)
+ await page.screenshot({path:`${output}/${device}-envelope-closed.png`})
+ await page.locator('#envelope-seal').click();await page.waitForTimeout(1800)
+ await page.screenshot({path:`${output}/${device}-envelope-open.png`})
+ await page.keyboard.press('Escape')
+ const dimensions=await page.evaluate(()=>({viewport:innerWidth,document:document.documentElement.scrollWidth,hero:document.querySelector('.hero').getBoundingClientRect().height}))
+ console.log(device, JSON.stringify({dimensions,errors}))
+ await page.close()
+}
+await browser.close()
