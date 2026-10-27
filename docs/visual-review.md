@@ -2,18 +2,32 @@
 
 Đây là ảnh chụp từ trang được render trong Chromium, sử dụng ảnh và font thật của dự án.
 
-## Phát hiện và sửa
+## Thay đổi theo phản hồi mới nhất
 
-- Ảnh hero cũ làm hàng grid giãn theo chiều cao nội tại, khiến nội dung và nút mở thiệp mất khỏi màn hình đầu. Hero mới giới hạn theo viewport, dùng ảnh absolute; điện thoại và desktop có cách crop ảnh riêng.
-- Tên hai bạn, ngày tiệc và nút mở thiệp luôn nằm trong màn hình đầu ở bảy kích thước được kiểm tra; thời gian không đè lên khuôn mặt trên các ảnh cover đã xem.
-- Tăng cỡ chữ nội dung/biểu mẫu; thay các ký tự icon có thể thiếu glyph bằng SVG. Input trên điện thoại dùng 16px để tránh trình duyệt tự zoom khi nhập.
-- Phong bì có các lớp giấy, con dấu, nắp xoay và thiệp nổi; thiệp mở không bị cắt trong viewport được kiểm tra. Tôn trọng chế độ giảm chuyển động.
-- Trên tablet 768px, phần tiệc cưới chuyển sang một cột để tiêu đề không bị ngắt thành bốn dòng.
-- RSVP khôi phục cả số người và lựa chọn có/không sau khi tải lại. Test chặn localStorage kiểm tra thông báo lỗi thay vì báo lưu thành công.
+- Bỏ hình cổng vòm ở cả phần lời mời và xác nhận tham dự. Ảnh dùng khung chữ nhật giấy ngà; kiểm thử CSS xác nhận bán kính góc bằng 0 ở cả bảy viewport.
+- Khi mở link, màn phong bì hiển thị trước. Phần nội dung thiệp có `hidden` và `inert`, không thể xem/cuộn/tab tới trước khi chạm thư.
+- Chạm bất kỳ chỗ nào trên phong bì sẽ mở nắp, nâng lá thư, làm mờ màn mở đầu và tự vào đầu thiệp sau khoảng 2,55 giây. Không cần bấm nút tiếp tục; Escape không bỏ qua màn đầu. Tải lại link sẽ hiển thị lại phong bì.
+- Nhạc chỉ bắt đầu sau lần chạm mở thư. Nếu nhạc lỗi, quá trình vào thiệp vẫn hoạt động. Chế độ giảm chuyển động bỏ thời gian chờ hiệu ứng.
+- Lá thư nhận tên khách qua query `?to=...` và hiển thị bằng textContent.
+- Đã xem ảnh render màn phong bì, trạng thái nâng thư, khung chữ nhật ở lời mời/RSVP trên desktop và mobile.
+
+## Màn mở đầu mới
+
+### Mở link — desktop
+
+![Phong bì khi mở link trên desktop](screenshots/desktop-entry.jpg)
+
+### Mở link — điện thoại
+
+![Phong bì khi mở link trên điện thoại](screenshots/mobile-entry.jpg)
+
+### Chạm mở thư — điện thoại
+
+![Lá thư đang mở trước khi vào thiệp](screenshots/mobile-letter-opening.jpg)
 
 ## Kết quả kiểm thử
 
-- **12/12** kiểm thử logic và DOM: múi giờ Việt Nam, ranh giới đếm ngược, lịch năm nhuận, ICS và escaping, lưu trữ lỗi, mở thiệp, album, RSVP và lời chúc an toàn.
+- **14/14** kiểm thử logic và DOM: múi giờ Việt Nam, ranh giới đếm ngược, lịch năm nhuận, ICS và escaping, lưu trữ lỗi, mở thiệp, album, RSVP và lời chúc an toàn.
 - **14/14** kiểm thử trình duyệt: bảy viewport, luồng phong bì/keyboard, album/keyboard, RSVP/reload, lời chúc, tải lịch, reduced motion/storage bị chặn, nhạc bật/tắt.
 - Viewport: **320×740, 375×812, 390×844, 430×932, 768×1024, 1440×900, 1920×1080**.
 - Đã đọc ảnh chụp cover điện thoại nhỏ/tablet/desktop, lời mời, sự kiện, album, RSVP, lời chúc và phong bì trên mobile/desktop; không có lỗi JavaScript trong lần thu ảnh mobile/desktop.
@@ -31,7 +45,7 @@
 
 ### Thiệp mở — điện thoại
 
-![Phong bì 3D đã mở](screenshots/mobile-envelope-open.jpg)
+![Phong bì 3D đã mở](screenshots/mobile-letter-opening.jpg)
 
 ### Lời mời — desktop
 

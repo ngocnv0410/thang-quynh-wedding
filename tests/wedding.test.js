@@ -6,6 +6,7 @@ import { JSDOM } from 'jsdom'
 import { wedding } from '../src/content.js'
 import * as utils from '../src/utils.js'
 import { renderIcons } from '../src/icons.js'
+import { initEntryGate } from '../src/entry-gate.js'
 
 test('Countdown uses Vietnam time and never becomes negative', () => {
  assert.equal(new Date(wedding.date).toISOString(), '2026-11-29T12:00:00.000Z')
@@ -36,11 +37,13 @@ function app() {
  win.HTMLDialogElement.prototype.showModal=function(){this.setAttribute('open','')}
  win.HTMLDialogElement.prototype.close=function(){this.removeAttribute('open');this.dispatchEvent(new win.Event('close'))}
  win.HTMLElement.prototype.scrollIntoView=()=>{}
+ win.scrollTo=()=>{}
  win.HTMLMediaElement.prototype.play=()=>Promise.resolve()
  win.HTMLMediaElement.prototype.pause=()=>{}
  let source=readFileSync(new URL('../src/main.js',import.meta.url),'utf8').replace(/^import .*\n/gm,'').replaceAll('import.meta.env.BASE_URL',"'/'")
  const ctx=dom.getInternalVMContext()
  ctx.wedding=wedding
+ ctx.initEntryGate=options=>initEntryGate({...options,root:win.document,reducedMotion:()=>false,schedule:()=>0})
  ctx.renderIcons=(root=win.document)=>renderIcons(root)
  Object.assign(ctx,utils)
  // Browser localStorage is needed by storage utilities imported from Node.
@@ -61,8 +64,7 @@ test('Invitation personalizes safely; gallery expands and wraps around',async ()
  assert.match(doc.querySelector('#photo-counter').textContent,/18 \/ 18/)
  doc.querySelector('#lightbox [data-close]').click()
  assert.equal(doc.querySelector('#lightbox').open,false)
- doc.querySelector('#open-invitation').click()
- assert.ok(doc.querySelector('#invitation-dialog').open)
+ assert.ok(doc.querySelector('#wedding-site').hidden)
  doc.querySelector('#envelope-seal').click()
  assert.ok(doc.querySelector('.envelope').classList.contains('is-open'))
  await new Promise(resolve=>setImmediate(resolve))
@@ -123,4 +125,40 @@ test('storage writes report quota failures without claiming success',()=>{
  assert.equal(utils.writeStorage('key',{name:'Quỳnh'},{setItem:(key,value)=>saved[key]=value}),true)
  assert.equal(saved.key,'{"name":"Quỳnh"}')
  assert.equal(utils.writeStorage('key',{}, {setItem:()=>{throw new Error('quota')}}),false)
+})
+
+
+test('entry gate requires a click, opens only once, then unlocks and focuses the invitation',async()=>{
+ const dom=new JSDOM(readFileSync(new URL('../index.html',import.meta.url),'utf8'),{url:'https://example.test/'})
+ const doc=dom.window.document;dom.window.scrollTo=()=>{}
+ const tasks=[];let musicStarts=0
+ const gate=initEntryGate({root:doc,reducedMotion:()=>false,onOpen:()=>{musicStarts++},schedule:(fn,ms)=>tasks.push({fn,ms})})
+ assert.equal(gate.state,'closed');assert.ok(doc.querySelector('#wedding-site').hidden)
+ assert.ok(doc.querySelector('#wedding-site').hasAttribute('inert'))
+ assert.equal(tasks.length,0)
+ doc.querySelector('#envelope-seal').click();gate.open()
+ assert.equal(gate.state,'opening');assert.equal(musicStarts,1);assert.equal(tasks.length,1)
+ assert.equal(tasks[0].ms,1900)
+ assert.ok(doc.querySelector('#wedding-site').hidden)
+ tasks.shift().fn()
+ assert.equal(doc.querySelector('#wedding-site').hidden,false)
+ assert.ok(doc.querySelector('#wedding-site').hasAttribute('inert'))
+ assert.equal(tasks[0].ms,650)
+ tasks.shift().fn()
+ assert.equal(gate.state,'entered');assert.ok(doc.querySelector('#entry-gate').hidden)
+ assert.equal(doc.querySelector('#wedding-site').hasAttribute('inert'),false)
+ assert.equal(doc.activeElement.id,'hero-title')
+ gate.open();assert.equal(musicStarts,1)
+ dom.window.close()
+})
+test('reduced-motion entry uses no animation delay and audio failure never blocks entry',async()=>{
+ const dom=new JSDOM(readFileSync(new URL('../index.html',import.meta.url),'utf8'))
+ dom.window.scrollTo=()=>{}
+ const tasks=[]
+ const gate=initEntryGate({root:dom.window.document,reducedMotion:()=>true,onOpen:()=>Promise.reject(new Error('audio blocked')),schedule:(fn,ms)=>tasks.push({fn,ms})})
+ gate.open()
+ assert.equal(tasks[0].ms,0);tasks.shift().fn()
+ assert.equal(tasks[0].ms,0);tasks.shift().fn()
+ assert.equal(gate.state,'entered')
+ await Promise.resolve();dom.window.close()
 })

@@ -6,6 +6,8 @@ import '@fontsource/cormorant-garamond/400-italic.css'
 import '@fontsource/great-vibes/400.css'
 import './style.css'
 import './refinement.css'
+import './entry.css'
+import { initEntryGate } from './entry-gate.js'
 import { renderIcons } from './icons.js'
 import { wedding } from './content.js'
 import { countdownTo, calendarDays, calendarFile, readStorage, writeStorage } from './utils.js'
@@ -22,21 +24,6 @@ document.querySelectorAll('dialog').forEach(dialog => {
 })
 const guest = new URLSearchParams(location.search).get('to')?.trim().slice(0, 80)
 if (guest) $('#invited-guest').textContent = guest
-let invitationTimer
-$('#open-invitation').addEventListener('click', () => {
- clearTimeout(invitationTimer)
- $('.envelope').classList.remove('is-open')
- $('#envelope-seal').disabled = false
- $('#continue-invitation').hidden = true
- openDialog($('#invitation-dialog'))
-})
-$('#envelope-seal').addEventListener('click', () => {
- $('.envelope').classList.add('is-open'); $('#envelope-seal').disabled = true
- playMusic()
- invitationTimer = setTimeout(() => { $('#continue-invitation').hidden = false; $('#continue-invitation').focus() }, reduced.matches ? 0 : 1300)
-})
-$('#invitation-dialog').addEventListener('close', () => clearTimeout(invitationTimer))
-$('#continue-invitation').addEventListener('click', () => { closeDialog($('#invitation-dialog')); $('#loi-moi').scrollIntoView({behavior:reduced.matches?'instant':'smooth'}) })
 const music = $('#music')
 function updateMusic() { const playing=!music.paused; $('#music-toggle').setAttribute('aria-pressed',String(playing)); $('#music-toggle').setAttribute('aria-label',playing?'Tắt nhạc nền':'Bật nhạc nền'); $('#music-label').textContent=playing?'Đang phát':'Bật nhạc' }
 async function playMusic() { try { music.volume=.4; await music.play() } catch { toast('Chạm nút nhạc để bật giai điệu cho ngày vui.') } updateMusic() }
@@ -98,3 +85,5 @@ if ('IntersectionObserver' in window) {
  }, { threshold: .2 })
  heroObserver.observe($('.hero'))
 }
+
+initEntryGate({ onOpen: playMusic })

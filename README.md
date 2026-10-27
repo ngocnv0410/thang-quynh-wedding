@@ -27,8 +27,8 @@ npm run preview
 
 ## Tính năng
 
-- Phong bì CSS 3D mở bằng chạm/click, bật nhạc sau thao tác khách.
-- Khung ảnh vòm, hiệu ứng nghiêng 2.5D trên thiết bị có con trỏ, hiện nội dung theo cuộn. Tôn trọng `prefers-reduced-motion`.
+- Mở link luôn hiển thị phong bì trước, nội dung thiệp được ẩn và khóa tương tác. Một lần chạm/click mở nắp, nâng thư và chuyển vào thiệp; nhạc bật sau thao tác khách. Không có nút đóng/Escape để bỏ qua màn mở thư.
+- Khung ảnh chữ nhật kiểu ảnh in, hiệu ứng nghiêng 2.5D trên thiết bị có con trỏ, hiện nội dung theo cuộn. Tôn trọng `prefers-reduced-motion`.
 - Đếm ngược đúng giờ Việt Nam; lịch tháng 11 đánh dấu ngày 29; tải sự kiện `.ics`.
 - Album 18 ảnh, tải thêm mỗi lần 6 ảnh; xem toàn màn hình, vuốt trên điện thoại, phím mũi tên và Escape.
 - Lời hẹn và sổ lưu niệm demo dùng localStorage, thông báo rõ trạng thái lưu. Không giả lập gửi thành công tới cô dâu chú rể.
@@ -47,15 +47,15 @@ npm run preview
 
 `dist/` có thể đưa lên Vercel, Netlify, Cloudflare Pages hoặc bất kỳ hosting tĩnh nào. Build: `npm run build`, output: `dist`. Với domain riêng dùng base `/` mặc định.
 
-Đã có workflow `.github/workflows/pages.yml` để kiểm thử, build và triển khai GitHub Pages. Tích hợp hiện tại không được GitHub cấp quyền bật Pages (API trả 403). Chủ repo cần vào **Settings → Pages → Source: GitHub Actions**, sau đó **Actions → Build and deploy wedding invitation → Run workflow**. Khi Pages chưa bật, workflow vẫn kiểm thử/build và lưu artifact, bỏ qua bước deploy.
+Đã có workflow `.github/workflows/pages.yml` để kiểm thử, build và triển khai GitHub Pages. Pages đã được bật với nguồn GitHub Actions: mỗi push lên `main` chạy unit/DOM tests và Chromium tests trước khi triển khai.
 
-URL dự kiến sau khi Pages được bật và deploy thành công: `https://ngocnv0410.github.io/thang-quynh-wedding/`.
+Website: `https://ngocnv0410.github.io/thang-quynh-wedding/`.
 
 Workflow tự đặt `BASE_PATH=/thang-quynh-wedding/`. Nếu đổi tên repo, cập nhật biến này. Các đường dẫn tài nguyên được Vite xử lý theo base.
 
 ## Kiểm chứng
 
-- `npm test`: **12 bài kiểm tra** về múi giờ, đếm ngược, lịch, file ICS, lỗi lưu trữ, album, phong bì, RSVP và chèn HTML vào lời chúc.
+- `npm test`: **14 bài kiểm tra** về múi giờ, đếm ngược, lịch, file ICS, lỗi lưu trữ, album, phong bì, RSVP và chèn HTML vào lời chúc.
 - `npm run test:ui`: **14 bài kiểm tra Chromium thực tế**, kiểm tra màn hình 320×740, 375×812, 390×844, 430×932, 768×1024, 1440×900 và 1920×1080; tiêu đề/ngày/nút mở thiệp phải nằm trong viewport, các section không tràn ngang. Kiểm tra mở thiệp 3D, bàn phím, album, nhạc, tải lịch, RSVP, lưu lại dữ liệu, lời chúc và trường hợp trình duyệt chặn lưu trữ.
 - Test UI tự khởi chạy Vite khi cần. Cài Chromium qua `npx playwright install chromium`; nếu đã có Chromium hệ thống, dùng `CHROMIUM_PATH=/usr/bin/chromium npm run test:ui`.
 - GitHub Actions bắt buộc chạy unit + browser tests trước build; ảnh cover cho 7 kích thước màn hình, báo cáo HTML và trace khi lỗi được lưu trong artifact `browser-test-evidence`.
