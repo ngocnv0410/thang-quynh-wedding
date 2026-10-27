@@ -26,7 +26,6 @@ for(const [device,width,height] of [['desktop',1440,1000],['mobile',390,844]]) {
   await page.waitForTimeout(1000)
   await page.locator(id).screenshot({path:`${output}/${device}-${section}.png`})
  }
- await page.locator('#closing-seal').click()
  await page.locator('#loi-cam-on').screenshot({path:`${output}/${device}-closing-open.png`})
  const dimensions=await page.evaluate(()=>({viewport:innerWidth,document:document.documentElement.scrollWidth,hero:document.querySelector('.hero').getBoundingClientRect().height}))
  console.log(device, JSON.stringify({dimensions,errors}))

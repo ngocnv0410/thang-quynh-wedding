@@ -111,14 +111,6 @@ $('#gift-button').addEventListener('click',()=>{
  openDialog($('#gift-dialog'))
 })
 $('#gift-to-wishes').addEventListener('click',()=>{closeDialog($('#gift-dialog'));$('#loi-chuc').scrollIntoView({behavior:reduced.matches?'instant':'smooth'});$('#wish-name').focus({preventScroll:true})})
-$('#closing-seal').addEventListener('click',()=>{
- const opened=$('#closing-seal').getAttribute('aria-expanded')!=='true'
- $('#closing-seal').setAttribute('aria-expanded',String(opened))
- $('#closing-seal').setAttribute('aria-label',opened?'Khép thiệp cảm ơn':'Mở thiệp cảm ơn để xem ảnh')
- $('#closing-envelope').classList.toggle('is-open',opened)
- $('#closing-photo').setAttribute('aria-hidden',String(!opened))
- $('#closing-status').textContent=opened?'Hẹn gặp bạn trong ngày hạnh phúc của chúng mình!':'Chạm vào dấu sáp để mở lời cảm ơn'
-})
 let observer
 if('IntersectionObserver' in window){document.body.classList.add('motion-ready');observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}}),{threshold:.08});document.querySelectorAll('.reveal:not([hidden])').forEach(el=>observer.observe(el))}
 if(window.matchMedia('(hover: hover) and (pointer: fine)').matches){document.querySelectorAll('.tilt').forEach(el=>{el.addEventListener('pointermove',event=>{if(reduced.matches)return;const r=el.getBoundingClientRect();const x=(event.clientX-r.left)/r.width-.5;const y=(event.clientY-r.top)/r.height-.5;el.style.transform=`perspective(1200px) rotateX(${-y*5}deg) rotateY(${x*5}deg) translateY(-3px)`});el.addEventListener('pointerleave',()=>el.style.transform='')})}

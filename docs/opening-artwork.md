@@ -49,4 +49,4 @@ Trang 3 sử dụng `invitation-paper.png` làm giấy ren chứa tên/ngày gi�
 
 Font hiện dùng Lora và Be Vietnam Pro qua các package Fontsource (có đầy đủ Vietnamese subset), được Vite đóng gói tại chỗ. Các font cũ trong bảng nguồn là tài nguyên tham chiếu lịch sử, không được nạp trong giao diện hiện tại.
 
-Phong thư cảm ơn cuối trang tái sử dụng các lớp phong bì/dấu sáp, chuyển xanh bằng CSS. Khi chạm dấu sáp, một ảnh cưới trượt lên trong phối cảnh và dòng cảm ơn hiện trên ảnh. Nút cho phép khép và mở lại, có trạng thái `aria-expanded`, ảnh có `aria-hidden` tương ứng; giảm chuyển động khi trình duyệt yêu cầu.
+Phong thư cảm ơn cuối trang tái sử dụng các lớp phong bì/dấu sáp, chuyển xanh bằng CSS. Phong thư luôn mở sẵn, một ảnh cưới và dòng cảm ơn hiện ngay như ảnh tham chiếu thứ 4. Dấu sáp chỉ trang trí; không có thao tác mở/khép hay hướng dẫn bấm.

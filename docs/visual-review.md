@@ -8,7 +8,7 @@ Tham chiếu bố cục: https://jmiiwedding.com/chinhlinhh. Tông trắng xanh 
 - Màn mở và trang 1 dùng chung các lớp đồ hoạ. Chạm phong bì sẽ hạ mặt phong bì, kéo giấy và ảnh lên, phát nhạc sau tương tác rồi chuyển vào thiệp. Nội dung ẩn và khóa trước thao tác mở.
 - Trang 2 dùng ảnh cưới toàn khung và dòng “We are Getting Married”.
 - Không có mục Our Story, đoạn hành trình tình yêu hay phần chân dung kể chuyện.
-- Bố cục tiếp theo: gia đình và giấy ren chứa tên/ngày giờ/địa điểm → lịch trình dự kiến → lịch đánh dấu trái tim → album ảnh lớn/ảnh nhỏ → RSVP → lời chúc → mừng cưới → phong thư cảm ơn mở ra ảnh.
+- Bố cục tiếp theo: gia đình và giấy ren chứa tên/ngày giờ/địa điểm → lịch trình dự kiến → lịch đánh dấu trái tim → album ảnh lớn/ảnh nhỏ → RSVP → lời chúc → mừng cưới → phong thư cảm ơn luôn mở sẵn với ảnh.
 - Thông tin demo được ghi rõ; không dùng ảnh hoặc API của cặp đôi mẫu.
 
 ## Kiểm thử
@@ -79,10 +79,8 @@ Hai gia đình ở phía trên; tên, 19:00 Chủ nhật 29/11/2026, địa đi�
 
 Album dùng một ảnh vuông lớn và dải 18 ảnh nhỏ cuộn ngang, trạng thái ảnh đang chọn, nút trước/sau, bàn phím và lightbox xem ảnh đầy đủ. Kiểm thử xác nhận đổi ảnh, vòng từ ảnh cuối về đầu và đóng/mở lightbox.
 
-Kiểm tra bổ sung khung giấy ren và nội dung không tràn ở 320, 390, 600, 1440px; lịch chỉ đánh dấu 29 bằng trái tim xanh; phong thư cuối mở/khép với Enter/Space, hiện đúng một ảnh và tôn trọng reduced motion. Không áp bộ lọc màu lên ảnh cưới/QR.
+Kiểm tra bổ sung khung giấy ren và nội dung không tràn ở 320, 390, 600, 1440px; lịch chỉ đánh dấu 29 bằng trái tim xanh; phong thư cuối luôn mở sẵn, hiện đúng một ảnh ở cả hai chế độ chuyển động, không có nút/hướng dẫn bấm mở, tải lại vẫn mở sẵn. Không áp bộ lọc màu lên ảnh cưới/QR.
 
 ![Trái tim ngày 29](screenshots/mobile-calendar.jpg)
 
-![Phong thư cảm ơn trước khi mở](screenshots/mobile-closing.jpg)
-
-![Phong thư cảm ơn sau khi mở](screenshots/mobile-closing-open.jpg)
+![Phong thư cảm ơn luôn mở sẵn](screenshots/mobile-closing.jpg)

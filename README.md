@@ -25,7 +25,7 @@ Có thể dùng Chromium hệ thống với `CHROMIUM_PATH=/usr/bin/chromium npm
 2. Chạm vào dấu sáp/phong bì: mặt phong bì hạ trong phối cảnh, giấy mời và ảnh trượt lên, nhạc bắt đầu và màn mở đầu chuyển vào thiệp. Tôn trọng reduced motion; lỗi phát nhạc không chặn luồng vào.
 3. Trang 1: bố cục phong bì, giấy ren Save the Date, tên hai bạn, ngày cưới và đếm ngược.
 4. Trang 2: ảnh cưới toàn khung với “We are Getting Married”.
-5. Tiếp theo: hai gia đình và khung giấy ren chứa tên/ngày giờ/địa điểm, lịch trình dự kiến, lịch tháng đánh dấu ngày 29 bằng trái tim, album một ảnh vuông lớn cùng dải ảnh nhỏ, RSVP, lời chúc, mừng cưới và phong thư cảm ơn mở ra một ảnh cưới. Đã bỏ phần kể chuyện tình yêu.
+5. Tiếp theo: hai gia đình và khung giấy ren chứa tên/ngày giờ/địa điểm, lịch trình dự kiến, lịch tháng đánh dấu ngày 29 bằng trái tim, album một ảnh vuông lớn cùng dải ảnh nhỏ, RSVP, lời chúc, mừng cưới và phong thư cảm ơn luôn mở sẵn với một ảnh cưới. Đã bỏ phần kể chuyện tình yêu.
 
 Thiệp cá nhân hoá: thêm `?to=Bạn%20Ngọc`. Tên khách được hiển thị an toàn bằng textContent. Mỗi lần tải lại link đều trở về màn mở thiệp.
 
@@ -81,4 +81,4 @@ Trang 3 theo ảnh tham chiếu: hai gia đình nằm phía trên, tên cô dâu
 
 Lora cho tên và tiêu đề, Be Vietnam Pro cho nội dung/biểu mẫu; font tự lưu trong bản build qua Fontsource, gồm tập ký tự tiếng Việt. Không dùng font thư pháp uốn lượn.
 
-Album có một ảnh vuông lớn và 18 ảnh thu nhỏ trong dải cuộn ngang. Chọn ảnh nhỏ hoặc dùng nút/phím điều hướng để đổi ảnh lớn; chạm ảnh lớn mở ảnh đầy đủ trong lightbox. Phong thư cuối có nút dấu sáp: mở/khép ảnh, hỗ trợ bàn phím và reduced motion.
+Album có một ảnh vuông lớn và 18 ảnh thu nhỏ trong dải cuộn ngang. Chọn ảnh nhỏ hoặc dùng nút/phím điều hướng để đổi ảnh lớn; chạm ảnh lớn mở ảnh đầy đủ trong lightbox. Phong thư cuối luôn mở sẵn với một ảnh cưới; dấu sáp chỉ trang trí, không cần bấm mở.
