@@ -33,3 +33,12 @@ Canvas 420×590 của phần phong bì bám vị trí các phần tử gốc:
 Khi chạm: dấu sáp mờ, mặt phong bì xoay -115 độ trong phối cảnh, giấy và ảnh trượt lên. Sau 1,9 giây màn đầu chuyển vào trang thiệp, rồi kết thúc chuyển cảnh sau 650ms. Phần nội dung được giữ inert đến hết chuyển cảnh. Với reduced motion, bỏ thời gian chờ hiệu ứng.
 
 Trang 1 tiếp tục bố cục giấy mời đang mở với ngày/tên và đếm ngược. Trang 2 là ảnh cưới lớn. Các phần bên dưới dùng cùng màu giấy, mực đỏ và chữ của mẫu; bỏ phần kể chuyện tình yêu/Our Story.
+
+## Cập nhật tông xanh theo yêu cầu
+
+Bố cục Chinh–Linh giữ nguyên. Phong bì và dấu sáp dùng CSS hue-rotate/saturate/brightness để chuyển sang xanh lá trầm; nền giấy, chữ và nút đồng bộ xanh–kem. Các bộ lọc chỉ áp dụng cho phong bì/dấu sáp, không áp cho ảnh cưới hay QR ngân hàng.
+
+Hai cụm hoa trắng/lá xanh dùng đúng artwork của mẫu https://jmiiwedding.com/duyanhhamauu:
+
+- `public/images/floral-white/flowers-left.png`: https://w.ladicdn.com/s450x600/6322a62f2dad980013bb5005/group-4-copyd-20260824201522-rmr0p.png
+- `public/images/floral-white/flowers-right.png`: https://w.ladicdn.com/s450x650/6322a62f2dad980013bb5005/group-5-copy-20260824202453-jngkz.png

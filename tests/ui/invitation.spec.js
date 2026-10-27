@@ -197,12 +197,15 @@ test('background music plays only on user action and can be paused',async({page}
 })
 
 
-test('Chinh–Linh layout has layered red envelope, photo page two, and no story',async({page},testInfo)=>{
+test('Chinh–Linh layout has green floral envelope, photo page two, and no story',async({page},testInfo)=>{
  await page.setViewportSize({width:420,height:800})
  await page.goto('/?to=Bạn%20Ngọc')
  await page.evaluate(()=>document.fonts.ready)
  await expect(page.locator('#invited-guest')).toHaveText('Bạn Ngọc')
  await expect(page.locator('#entry-gate .envelope-front img')).toHaveAttribute('src',/chinh-linh\/envelope-front.png$/)
+ await expect(page.locator('#entry-gate .envelope-front img')).toHaveCSS('filter',/hue-rotate/)
+ await expect(page.locator('#entry-gate .cover-bouquet')).toHaveAttribute('src',/floral-white\/flowers-left.png$/)
+ await expect(page.locator('#entry-gate .cover-flower-right')).toHaveAttribute('src',/floral-white\/flowers-right.png$/)
  await page.screenshot({path:testInfo.outputPath('red-envelope.png')})
  await page.locator('#envelope-seal').click()
  await expect(page.locator('#entry-gate .envelope-front')).toHaveCSS('opacity','0.1')

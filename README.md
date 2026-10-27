@@ -1,6 +1,6 @@
 # Duy Thắng & Thuý Quỳnh · 29.11.2026
 
-Thiệp cưới tiếng Việt theo bố cục Chinh–Linh: giấy trắng có vân, phong bì đỏ rượu vang, giấy ren, ngọc trai và dải ảnh. Nội dung hiển thị dạng một cuốn thiệp dọc trên điện thoại và máy tính. Không có mục Our Story.
+Thiệp cưới tiếng Việt theo bố cục Chinh–Linh: giấy kem xanh có vân, phong bì xanh lá trầm, giấy ren, hoa trắng lá xanh, ngọc trai và dải ảnh. Nội dung hiển thị dạng một cuốn thiệp dọc trên điện thoại và máy tính. Không có mục Our Story.
 
 Website: https://ngocnv0410.github.io/thang-quynh-wedding/
 
@@ -21,7 +21,7 @@ Có thể dùng Chromium hệ thống với `CHROMIUM_PATH=/usr/bin/chromium npm
 
 ## Bố cục và mở thiệp
 
-1. Khi mở link: phong bì đỏ, giấy mời và dải ảnh; phần nội dung còn `hidden` và `inert`.
+1. Khi mở link: phong bì xanh, giấy mời và dải ảnh; phần nội dung còn `hidden` và `inert`.
 2. Chạm vào dấu sáp/phong bì: mặt phong bì hạ trong phối cảnh, giấy mời và ảnh trượt lên, nhạc bắt đầu và màn mở đầu chuyển vào thiệp. Tôn trọng reduced motion; lỗi phát nhạc không chặn luồng vào.
 3. Trang 1: bố cục phong bì, giấy ren Save the Date, tên hai bạn, ngày cưới và đếm ngược.
 4. Trang 2: ảnh cưới toàn khung với “We are Getting Married”.
@@ -70,3 +70,7 @@ Với GitHub Pages, workflow đặt `BASE_PATH=/thang-quynh-wedding/`. Hosting d
 Cấu hình ở `wedding.gift.groom` trong `src/content.js`. Mã BIN Techcombank **970407** đối chiếu danh sách ngân hàng VietQR; số tài khoản **19050359954016** theo dữ liệu được cung cấp. Không điền tên chủ tài khoản khi chưa được cung cấp.
 
 `npm run gift:qr` sinh ảnh `public/images/qr-groom-techcombank.png`. `pretest` và `prebuild` tự chạy bước này để ảnh khớp cấu hình. Tạo QR tại dự án, không gọi dịch vụ QR trong trình duyệt khách. `src/vietqr.js` dựng payload NAPAS QRIBFTTA và CRC16/CCITT-FALSE; kiểm thử giải mã lại PNG, đối chiếu ngân hàng/số tài khoản/tiền tệ và xác nhận không có số tiền cố định.
+
+## Tông xanh và hoa
+
+Giữ bố cục Chinh–Linh, đổi sang xanh lá trầm/giấy kem. Hai cụm hoa trắng lá xanh theo mẫu https://jmiiwedding.com/duyanhhamauu được lưu trong `public/images/floral-white`. Các lớp phong bì/dấu sáp được đổi tông qua CSS; ảnh cưới và QR thanh toán không áp bộ lọc màu.
