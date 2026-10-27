@@ -1,27 +1,35 @@
-# Artwork màn mở thư
+# Bố cục Chinh–Linh và màn mở
 
-Mẫu người dùng yêu cầu: https://jmiiwedding.com/duyanhhamauu/
+Tham chiếu mới nhất: https://jmiiwedding.com/chinhlinhh.
 
-Các lớp được lưu tại `public/images/opening/` để hiển thị ổn định, không phụ thuộc hotlink khi khách mở thiệp. Ảnh nền là ảnh của Thắng & Quỳnh, không dùng ảnh cặp đôi trong mẫu.
+Phần nội dung đầu của mẫu dùng phong bì đỏ mở sẵn, giấy ren trượt lên, dải ảnh, hoa đỏ/ngọc trai trên nền giấy trắng. Trang kế tiếp là ảnh toàn khung với hai dòng “We are / Getting Married”. Dự án dựng lại các lớp này với ảnh, tên và ngày cưới của Thắng & Quỳnh; không dùng ảnh cặp đôi mẫu hay API/biểu mẫu bên ngoài.
 
-| Tệp | Nguồn trong mẫu |
+| Tài nguyên cục bộ | Nguồn |
 | --- | --- |
-| `letter.png` | https://w.ladicdn.com/s650x550/6322a62f2dad980013bb5005/fwf-20260824203514-hvfda.png |
-| `flowers-left.png` | https://w.ladicdn.com/s450x600/6322a62f2dad980013bb5005/group-4-copyd-20260824201522-rmr0p.png |
-| `flowers-right.png` | https://w.ladicdn.com/s450x650/6322a62f2dad980013bb5005/group-5-copy-20260824202453-jngkz.png |
-| `seal.png` | https://w.ladicdn.com/s400x400/6322a62f2dad980013bb5005/thiep-thanh-dat-element_0030_4-20251010171938-qfleq.png |
-| `hand.png` | https://w.ladicdn.com/s400x400/6322a62f2dad980013bb5005/fff-20250420034256-byv87.png |
-| `public/fonts/hastegi.otf` | https://w.ladicdn.com/6322a62f2dad980013bb5005/1ftv-vip-hastegi-20250323075635-ymzdv.otf |
-| `public/fonts/uvn-hoatay.ttf` | https://w.ladicdn.com/6322a62f2dad980013bb5005/uvnhoatay1-20250703082157-fl9kv.ttf |
+| `images/chinh-linh/paper.png` | https://w.ladicdn.com/s750x950/6322a62f2dad980013bb5005/thiep-thanh-dat-element_0033_1-20251010160355-v6bgi.png |
+| `images/chinh-linh/torn-edge.png` | https://w.ladicdn.com/s750x550/6322a62f2dad980013bb5005/vector-smart-object-20260823154006-exf34.png |
+| `images/chinh-linh/botanical.png` | https://w.ladicdn.com/s500x600/6322a62f2dad980013bb5005/chatgpt-image-aug-25-2026-01_38_30-am-20260824183718-ju4w5.png |
+| `images/chinh-linh/envelope-back.png` | https://w.ladicdn.com/s650x700/6322a62f2dad980013bb5005/elm_0001s_0006_pbi-20260823154102-pfnqg.png |
+| `images/chinh-linh/invitation-paper.png` | https://w.ladicdn.com/s550x700/6322a62f2dad980013bb5005/chatgpt-image-aug-23-2026-12_53_23-am-20260823155052-kgay1.png |
+| `images/chinh-linh/small-card.png` | https://w.ladicdn.com/s500x450/6322a62f2dad980013bb5005/elm_0001s_0004_chatgpt-image-aug-23-2026-12_14_54-am-20260823154102-e9stc.png |
+| `images/chinh-linh/ribbon.png` | https://w.ladicdn.com/s400x600/6322a62f2dad980013bb5005/group-2-copy-20260824180758-_oxqa.png |
+| `images/chinh-linh/envelope-front.png` | https://w.ladicdn.com/s650x550/6322a62f2dad980013bb5005/elm_0001s_0003_pbi-tren-20260823154102-4dyrc.png |
+| `images/chinh-linh/wax-seal.png` | https://w.ladicdn.com/s400x400/6322a62f2dad980013bb5005/elm_0001s_0001_chatgpt-image-aug-23-2026-01_31_51-am-20260823154102-u2li3.png |
+| `fonts/lora-regular-20250728035828-eollg.ttf` | https://w.ladicdn.com/6322a62f2dad980013bb5005/lora-regular-20250728035828-eollg.ttf |
+| `fonts/oranienbaum-regular-20260810155540-evoqr.ttf` | https://w.ladicdn.com/6322a62f2dad980013bb5005/oranienbaum-regular-20260810155540-evoqr.ttf |
+| `fonts/bhn-bp-ecatherina-medium-20251128142613-8-1tw.otf` | https://w.ladicdn.com/6322a62f2dad980013bb5005/bhn-bp-ecatherina-medium-20251128142613-8-1tw.otf |
+| `fonts/1ftv-vip-british-green-20251230052627-5a9cp.ttf` | https://w.ladicdn.com/6322a62f2dad980013bb5005/1ftv-vip-british-green-20251230052627-5a9cp.ttf |
 
-Canvas tham chiếu: 420×765.178. Các toạ độ gốc dùng để kiểm tra:
+## Các lớp chính
 
-| Lớp | X | Y | Rộng | Cao | Animation |
-| --- | ---: | ---: | ---: | ---: | --- |
-| Phong bì | 42.315 | 237.226 | 347 | 226.102 | Fade up 1s, delay 1s |
-| Hoa trái | -5 | 173.86 | 133.149 | 255.374 | Fade up 1.5s, delay 1s |
-| Hoa phải | 275.4 | 327.7 | 144.6 | 310.6 | Fade up 1.5s, delay 1.5s |
-| Con dấu | 184.066 | 358.051 | 53.8684 | 63.949 | Pulse 1s, lặp |
-| Bàn tay | 204.854 | 382.35 | 60.0447 | 60.701 | Bounce in 1s, lặp |
+Canvas 420×590 của phần phong bì bám vị trí các phần tử gốc:
 
-Tên khách và ngày tiệc được thay bằng nội dung của dự án. Trên desktop, canvas được phóng có giới hạn; trên điện thoại, canvas co theo màn hình nhưng giữ nguyên tỷ lệ và vị trí tương đối của các lớp. Sau thao tác mở thư, dự án giữ luồng chuyển tiếp vào thiệp cùng trang; không điều hướng sang website mẫu.
+- Phong bì sau: x41.143, y158.124, rộng343.644, cao391.753.
+- Giấy ren: x114.575, y127.1, rộng240.983, cao352.8.
+- Dải ảnh: x53.143, y206.5, rộng99, cao248; nghiêng -11 độ.
+- Mặt phong bì: x41.8115, y337.387, rộng336.377, cao206.62.
+- Con dấu: x186.0095, y405, rộng57.3185, cao60.
+
+Khi chạm: dấu sáp mờ, mặt phong bì xoay -115 độ trong phối cảnh, giấy và ảnh trượt lên. Sau 1,9 giây màn đầu chuyển vào trang thiệp, rồi kết thúc chuyển cảnh sau 650ms. Phần nội dung được giữ inert đến hết chuyển cảnh. Với reduced motion, bỏ thời gian chờ hiệu ứng.
+
+Trang 1 tiếp tục bố cục giấy mời đang mở với ngày/tên và đếm ngược. Trang 2 là ảnh cưới lớn. Các phần bên dưới dùng cùng màu giấy, mực đỏ và chữ của mẫu; bỏ phần kể chuyện tình yêu/Our Story.

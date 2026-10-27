@@ -14,10 +14,10 @@ for(const [device,width,height] of [['desktop',1440,1000],['mobile',390,844]]) {
  await page.waitForTimeout(1600)
  await page.screenshot({path:`${output}/${device}-letter-opening.png`})
  await page.waitForFunction(()=>document.querySelector('#entry-gate').hidden)
- await page.waitForTimeout(600)
+ await page.waitForTimeout(1000)
  await page.screenshot({path:`${output}/${device}-hero.png`})
  await page.emulateMedia({reducedMotion:'reduce'})
- for(const [section,id] of [['invitation','#loi-moi'],['event','#ngay-chung-doi'],['album','#album'],['rsvp','#xac-nhan'],['wishes','#loi-chuc']]) {
+ for(const [section,id] of [['page-two','#married'],['invitation','#loi-moi'],['timeline','#lich-trinh'],['calendar','#luu-ngay'],['event','#ngay-chung-doi'],['album','#album'],['rsvp','#xac-nhan'],['wishes','#loi-chuc']]) {
   await page.locator(id).scrollIntoViewIfNeeded()
   // A section screenshot can extend beyond the viewport: load its lazy photos first.
   await page.locator(id).evaluate(async section => {

@@ -1,10 +1,12 @@
 # Duy Thắng & Thuý Quỳnh · 29.11.2026
 
-Thiệp cưới tiếng Việt, giao diện xanh rừng / giấy ngà / nâu đồng, đáp ứng điện thoại và máy tính. Xây mới bằng Vite + JavaScript, không cần backend để xem thiệp.
+Thiệp cưới tiếng Việt theo bố cục Chinh–Linh: giấy trắng có vân, phong bì đỏ rượu vang, giấy ren, ngọc trai và dải ảnh. Nội dung hiển thị dạng một cuốn thiệp dọc trên điện thoại và máy tính. Không có mục Our Story.
+
+Website: https://ngocnv0410.github.io/thang-quynh-wedding/
 
 ## Chạy dự án
 
-Yêu cầu Node.js 22.12+ (hoặc 24).
+Node.js 22.12+ hoặc 24.
 
 ```sh
 npm ci
@@ -13,59 +15,52 @@ npm test
 npx playwright install chromium
 npm run test:ui
 npm run build
-npm run preview
 ```
 
-## Nội dung đã có
+Có thể dùng Chromium hệ thống với `CHROMIUM_PATH=/usr/bin/chromium npm run test:ui`. Báo cáo ở `playwright-report/`; ảnh và trace khi lỗi ở `test-results/`.
+
+## Bố cục và mở thiệp
+
+1. Khi mở link: phong bì đỏ, giấy mời và dải ảnh; phần nội dung còn `hidden` và `inert`.
+2. Chạm vào dấu sáp/phong bì: mặt phong bì hạ trong phối cảnh, giấy mời và ảnh trượt lên, nhạc bắt đầu và màn mở đầu chuyển vào thiệp. Tôn trọng reduced motion; lỗi phát nhạc không chặn luồng vào.
+3. Trang 1: bố cục phong bì, giấy ren Save the Date, tên hai bạn, ngày cưới và đếm ngược.
+4. Trang 2: ảnh cưới toàn khung với “We are Getting Married”.
+5. Tiếp theo: hai gia đình, giờ/địa điểm, lịch trình dự kiến, gợi ý trang phục, lịch tháng, album, RSVP, lời chúc, mừng cưới và cảm ơn. Đã bỏ phần kể chuyện tình yêu.
+
+Thiệp cá nhân hoá: thêm `?to=Bạn%20Ngọc`. Tên khách được hiển thị an toàn bằng textContent. Mỗi lần tải lại link đều trở về màn mở thiệp.
+
+## Dữ liệu
 
 - Chú rể **Duy Thắng**, cô dâu **Thuý Quỳnh**.
-- Tiệc chung vui **19:00, Chủ nhật 29/11/2026**, múi giờ **Asia/Ho_Chi_Minh (UTC+7)**.
+- Tiệc chung vui **19:00, Chủ nhật 29/11/2026**, múi giờ Việt Nam UTC+7.
 - Nhà trai: ông **Nguyễn Duy Toản**, bà **Nguyễn Thị Thanh**.
 - Nhà gái: ông **Lâm Viết Chung**, bà **Nguyễn Thị Hương**.
-- Ảnh từ album Drive người dùng cung cấp; đã tối ưu WebP, tải từ thư mục dự án, không phụ thuộc hotlink Drive.
-- Nhạc từ trang nội dung `https://jmiiwedding.com/vuquynhh/`, được dẫn từ mẫu `https://jmiiwedding.com/vuquynhmau`: nguồn `https://camcui.vn/bai230.mp3`.
+- Ảnh từ album Drive đã cung cấp, tối ưu WebP và lưu trong dự án. Không dùng ảnh cặp đôi mẫu.
+- Nhạc giữ theo mẫu Vũ–Quỳnh đã yêu cầu: nguồn `https://camcui.vn/bai230.mp3`, lưu tại `public/audio/wedding.mp3`.
 
-## Tính năng
+Ngày, địa điểm, danh sách ảnh và endpoint RSVP ở `src/content.js`. Tên, bố mẹ và lời mời trong `index.html`. Toàn bộ giao diện ở `src/wedding.css`, cơ chế mở ở `src/entry-gate.js`.
 
-- Mở link luôn hiển thị phong bì trước, nội dung thiệp được ẩn và khóa tương tác. Một lần chạm/click nâng thư và chuyển vào thiệp; nhạc bật sau thao tác khách. Không có nút đóng/Escape để bỏ qua màn mở thư.
-- Khung ảnh chữ nhật kiểu ảnh in, hiệu ứng nghiêng 2.5D trên thiết bị có con trỏ, hiện nội dung theo cuộn. Tôn trọng `prefers-reduced-motion`.
-- Đếm ngược đúng giờ Việt Nam; lịch tháng 11 đánh dấu ngày 29; tải sự kiện `.ics`.
-- Album 18 ảnh, tải thêm mỗi lần 6 ảnh; xem toàn màn hình, vuốt trên điện thoại, phím mũi tên và Escape.
-- Lời hẹn và sổ lưu niệm demo dùng localStorage, thông báo rõ trạng thái lưu. Không giả lập gửi thành công tới cô dâu chú rể.
-- Thiệp cá nhân hoá qua `?to=Bạn%20Ngọc` (nội dung được hiển thị như văn bản an toàn).
-- Font tự lưu trữ, điều hướng bàn phím, nhãn biểu mẫu, nút nhạc bật/tắt, bố cục mobile.
+## Dữ liệu demo cần bổ sung
 
-## Thông tin demo cần bổ sung
+- Địa điểm hiện là **Tư gia nhà trai — Demo / Hoàn Kiếm, Hà Nội (địa chỉ minh hoạ)**; cập nhật cả tên, địa chỉ và Maps URL trước khi gửi chính thức.
+- Lịch trình **18:30 đón khách / 20:00 lưu lại khoảnh khắc** là minh hoạ, có ghi nhãn. **19:00 tiệc chung vui** là giờ thật được cung cấp. Màu trang phục là gợi ý.
+- RSVP mặc định lưu riêng trên thiết bị. Để gửi thật, cung cấp API POST nhận `{ name, attendance, count, createdAt }`, đặt `rsvpEndpoint` và cập nhật chú thích demo. Không đưa khoá bí mật vào frontend.
+- Lời chúc lưu riêng trên thiết bị; ba lời chúc minh hoạ có ghi nhãn. Đồng bộ nhiều khách cần backend.
+- Mừng cưới chưa có tài khoản/QR thật, giao diện hiển thị chờ cập nhật.
 
-- **Địa điểm** hiện là `Tư gia nhà trai — Demo / Hoàn Kiếm, Hà Nội (địa chỉ minh hoạ)`. Cập nhật tên, địa chỉ và URL Maps ở `src/content.js`. Bản demo và lịch tải xuống ghi rõ địa điểm chưa chính thức.
-- **RSVP**: để gửi lời hẹn thật, điền `rsvpEndpoint` trong `src/content.js` và cung cấp API nhận POST JSON `{ name, attendance, count, createdAt }`. Cần sửa lời chú thích demo ở biểu mẫu trong `index.html` khi API sẵn sàng. Không đưa khoá bí mật vào frontend.
-- **Lời chúc**: hiện chỉ lưu riêng trên trình duyệt và có ba lời chúc minh hoạ ghi nhãn rõ. Muốn đồng bộ giữa khách cần bổ sung backend.
-- **Mừng cưới**: chưa có số tài khoản thật, hộp mừng cưới hiển thị trạng thái chờ cập nhật; không tạo QR ngân hàng demo để tránh chuyển nhầm.
-- Bố mẹ, tên hai bạn và lời mời nằm ở `index.html`; ngày, nơi tổ chức và album ở `src/content.js`.
+## Kiểm chứng và triển khai
 
-## Triển khai
+- **14 bài logic/DOM**: múi giờ, đếm ngược, lịch, ICS, lưu trữ bị chặn, album, RSVP, lời chúc an toàn, gate chống mở lặp và reduced motion.
+- **15 bài Chromium**: bảy viewport từ 320px đến 1920px, phong bì/mở thiệp, trang 1–2 và loại bỏ Our Story, album, phím điều hướng, tải lịch, nhạc, RSVP/reload và lời chúc.
+- Xem [biên bản và ảnh giao diện](docs/visual-review.md).
+- `npm run review:ui` chụp màn mở, trang 1, trang 2 và các phần còn lại. Khởi chạy Vite ở cổng 5173 trước; hỗ trợ `CHROMIUM_PATH` và `REVIEW_DIR`.
+- GitHub Actions chạy test và browser tests trước khi build/triển khai Pages; lưu artifact `browser-test-evidence`.
+- Chưa kiểm chứng Safari/iOS thật.
 
-`dist/` có thể đưa lên Vercel, Netlify, Cloudflare Pages hoặc bất kỳ hosting tĩnh nào. Build: `npm run build`, output: `dist`. Với domain riêng dùng base `/` mặc định.
+Với GitHub Pages, workflow đặt `BASE_PATH=/thang-quynh-wedding/`. Hosting domain riêng dùng `npm run build` với base `/`, output `dist/`.
 
-Đã có workflow `.github/workflows/pages.yml` để kiểm thử, build và triển khai GitHub Pages. Pages đã được bật với nguồn GitHub Actions: mỗi push lên `main` chạy unit/DOM tests và Chromium tests trước khi triển khai.
+## Nguồn
 
-Website: `https://ngocnv0410.github.io/thang-quynh-wedding/`.
-
-Workflow tự đặt `BASE_PATH=/thang-quynh-wedding/`. Nếu đổi tên repo, cập nhật biến này. Các đường dẫn tài nguyên được Vite xử lý theo base.
-
-## Kiểm chứng
-
-- `npm test`: **14 bài kiểm tra** về múi giờ, đếm ngược, lịch, file ICS, lỗi lưu trữ, album, phong bì, RSVP và chèn HTML vào lời chúc.
-- `npm run test:ui`: **15 bài kiểm tra Chromium thực tế**, kiểm tra màn hình 320×740, 375×812, 390×844, 430×932, 768×1024, 1440×900 và 1920×1080; tiêu đề/ngày/nút mở thiệp phải nằm trong viewport, các section không tràn ngang. Kiểm tra mở thiệp 3D, bàn phím, album, nhạc, tải lịch, RSVP, lưu lại dữ liệu, lời chúc và trường hợp trình duyệt chặn lưu trữ.
-- Test UI tự khởi chạy Vite khi cần. Cài Chromium qua `npx playwright install chromium`; nếu đã có Chromium hệ thống, dùng `CHROMIUM_PATH=/usr/bin/chromium npm run test:ui`.
-- GitHub Actions bắt buộc chạy unit + browser tests trước build; ảnh cover cho 7 kích thước màn hình, báo cáo HTML và trace khi lỗi được lưu trong artifact `browser-test-evidence`.
-- `npm run review:ui` chụp cover, lời mời, sự kiện, album, RSVP, lời chúc và phong bì trên desktop/mobile, xuất vào `artifacts/visual-review`. Chạy `npm run dev -- --port 5173` trước. Hỗ trợ `CHROMIUM_PATH` và `REVIEW_DIR`.
-- Xem [ảnh chụp giao diện và biên bản kiểm tra](docs/visual-review.md). Kiểm tra trực quan đã thực hiện bằng Chromium; chưa xác nhận trên Safari/iOS thật.
-
-## Nguồn tham khảo
-
-- Mẫu bố cục/mở thiệp: https://jmiiwedding.com/duyanhhamauu và trang bên trong https://jmiiwedding.com/duyanhmau.
-- Tham khảo cấu trúc các phần, accessibility và phân biệt nội dung thật/demo trong repo `ngocnv0410/ngoc-thuy-wedding`. Không sao chép dữ liệu riêng hay cấu hình backend của repo đó.
+- Bố cục hiện tại: https://jmiiwedding.com/chinhlinhh.
+- [Artwork, font và cơ chế dựng lớp](docs/opening-artwork.md).
 - Ảnh: https://drive.google.com/drive/folders/1KJGv_e1GDBI6u0QTpxz097C1xIuCiLUT.
-
-Artwork phần mở thư và font theo mẫu: xem [nguồn và thông số](docs/opening-artwork.md).

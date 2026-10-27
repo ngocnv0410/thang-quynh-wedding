@@ -1,74 +1,55 @@
-# Kiểm tra giao diện — 27/10/2026
+# Kiểm tra bố cục Chinh–Linh — 27/10/2026
 
-Đây là ảnh chụp từ trang được render trong Chromium, sử dụng ảnh và font thật của dự án.
+Tham chiếu: https://jmiiwedding.com/chinhlinhh. Ảnh dưới đây được chụp từ Chromium với ảnh và dữ liệu của Thắng & Quỳnh.
 
-## Thay đổi theo phản hồi mới nhất
+## Đã thay đổi
 
-- Màn mở đầu dùng đúng artwork của mẫu `https://jmiiwedding.com/duyanhhamauu/`: phong bì ren, hai cụm hoa trắng/lá xanh, dấu sáp xanh và bàn tay.
-- Dùng đúng hai font của mẫu cho lời kính mời, tên khách và ngày tiệc. Tỷ lệ/vị trí các lớp lấy từ canvas 420×765.178; một bài kiểm tra Chromium đối chiếu vị trí với sai số dưới 1px trên canvas gốc.
-- Phong bì hiện sau 1 giây, hoa trái hiện trong 1,5 giây sau khoảng chờ 1 giây, hoa phải hiện sau khoảng chờ 1,5 giây; con dấu pulse, bàn tay bounce theo chu kỳ 1 giây như mẫu.
-- Nền dùng ảnh cưới của Thắng và Quỳnh; ngày hiển thị 29.11.2026. Tên khách cá nhân hoá qua `?to=...` được hiển thị an toàn cả ở màn đầu và lá thư.
-- Nội dung thiệp vẫn ẩn và inert trước khi chạm thư. Một lần chạm mở lá thư rồi tự chuyển vào thiệp; nhạc lỗi không chặn luồng vào. Tôn trọng chế độ giảm chuyển động.
-- Các ảnh chữ nhật và toàn bộ phần nội dung thiệp giữ bố cục đã sửa ở lượt trước.
-- Xem [nguồn artwork và thông số chuyển động](opening-artwork.md).
+- Đổi toàn bộ bố cục sang cuốn thiệp dọc, nền giấy trắng và mực đỏ rượu vang; phong bì, giấy ren, ngọc trai và dải ảnh theo mẫu mới.
+- Màn mở và trang 1 dùng chung các lớp đồ hoạ. Chạm phong bì sẽ hạ mặt phong bì, kéo giấy và ảnh lên, phát nhạc sau tương tác rồi chuyển vào thiệp. Nội dung ẩn và khóa trước thao tác mở.
+- Trang 2 dùng ảnh cưới toàn khung và dòng “We are Getting Married”.
+- Không có mục Our Story, đoạn hành trình tình yêu hay phần chân dung kể chuyện.
+- Bố cục tiếp theo: gia đình → thời gian/địa điểm → lịch trình dự kiến/gợi ý trang phục → lịch → album → RSVP → lời chúc → mừng cưới → cảm ơn.
+- Thông tin demo được ghi rõ; không dùng ảnh hoặc API của cặp đôi mẫu.
 
-## Màn mở đầu mới
+## Kiểm thử
 
-### Mở link — desktop
+- **14/14 logic/DOM** đạt.
+- **15/15 Chromium** đạt, gồm bảy viewport: 320×740, 375×812, 390×844, 430×932, 768×1024, 1440×900, 1920×1080.
+- Kiểm tra khung đầu không tràn ngang, tên/ngày/nút tiếp trong viewport, chặn nội dung trước khi mở, mở một lần, Escape không bỏ qua gate, tải lại quay về màn mở, nhạc, lịch, album, RSVP và lời chúc.
+- Bài riêng xác nhận các lớp phong bì đỏ, dải hai ảnh, trang thứ hai và không có Our Story.
+- Đã xem ảnh render màn mở, trang 1, trang 2, lời mời, sự kiện, album và biểu mẫu trên mobile/desktop. Chưa xác nhận Safari/iOS thật.
 
-![Phong bì khi mở link trên desktop](screenshots/desktop-entry.jpg)
+## Màn mở
 
-### Mở link — điện thoại
+![Phong bì mở đầu trên điện thoại](screenshots/mobile-entry.jpg)
 
-![Phong bì khi mở link trên điện thoại](screenshots/mobile-entry.jpg)
+## Trang 1
 
-### Chạm mở thư — điện thoại
+![Trang 1 trên điện thoại](screenshots/mobile-hero.jpg)
 
-![Lá thư đang mở trước khi vào thiệp](screenshots/mobile-letter-opening.jpg)
+![Trang 1 trên máy tính](screenshots/desktop-hero.jpg)
 
-## Kết quả kiểm thử
+## Trang 2
 
-- **14/14** kiểm thử logic và DOM: múi giờ Việt Nam, ranh giới đếm ngược, lịch năm nhuận, ICS và escaping, lưu trữ lỗi, mở thiệp, album, RSVP và lời chúc an toàn.
-- **15/15** kiểm thử trình duyệt: bảy viewport, đối chiếu bố cục/font/artwork/animation với mẫu, luồng phong bì/keyboard, album/keyboard, RSVP/reload, lời chúc, tải lịch, reduced motion/storage bị chặn, nhạc bật/tắt.
-- Viewport: **320×740, 375×812, 390×844, 430×932, 768×1024, 1440×900, 1920×1080**.
-- Đã đọc ảnh chụp cover điện thoại nhỏ/tablet/desktop, lời mời, sự kiện, album, RSVP, lời chúc và phong bì trên mobile/desktop; không có lỗi JavaScript trong lần thu ảnh mobile/desktop.
-- Chưa kiểm chứng trên Safari/iOS thật. Screenshot và kiểm tra bounding box không thay thế việc đánh giá thẩm mỹ của cô dâu chú rể.
+![Trang 2 — We are Getting Married](screenshots/mobile-page-two.jpg)
 
-## Ảnh chụp
+## Lời mời và thời gian
 
-### Cover desktop — 1440×1000
+![Hai gia đình](screenshots/mobile-invitation.jpg)
 
-![Cover desktop](screenshots/desktop-hero.jpg)
+![Thời gian và địa điểm](screenshots/mobile-event.jpg)
 
-### Cover điện thoại — 390×844
+## Lịch trình và album
 
-![Cover điện thoại](screenshots/mobile-hero.jpg)
+![Lịch trình dự kiến](screenshots/mobile-timeline.jpg)
 
-### Thiệp mở — điện thoại
+![Album](screenshots/desktop-album.jpg)
 
-![Phong bì 3D đã mở](screenshots/mobile-letter-opening.jpg)
+## Xác nhận
 
-### Lời mời — desktop
+![RSVP](screenshots/mobile-rsvp.jpg)
 
-![Lời mời hai gia đình](screenshots/desktop-invitation.jpg)
-
-### Ngày tiệc — điện thoại
-
-![Ngày tiệc và lịch](screenshots/mobile-event.jpg)
-
-### Ngày tiệc — tablet sau khi sửa ngắt dòng
-
-![Ngày tiệc tablet](screenshots/tablet-event.jpg)
-
-### Album — desktop
-
-![Album cưới](screenshots/desktop-album.jpg)
-
-### Xác nhận — điện thoại
-
-![Biểu mẫu lời hẹn](screenshots/mobile-rsvp.jpg)
-
-Một số ảnh toàn section dùng `prefers-reduced-motion: reduce` để mọi khối đều hiển thị khi chụp; ảnh cover được chụp sau khi hiệu ứng ban đầu kết thúc. Các nút cố định trong ảnh toàn section phản ánh vị trí viewport lúc chụp. Toàn bộ luồng mở thiệp còn được test với chế độ chuyển động thông thường.
+Ảnh toàn section dùng reduced motion để các khối hiện đủ khi chụp. Các luồng mở thiệp và bảy viewport còn được kiểm tra với chuyển động thông thường. Một số bài tương tác biểu mẫu dùng reduced motion để tách lỗi biểu mẫu khỏi chuyển động cuộn.
 
 ## Chạy lại
 
@@ -80,4 +61,4 @@ npm run test:ui
 npm run build
 ```
 
-Ảnh chụp ở bảy kích thước và báo cáo HTML được upload trong workflow dưới artifact `browser-test-evidence`. Khi có thay đổi giao diện, chạy lại browser tests và `npm run review:ui`, đọc ảnh trước khi cập nhật ảnh trong thư mục này.
+GitHub Actions lưu báo cáo/ảnh/trace trong artifact `browser-test-evidence`. Ảnh review có thể tạo bằng `npm run review:ui` sau khi mở Vite ở cổng 5173.

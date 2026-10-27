@@ -6,6 +6,7 @@ async function openGate(page) {
  await expect(page.locator('#wedding-site')).toBeVisible()
 }
 async function enterWedding(page, url='/') {
+ await page.emulateMedia({reducedMotion:'reduce'})
  await page.goto(url)
  await openGate(page)
 }
@@ -26,9 +27,8 @@ for(const size of viewports){
   const errors=[];page.on('pageerror',error=>errors.push(error.message))
   await page.goto('/')
   await page.evaluate(()=>document.fonts.ready)
-  await expect(page.locator('.opening-flowers-right')).toHaveCSS('opacity','1')
   await expect(page.locator('#wedding-site')).toBeHidden()
-  const envelope=await page.locator('.entry-envelope-wrap').boundingBox()
+  const envelope=await page.locator('#entry-gate .entry-envelope-wrap').boundingBox()
   expect(envelope.x).toBeGreaterThanOrEqual(0)
   expect(envelope.x+envelope.width).toBeLessThanOrEqual(size.width)
   expect(envelope.y).toBeGreaterThan(0)
@@ -40,7 +40,7 @@ for(const size of viewports){
   await page.waitForFunction(()=>getComputedStyle(document.querySelector('.hero-copy')).opacity==='1')
   const layout=await page.evaluate(()=>{
    const rect=el=>{const r=el.getBoundingClientRect();return {top:r.top,bottom:r.bottom,left:r.left,right:r.right}}
-   return {width:innerWidth,scrollWidth:document.documentElement.scrollWidth,title:rect(document.querySelector('#hero-title')),date:rect(document.querySelector('.hero-date')),action:rect(document.querySelector('#explore-invitation')),hero:rect(document.querySelector('.hero')),photo:document.querySelector('.hero-photo img').naturalWidth}
+   return {width:innerWidth,scrollWidth:document.documentElement.scrollWidth,title:rect(document.querySelector('#hero-title')),date:rect(document.querySelector('.hero-date')),action:rect(document.querySelector('#explore-invitation')),hero:rect(document.querySelector('.hero')),photo:document.querySelector('.hero .photo-strip img').naturalWidth}
   })
   expect(layout.scrollWidth).toBe(layout.width)
   expect(layout.photo).toBeGreaterThan(0)
@@ -50,7 +50,7 @@ for(const size of viewports){
    expect(element.top).toBeGreaterThanOrEqual(0)
    expect(element.bottom).toBeLessThanOrEqual(size.height)
   }
-  expect(layout.title.bottom).toBeLessThan(layout.date.top)
+  expect(layout.date.bottom).toBeLessThan(layout.title.top)
   expect(layout.date.bottom+20).toBeLessThan(layout.action.top)
   await page.screenshot({path:testInfo.outputPath('cover.png')})
   await testInfo.attach('Cover', {path:testInfo.outputPath('cover.png'),contentType:'image/png'})
@@ -58,8 +58,7 @@ for(const size of viewports){
    await page.locator(section).scrollIntoViewIfNeeded()
    expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBe(size.width)
   }
-  await expect(page.locator('.portrait-frame')).toHaveCSS('border-top-left-radius','0px')
-  await expect(page.locator('.rsvp-image')).toHaveCSS('border-top-left-radius','0px')
+  await expect(page.locator('#married > img')).toHaveCSS('border-top-left-radius','0px')
   await expect(page.locator('.arch-frame')).toHaveCount(0)
   const heading=await page.locator('.event-card h3').boundingBox()
   expect(heading.height).toBeLessThan(160)
@@ -80,9 +79,9 @@ test('entry letter blocks content until click, opens once, and enters automatica
  await expect(page.locator('#invited-guest')).toHaveText('Bạn Ngọc')
  await page.locator('#envelope-seal').click()
  await expect(page.locator('#envelope-seal')).toBeDisabled()
- await expect(page.locator('.envelope')).toHaveClass(/is-open/)
+ await expect(page.locator('#entry-gate .envelope')).toHaveClass(/is-open/)
  await page.waitForTimeout(1500)
- const letter=await page.locator('.letter').boundingBox()
+ const letter=await page.locator('#entry-gate .letter').boundingBox()
  expect(letter.y).toBeGreaterThan(0)
  expect(letter.x).toBeGreaterThan(0)
  expect(letter.x+letter.width).toBeLessThanOrEqual(390)
@@ -195,26 +194,26 @@ test('background music plays only on user action and can be paused',async({page}
 })
 
 
-test('floral opening matches the reference composition and loads its artwork',async({page},testInfo)=>{
- await page.setViewportSize({width:420,height:765})
+test('Chinh–Linh layout has layered red envelope, photo page two, and no story',async({page},testInfo)=>{
+ await page.setViewportSize({width:420,height:800})
  await page.goto('/?to=Bạn%20Ngọc')
  await page.evaluate(()=>document.fonts.ready)
- await expect(page.locator('.opening-flowers-right')).toHaveCSS('opacity','1')
- const result=await page.evaluate(()=>{
-  const stage=document.querySelector('.entry-stage').getBoundingClientRect()
-  const relative=selector=>{const r=document.querySelector(selector).getBoundingClientRect();return {x:r.x-stage.x,y:r.y-stage.y,width:r.width,height:r.height}}
-  return {envelope:relative('.entry-envelope-wrap'),left:relative('.opening-flowers-left'),right:relative('.opening-flowers-right'),images:[...document.querySelectorAll('#entry-gate img')].map(img=>({src:img.getAttribute('src'),loaded:img.complete&&img.naturalWidth>0})),fonts:[...document.fonts].filter(f=>f.family.startsWith('Opening')).map(f=>({family:f.family,status:f.status}))}
- })
- // Original reference canvas: 420 × 765.178, within 1px after responsive rounding.
- for(const [name,expected] of Object.entries({envelope:[42.315,237.226,347,226.102],left:[-5,173.86,133.149,255.374],right:[275.4,327.7,144.6,310.6]})){
-  const actual=result[name]
-  for(const [index,key] of ['x','y','width','height'].entries())expect(Math.abs(actual[key]-expected[index])).toBeLessThan(1)
- }
- expect(result.images.every(img=>img.loaded)).toBe(true)
- expect(result.fonts).toHaveLength(2)
- expect(result.fonts.every(font=>font.status==='loaded')).toBe(true)
  await expect(page.locator('#invited-guest')).toHaveText('Bạn Ngọc')
- await expect(page.locator('.opening-seal')).toHaveCSS('animation-name','opening-pulse')
- await expect(page.locator('.opening-hand')).toHaveCSS('animation-name','opening-bounce')
- await page.screenshot({path:testInfo.outputPath('floral-reference-match.png')})
+ await expect(page.locator('#entry-gate .envelope-front img')).toHaveAttribute('src',/chinh-linh\/envelope-front.png$/)
+ await page.screenshot({path:testInfo.outputPath('red-envelope.png')})
+ await page.locator('#envelope-seal').click()
+ await expect(page.locator('#entry-gate .envelope-front')).toHaveCSS('opacity','0.1')
+ await expect(page.locator('#entry-gate')).toBeHidden()
+ await expect(page.locator('.hero .paper-label')).toHaveText('SAVE THE DATE')
+ await expect(page.locator('.hero .photo-strip img')).toHaveCount(2)
+ await page.locator('#married').scrollIntoViewIfNeeded()
+ await expect(page.locator('#married h2')).toHaveText('Getting Married')
+ expect(await page.locator('#married img').evaluate(img=>img.complete&&img.naturalWidth>0)).toBe(true)
+ await expect(page.locator('[id*=story],.our-story,.quote-band')).toHaveCount(0)
+ await expect(page.locator('main')).not.toContainText('Our Story')
+ const layout=await page.evaluate(()=>({book:document.querySelector('#wedding-site').getBoundingClientRect().width,pages:[...document.querySelectorAll('main > section')].slice(0,3).map(el=>el.id||el.className),fonts:[...document.fonts].filter(font=>font.family.startsWith('Wedding')).filter(font=>font.status==='loaded').length}))
+ expect(layout.book).toBe(420)
+ expect(layout.pages).toEqual(['hero','married','loi-moi'])
+ expect(layout.fonts).toBeGreaterThanOrEqual(3)
+ await page.locator('#married').screenshot({path:testInfo.outputPath('page-two.png')})
 })
