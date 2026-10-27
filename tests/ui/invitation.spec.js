@@ -1,4 +1,6 @@
 import {test,expect} from '@playwright/test'
+import {PNG} from 'pngjs'
+import jsQR from 'jsqr'
 
 async function openGate(page) {
  await page.locator('#envelope-seal').click()
@@ -135,7 +137,7 @@ test('RSVP validates input, stores locally, and persists after reload',async({pa
  expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('tq-rsvp')).count)).toBe(0)
 })
 
-test('wish text is safe, survives reload, and the gift panel states pending information',async({page})=>{
+test('wish text is safe, survives reload, and gift links back to wishes',async({page})=>{
  await enterWedding(page)
  const message='<img src=x onerror=alert(1)> Hạnh phúc nhé!'
  await page.locator('#wish-name').fill('Bạn Lan')
@@ -147,7 +149,8 @@ test('wish text is safe, survives reload, and the gift panel states pending info
  await openGate(page)
  await expect(page.locator('.wish-card').first()).toContainText(message)
  await page.locator('#gift-button').click()
- await expect(page.locator('#gift-dialog')).toContainText('Thông tin đang được chuẩn bị')
+ await expect(page.locator('#gift-dialog')).toContainText('Techcombank')
+ await expect(page.locator('#gift-account-number')).toHaveText('1905 0359 9540 16')
  await page.locator('#gift-to-wishes').click()
  await expect(page.locator('#wish-name')).toBeFocused()
 })
@@ -216,4 +219,44 @@ test('Chinh–Linh layout has layered red envelope, photo page two, and no story
  expect(layout.pages).toEqual(['hero','married','loi-moi'])
  expect(layout.fonts).toBeGreaterThanOrEqual(3)
  await page.locator('#married').screenshot({path:testInfo.outputPath('page-two.png')})
+})
+
+
+test('groom QR scans from the rendered image, copies exact account, and downloads',async({page,context},testInfo)=>{
+ await context.grantPermissions(['clipboard-read','clipboard-write'])
+ await page.setViewportSize({width:390,height:844})
+ await enterWedding(page)
+ await page.locator('#gift-button').click()
+ await expect(page.locator('#gift-dialog')).toBeVisible()
+ await page.locator('#gift-qr').evaluate(img=>img.decode())
+ const screenshot=await page.locator('#gift-qr').screenshot()
+ const png=PNG.sync.read(screenshot),decoded=jsQR(new Uint8ClampedArray(png.data),png.width,png.height)
+ expect(decoded?.data).toContain('970407')
+ expect(decoded?.data).toContain('19050359954016')
+ await page.locator('#copy-gift-account').click()
+ await expect(page.locator('#gift-copy-result')).toHaveText('Đã sao chép số tài khoản.')
+ expect(await page.evaluate(()=>navigator.clipboard.readText())).toBe('19050359954016')
+ const downloadPromise=page.waitForEvent('download')
+ await page.locator('#download-gift-qr').click()
+ expect((await downloadPromise).suggestedFilename()).toBe('QR-nha-trai-Techcombank.png')
+ for(const [width,height] of [[390,844],[320,740],[1440,900]]){
+  await page.setViewportSize({width,height})
+  const bounds=await page.locator('#gift-dialog').boundingBox()
+  expect(bounds.x).toBeGreaterThanOrEqual(0)
+  expect(bounds.x+bounds.width).toBeLessThanOrEqual(width)
+  expect(bounds.y).toBeGreaterThanOrEqual(0)
+  expect(bounds.y+bounds.height).toBeLessThanOrEqual(height)
+  await page.screenshot({path:testInfo.outputPath(`gift-${width}.png`)})
+ }
+ await page.keyboard.press('Escape')
+ await expect(page.locator('#gift-dialog')).toBeHidden()
+})
+
+test('blocked clipboard offers manual copy without claiming success',async({page})=>{
+ await page.addInitScript(()=>{Object.defineProperty(navigator,'clipboard',{value:{writeText:()=>Promise.reject(new Error('blocked'))}})})
+ await enterWedding(page)
+ await page.locator('#gift-button').click()
+ await page.locator('#copy-gift-account').click()
+ await expect(page.locator('#gift-copy-result')).toContainText('Chưa sao chép được')
+ await expect(page.locator('#gift-account-number')).toHaveText('1905 0359 9540 16')
 })

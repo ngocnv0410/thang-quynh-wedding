@@ -10,11 +10,17 @@
     "test": "node --test tests/*.test.js",
     "test:ui": "playwright test",
     "review:ui": "node scripts/capture-review.mjs",
-    "test:all": "npm test && npm run test:ui"
+    "test:all": "npm test && npm run test:ui",
+    "gift:qr": "node scripts/generate-gift-qr.mjs",
+    "pretest": "npm run gift:qr",
+    "prebuild": "npm run gift:qr"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.1",
     "jsdom": "^26.1.0",
+    "jsqr": "^1.4.0",
+    "pngjs": "^7.0.0",
+    "qrcode": "^1.5.4",
     "vite": "^7.1.0"
   },
   "dependencies": {

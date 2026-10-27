@@ -6,6 +6,7 @@ const paths = {
  'arrow-up': '<path d="M12 20V4m-6 6 6-6 6 6"/>',
  'arrow-left': '<path d="M20 12H4m6-6-6 6 6 6"/>',
  'arrow-right': '<path d="M4 12h16m-6-6 6 6-6 6"/>',
+ copy: '<rect x="9" y="9" width="11" height="11" rx="1.5"/><path d="M15 5V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h1"/>',
  plus: '<path d="M12 5v14M5 12h14"/>',
  heart: '<path d="m12 20-8.3-8.2A5 5 0 0 1 12 5a5 5 0 0 1 8.3 6.8Z"/>',
  close: '<path d="m6 6 12 12M6 18 18 6"/>',

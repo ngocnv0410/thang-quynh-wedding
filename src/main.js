@@ -68,7 +68,21 @@ wishes=wishes.filter(w=>w&&typeof w.name==='string'&&typeof w.message==='string'
 function renderWishes(){const list=$('#wishes');list.replaceChildren();[...wishes,...wedding.demoWishes].forEach(wish=>{const card=document.createElement('article');card.className='wish-card';const p=document.createElement('p');p.textContent=wish.message;const name=document.createElement('h3');name.textContent=wish.name;const label=document.createElement('small');label.textContent=wish.demo?'LỜI CHÚC MINH HOẠ':'LƯU TRÊN THIẾT BỊ NÀY';card.append(p,name,label);list.append(card)})}
 renderWishes()
 $('#wish-form').addEventListener('submit',event=>{event.preventDefault();const data=new FormData(event.currentTarget);const name=String(data.get('name')||'').trim().slice(0,80);const message=String(data.get('message')||'').trim().slice(0,1000);if(!name||!message){$('#wish-result').textContent='Bạn điền tên và lời chúc trước khi gửi nhé.';return}const next=[{name,message},...wishes].slice(0,30);if(!writeStorage('tq-wishes',next)){$('#wish-result').textContent='Chưa lưu được. Trình duyệt đang chặn lưu trữ.';return}wishes=next;renderWishes();event.currentTarget.reset();$('#wish-result').textContent='Đã lưu lời chúc trên thiết bị của bạn. Cảm ơn bạn thật nhiều!';toast('Đã lưu một chút yêu thương ♡')})
-$('#gift-button').addEventListener('click',()=>openDialog($('#gift-dialog')))
+const groomGift = wedding.gift.groom
+$('#gift-bank-name').textContent = groomGift.bankName
+$('#gift-account-number').textContent = groomGift.accountNumber.match(/.{1,4}/g).join(' ')
+$('#copy-gift-account').addEventListener('click', async () => {
+ try {
+  await navigator.clipboard.writeText(groomGift.accountNumber)
+  $('#gift-copy-result').textContent = 'Đã sao chép số tài khoản.'
+ } catch {
+  $('#gift-copy-result').textContent = 'Chưa sao chép được. Bạn nhấn giữ số tài khoản để sao chép nhé.'
+ }
+})
+$('#gift-button').addEventListener('click',()=>{
+ $('#gift-copy-result').textContent = ''
+ openDialog($('#gift-dialog'))
+})
 $('#gift-to-wishes').addEventListener('click',()=>{closeDialog($('#gift-dialog'));$('#loi-chuc').scrollIntoView({behavior:reduced.matches?'instant':'smooth'});$('#wish-name').focus({preventScroll:true})})
 let observer
 if('IntersectionObserver' in window){document.body.classList.add('motion-ready');observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}}),{threshold:.08});document.querySelectorAll('.reveal:not([hidden])').forEach(el=>observer.observe(el))}

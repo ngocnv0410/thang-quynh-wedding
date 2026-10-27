@@ -46,12 +46,12 @@ Ngày, địa điểm, danh sách ảnh và endpoint RSVP ở `src/content.js`. 
 - Lịch trình **18:30 đón khách / 20:00 lưu lại khoảnh khắc** là minh hoạ, có ghi nhãn. **19:00 tiệc chung vui** là giờ thật được cung cấp. Màu trang phục là gợi ý.
 - RSVP mặc định lưu riêng trên thiết bị. Để gửi thật, cung cấp API POST nhận `{ name, attendance, count, createdAt }`, đặt `rsvpEndpoint` và cập nhật chú thích demo. Không đưa khoá bí mật vào frontend.
 - Lời chúc lưu riêng trên thiết bị; ba lời chúc minh hoạ có ghi nhãn. Đồng bộ nhiều khách cần backend.
-- Mừng cưới chưa có tài khoản/QR thật, giao diện hiển thị chờ cập nhật.
+- Mừng cưới nhà trai: **Techcombank — 1905 0359 9540 16**. QR VietQR được sinh trong dự án, không đặt sẵn số tiền hay lời nhắn. Có sao chép số tài khoản và tải mã PNG. Chưa có thông tin nhà gái nên không hiển thị tài khoản nhà gái.
 
 ## Kiểm chứng và triển khai
 
-- **14 bài logic/DOM**: múi giờ, đếm ngược, lịch, ICS, lưu trữ bị chặn, album, RSVP, lời chúc an toàn, gate chống mở lặp và reduced motion.
-- **15 bài Chromium**: bảy viewport từ 320px đến 1920px, phong bì/mở thiệp, trang 1–2 và loại bỏ Our Story, album, phím điều hướng, tải lịch, nhạc, RSVP/reload và lời chúc.
+- **17 bài logic/DOM**: múi giờ, đếm ngược, lịch, ICS, lưu trữ bị chặn, album, RSVP, lời chúc an toàn, gate chống mở lặp và reduced motion.
+- **17 bài Chromium**: bảy viewport từ 320px đến 1920px, phong bì/mở thiệp, trang 1–2 và loại bỏ Our Story, album, phím điều hướng, tải lịch, nhạc, RSVP/reload và lời chúc.
 - Xem [biên bản và ảnh giao diện](docs/visual-review.md).
 - `npm run review:ui` chụp màn mở, trang 1, trang 2 và các phần còn lại. Khởi chạy Vite ở cổng 5173 trước; hỗ trợ `CHROMIUM_PATH` và `REVIEW_DIR`.
 - GitHub Actions chạy test và browser tests trước khi build/triển khai Pages; lưu artifact `browser-test-evidence`.
@@ -64,3 +64,9 @@ Với GitHub Pages, workflow đặt `BASE_PATH=/thang-quynh-wedding/`. Hosting d
 - Bố cục hiện tại: https://jmiiwedding.com/chinhlinhh.
 - [Artwork, font và cơ chế dựng lớp](docs/opening-artwork.md).
 - Ảnh: https://drive.google.com/drive/folders/1KJGv_e1GDBI6u0QTpxz097C1xIuCiLUT.
+
+## QR mừng cưới nhà trai
+
+Cấu hình ở `wedding.gift.groom` trong `src/content.js`. Mã BIN Techcombank **970407** đối chiếu danh sách ngân hàng VietQR; số tài khoản **19050359954016** theo dữ liệu được cung cấp. Không điền tên chủ tài khoản khi chưa được cung cấp.
+
+`npm run gift:qr` sinh ảnh `public/images/qr-groom-techcombank.png`. `pretest` và `prebuild` tự chạy bước này để ảnh khớp cấu hình. Tạo QR tại dự án, không gọi dịch vụ QR trong trình duyệt khách. `src/vietqr.js` dựng payload NAPAS QRIBFTTA và CRC16/CCITT-FALSE; kiểm thử giải mã lại PNG, đối chiếu ngân hàng/số tài khoản/tiền tệ và xác nhận không có số tiền cố định.

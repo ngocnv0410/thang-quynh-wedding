@@ -13,8 +13,8 @@ Tham chiếu: https://jmiiwedding.com/chinhlinhh. Ảnh dưới đây được c
 
 ## Kiểm thử
 
-- **14/14 logic/DOM** đạt.
-- **15/15 Chromium** đạt, gồm bảy viewport: 320×740, 375×812, 390×844, 430×932, 768×1024, 1440×900, 1920×1080.
+- **17/17 logic/DOM** đạt.
+- **17/17 Chromium** đạt, gồm bảy viewport: 320×740, 375×812, 390×844, 430×932, 768×1024, 1440×900, 1920×1080.
 - Kiểm tra khung đầu không tràn ngang, tên/ngày/nút tiếp trong viewport, chặn nội dung trước khi mở, mở một lần, Escape không bỏ qua gate, tải lại quay về màn mở, nhạc, lịch, album, RSVP và lời chúc.
 - Bài riêng xác nhận các lớp phong bì đỏ, dải hai ảnh, trang thứ hai và không có Our Story.
 - Đã xem ảnh render màn mở, trang 1, trang 2, lời mời, sự kiện, album và biểu mẫu trên mobile/desktop. Chưa xác nhận Safari/iOS thật.
@@ -62,3 +62,9 @@ npm run build
 ```
 
 GitHub Actions lưu báo cáo/ảnh/trace trong artifact `browser-test-evidence`. Ảnh review có thể tạo bằng `npm run review:ui` sau khi mở Vite ở cổng 5173.
+
+## QR nhà trai
+
+Đã thêm VietQR Techcombank cho số tài khoản **1905 0359 9540 16**. Đã giải mã cả ảnh PNG gốc và ảnh QR render trong trình duyệt, xác nhận BIN 970407 và tài khoản 19050359954016, không đặt sẵn số tiền. Đã kiểm tra sao chép đúng chuỗi số, tải PNG, báo lỗi khi clipboard bị chặn và bố cục hộp mừng cưới ở 320px, 390px, 1440px.
+
+![Hộp mừng cưới nhà trai](screenshots/groom-gift-390.jpg)
