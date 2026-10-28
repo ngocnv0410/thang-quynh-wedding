@@ -79,9 +79,15 @@ test('entry letter blocks content until click, opens once, and enters automatica
  await expect(page.locator('#wedding-site')).toBeHidden()
  await expect(page.locator('#envelope-seal')).toBeEnabled()
  await expect(page.locator('#invited-guest')).toHaveText('Bạn Ngọc')
+ await expect(page.locator('.entry-title')).toHaveText('TRÂN TRỌNG KÍNH MỜI')
+ await expect(page.locator('#entry-gate .entry-closed-cover')).toBeVisible()
+ await expect(page.locator('#entry-gate .entry-letter')).toBeHidden()
+ await expect(page.locator('#entry-gate .photo-strip')).toBeHidden()
+ await expect(page.locator('#entry-gate .envelope-back')).toBeHidden()
  await page.locator('#envelope-seal').click()
  await expect(page.locator('#envelope-seal')).toBeDisabled()
  await expect(page.locator('#entry-gate .envelope')).toHaveClass(/is-open/)
+ await expect(page.locator('#entry-gate .entry-letter')).toBeVisible()
  await page.waitForTimeout(1500)
  const letter=await page.locator('#entry-gate .letter').boundingBox()
  expect(letter.y).toBeGreaterThan(0)
@@ -164,7 +170,7 @@ test('wish text is safe, survives reload, and gift links back to wishes',async({
  await expect(page.locator('#wish-name')).toBeFocused()
 })
 
-test('calendar download contains correct UTC time and demo disclosure',async({page})=>{
+test('calendar download contains correct UTC time and the confirmed venue',async({page})=>{
  await enterWedding(page)
  const downloadPromise=page.waitForEvent('download')
  await page.locator('#save-date').click()
@@ -173,7 +179,8 @@ test('calendar download contains correct UTC time and demo disclosure',async({pa
  const stream=await download.createReadStream();let contents=''
  for await(const chunk of stream)contents+=chunk.toString()
  expect(contents).toContain('DTSTART:20261129T120000Z')
- expect(contents).toContain('Địa điểm đang là demo')
+ expect(contents).toContain('LOCATION:Nhà văn hoá thôn 3 Công Đình - Phù Đổng - Hà Nội')
+ expect(contents).not.toMatch(/demo|Hoàn Kiếm/i)
 })
 
 test('reduced motion reveals content and disabled storage produces honest error',async({page})=>{
@@ -285,6 +292,10 @@ test('formal invitation keeps family details, event and green flowers inside the
   await expect(page.locator('.families')).toContainText('Nguyễn Duy Toản')
   await expect(page.locator('.families')).toContainText('Lâm Viết Chung')
   await expect(page.locator('.event-card')).toContainText('19:00 · Chủ nhật')
+  await expect(page.locator('#venue-name')).toHaveText('Nhà văn hoá thôn 3 Công Đình')
+  await expect(page.locator('#venue-address')).toHaveText('Phù Đổng - Hà Nội')
+  await expect(page.locator('#map-link')).toHaveAttribute('href','https://maps.app.goo.gl/ndNBkdF58QADRr4o6?g_st=ic')
+  await expect(page.locator('.event-card')).not.toContainText('DEMO')
   await expect(page.locator('.formal-flowers')).toHaveAttribute('src',/floral-white/)
   const bounds=await page.locator('.formal-card').boundingBox()
   for(const selector of ['.couple-names','.event-datetime','.event-location','.event-actions']){
@@ -301,6 +312,11 @@ test('formal invitation keeps family details, event and green flowers inside the
  const marker=await page.locator('#calendar .marked').evaluate(el=>({shape:getComputedStyle(el,'::before').clipPath,color:getComputedStyle(el,'::before').backgroundColor}))
  expect(marker.shape).toMatch(/^path/)
  expect(marker.color).toBe('rgb(65, 91, 56)')
+ await expect(page.locator('#calendar .marked')).toHaveCSS('font-family',/Be Vietnam Pro/)
+ await expect(page.locator('#calendar .marked')).toHaveCSS('font-weight','300')
+ await expect(page.locator('#calendar .marked')).toHaveCSS('font-size','18px')
+ await expect(page.locator('.timeline time')).toHaveText(['18:00','18:30','19:00'])
+ await expect(page.locator('.timeline h3')).toHaveText(['Đón khách','Lễ thành hôn','Dùng tiệc'])
 })
 
 test('closing envelope is always open with one visible photo and no opening control',async({page},testInfo)=>{
@@ -308,6 +324,10 @@ test('closing envelope is always open with one visible photo and no opening cont
  await expect(page.locator('#loi-cam-on button')).toHaveCount(0)
  await expect(page.locator('#loi-cam-on')).not.toContainText('Chạm vào dấu sáp')
  const photo=page.locator('#closing-photo')
+ await expect(page.locator('#loi-cam-on > .eyebrow,#loi-cam-on > h2,.closing-intro')).toHaveCount(0)
+ await expect(photo.locator('span')).toHaveText('Hẹn gặp bạn trong ngày vui')
+ await expect(photo.locator('strong')).toHaveText('Thank you!')
+ await expect(photo.locator('strong')).toHaveCSS('font-family',/ClosingScript/)
  for(const motion of ['reduce','no-preference']){
   await page.emulateMedia({reducedMotion:motion})
   for(const width of [320,390,1440]){
@@ -316,6 +336,8 @@ test('closing envelope is always open with one visible photo and no opening cont
    await expect(photo).toBeVisible()
    await expect(photo.locator('img')).toHaveCount(1)
    await photo.locator('img').evaluate(img=>img.decode())
+   await page.evaluate(()=>document.fonts.ready)
+   expect(await photo.locator('strong').evaluate(el=>el.scrollWidth<=el.clientWidth)).toBe(true)
    const bounds=await photo.boundingBox(),envelope=await page.locator('#closing-envelope').boundingBox()
    expect(bounds.x).toBeGreaterThan(envelope.x)
    expect(bounds.x+bounds.width).toBeLessThan(envelope.x+envelope.width)

@@ -11,7 +11,7 @@ export function calendarDays(year, month) {
 export function calendarFile(wedding) {
  const stamp = date => new Date(date).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z')
  const escape = value => value.replace(/\\/g,'\\\\').replace(/\r?\n/g,'\\n').replace(/,/g,'\\,').replace(/;/g,'\\;')
- return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Thang Quynh//Wedding//VI', 'CALSCALE:GREGORIAN', 'BEGIN:VEVENT', 'UID:20261129-thang-quynh@wedding.local', 'DTSTAMP:20261027T000000Z', `DTSTART:${stamp(wedding.date)}`, `DTEND:${stamp(wedding.endDate)}`, `SUMMARY:${escape(`Tiệc cưới ${wedding.groom} & ${wedding.bride}`)}`, `LOCATION:${escape(wedding.venue.address)}`, 'DESCRIPTION:Địa điểm đang là demo. Vui lòng kiểm tra thiệp cập nhật trước khi đi.', 'END:VEVENT', 'END:VCALENDAR', ''].join('\r\n')
+ return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Thang Quynh//Wedding//VI', 'CALSCALE:GREGORIAN', 'BEGIN:VEVENT', 'UID:20261129-thang-quynh@wedding.local', 'DTSTAMP:20261027T000000Z', `DTSTART:${stamp(wedding.date)}`, `DTEND:${stamp(wedding.endDate)}`, `SUMMARY:${escape(`Tiệc cưới ${wedding.groom} & ${wedding.bride}`)}`, `LOCATION:${escape([wedding.venue.name,wedding.venue.address].filter(Boolean).join(' - '))}`, `DESCRIPTION:${escape('Trân trọng kính mời bạn chung vui cùng '+wedding.groom+' và '+wedding.bride+'.')}`, 'END:VEVENT', 'END:VCALENDAR', ''].join('\r\n')
 }
 export function readStorage(key, fallback, storage) {
  try { return JSON.parse((storage ?? localStorage).getItem(key)) ?? fallback } catch { return fallback }

@@ -1,3 +1,4 @@
+import '@fontsource/be-vietnam-pro/300.css'
 import '@fontsource/be-vietnam-pro/400.css'
 import '@fontsource/be-vietnam-pro/500.css'
 import '@fontsource/be-vietnam-pro/600.css'
@@ -36,7 +37,7 @@ const units=['NGÀY','GIỜ','PHÚT','GIÂY']
 units.forEach(unit=>{const el=document.createElement('div');const n=document.createElement('strong');const label=document.createElement('span');label.textContent=unit;el.append(n,label);$('#countdown').append(el)})
 function updateCountdown(){countdownTo(wedding.date).forEach((n,i)=>$('#countdown').children[i].firstChild.textContent=String(n).padStart(2,'0'));if(Date.now()>=new Date(wedding.date).getTime())$('#countdown-label').textContent='NGÀY HẠNH PHÚC ĐÃ ĐẾN ♡'}
 updateCountdown();setInterval(updateCountdown,1000)
-$('#save-date').addEventListener('click',()=>{const url=URL.createObjectURL(new Blob([calendarFile(wedding)],{type:'text/calendar;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='thang-quynh-29-11-2026.ics';a.click();setTimeout(()=>URL.revokeObjectURL(url),5000);toast('Đã tải lịch. Địa điểm demo sẽ được cập nhật sau.')})
+$('#save-date').addEventListener('click',()=>{const url=URL.createObjectURL(new Blob([calendarFile(wedding)],{type:'text/calendar;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='thang-quynh-29-11-2026.ics';a.click();setTimeout(()=>URL.revokeObjectURL(url),5000);toast('Đã tải lịch tiệc cưới tại Nhà văn hoá thôn 3 Công Đình.')})
 let currentPhoto=0
 function selectAlbumPhoto(index, scrollThumbnail=false) {
  currentPhoto=(index+wedding.gallery.length)%wedding.gallery.length

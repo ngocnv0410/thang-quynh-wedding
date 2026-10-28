@@ -21,11 +21,11 @@ Có thể dùng Chromium hệ thống với `CHROMIUM_PATH=/usr/bin/chromium npm
 
 ## Bố cục và mở thiệp
 
-1. Khi mở link: phong bì xanh, giấy mời và dải ảnh; phần nội dung còn `hidden` và `inert`.
-2. Chạm vào dấu sáp/phong bì: mặt phong bì hạ trong phối cảnh, giấy mời và ảnh trượt lên, nhạc bắt đầu và màn mở đầu chuyển vào thiệp. Tôn trọng reduced motion; lỗi phát nhạc không chặn luồng vào.
+1. Khi mở link: nền hoa lá xanh, dòng “TRÂN TRỌNG KÍNH MỜI” và bì thư trắng ren đóng kín; giấy mời và ảnh chưa hiện; phần nội dung còn `hidden` và `inert`.
+2. Chạm vào dấu sáp/phong bì: bì thư đóng mở trong phối cảnh, giấy mời và ảnh hiện ra, nhạc bắt đầu và màn mở đầu chuyển vào thiệp. Tôn trọng reduced motion; lỗi phát nhạc không chặn luồng vào.
 3. Trang 1: bố cục phong bì, giấy ren Save the Date, tên hai bạn, ngày cưới và đếm ngược.
 4. Trang 2: ảnh cưới toàn khung với “We are Getting Married”.
-5. Tiếp theo: hai gia đình và khung giấy ren chứa tên/ngày giờ/địa điểm, lịch trình dự kiến, lịch tháng đánh dấu ngày 29 bằng trái tim, album một ảnh vuông lớn cùng dải ảnh nhỏ, RSVP, lời chúc, mừng cưới và phong thư cảm ơn luôn mở sẵn với một ảnh cưới. Đã bỏ phần kể chuyện tình yêu.
+5. Tiếp theo: hai gia đình và khung giấy ren chứa tên/ngày giờ/địa điểm, lịch trình ngày cưới, lịch tháng đánh dấu ngày 29 bằng trái tim, album một ảnh vuông lớn cùng dải ảnh nhỏ, RSVP, lời chúc, mừng cưới và phong thư cảm ơn luôn mở sẵn với một ảnh cưới. Đã bỏ phần kể chuyện tình yêu.
 
 Thiệp cá nhân hoá: thêm `?to=Bạn%20Ngọc`. Tên khách được hiển thị an toàn bằng textContent. Mỗi lần tải lại link đều trở về màn mở thiệp.
 
@@ -40,10 +40,10 @@ Thiệp cá nhân hoá: thêm `?to=Bạn%20Ngọc`. Tên khách được hiển 
 
 Ngày, địa điểm, danh sách ảnh và endpoint RSVP ở `src/content.js`. Tên, bố mẹ và lời mời trong `index.html`. Toàn bộ giao diện ở `src/wedding.css`, cơ chế mở ở `src/entry-gate.js`.
 
-## Dữ liệu demo cần bổ sung
+## Địa điểm, lịch trình và dữ liệu demo
 
-- Địa điểm hiện là **Tư gia nhà trai — Demo / Hoàn Kiếm, Hà Nội (địa chỉ minh hoạ)**; cập nhật cả tên, địa chỉ và Maps URL trước khi gửi chính thức.
-- Lịch trình **18:30 đón khách / 20:00 lưu lại khoảnh khắc** là minh hoạ, có ghi nhãn. **19:00 tiệc chung vui** là giờ thật được cung cấp.
+- Địa điểm: **Nhà văn hoá thôn 3 Công Đình - Phù Đổng - Hà Nội**. [Bản đồ](https://maps.app.goo.gl/ndNBkdF58QADRr4o6?g_st=ic). File lịch tải về dùng cùng địa điểm.
+- Lịch trình: **18:00 đón khách / 18:30 lễ thành hôn / 19:00 dùng tiệc**. Giờ tiệc trên thiệp và file lịch vẫn là 19:00 theo thông tin đã cung cấp.
 - RSVP mặc định lưu riêng trên thiết bị. Để gửi thật, cung cấp API POST nhận `{ name, attendance, count, createdAt }`, đặt `rsvpEndpoint` và cập nhật chú thích demo. Không đưa khoá bí mật vào frontend.
 - Lời chúc lưu riêng trên thiết bị; ba lời chúc minh hoạ có ghi nhãn. Đồng bộ nhiều khách cần backend.
 - Mừng cưới nhà trai: **Techcombank — 1905 0359 9540 16**. QR VietQR được sinh trong dự án, không đặt sẵn số tiền hay lời nhắn. Có sao chép số tài khoản và tải mã PNG. Chưa có thông tin nhà gái nên không hiển thị tài khoản nhà gái.
@@ -79,6 +79,6 @@ Giữ bố cục Chinh–Linh, đổi sang trắng và xanh lá trầm. Hai cụ
 
 Trang 3 theo ảnh tham chiếu: hai gia đình nằm phía trên, tên cô dâu chú rể và thông tin tiệc nằm trong một tấm giấy ren oval, điểm hoa trắng lá xanh/ngọc trai. Khung oval chỉ dành cho giấy mời, không cắt ảnh chân dung thành vòm. Đã bỏ hoàn toàn dress code.
 
-Lora cho tên và tiêu đề, Be Vietnam Pro cho nội dung/biểu mẫu; font tự lưu trong bản build qua Fontsource, gồm tập ký tự tiếng Việt. Không dùng font thư pháp uốn lượn.
+Lora cho tên và tiêu đề, Be Vietnam Pro cho nội dung/biểu mẫu; font tự lưu trong bản build qua Fontsource, gồm tập ký tự tiếng Việt. Số lịch dùng Be Vietnam Pro 300 ở 18px, năm 2026 ở 26px. Riêng “Thank you!” trên ảnh cuối dùng font Ecatherina theo ảnh tham chiếu; câu hẹn gặp nằm ngay phía trên chữ này, đã bỏ phần lời cảm ơn phía trên phong thư.
 
 Album có một ảnh vuông lớn và 18 ảnh thu nhỏ trong dải cuộn ngang. Chọn ảnh nhỏ hoặc dùng nút/phím điều hướng để đổi ảnh lớn; chạm ảnh lớn mở ảnh đầy đủ trong lightbox. Phong thư cuối luôn mở sẵn với một ảnh cưới; dấu sáp chỉ trang trí, không cần bấm mở.

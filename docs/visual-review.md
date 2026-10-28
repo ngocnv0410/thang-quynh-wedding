@@ -1,14 +1,14 @@
-# Kiểm tra thiệp trắng xanh — 27/10/2026
+# Kiểm tra thiệp trắng xanh — 28/10/2026
 
 Tham chiếu bố cục: https://jmiiwedding.com/chinhlinhh. Tông trắng xanh và hoa: https://jmiiwedding.com/duyanhhamauu. Trang 3 và phong thư cuối theo ảnh người dùng gửi. Ảnh dưới đây được chụp từ Chromium với ảnh và dữ liệu của Thắng & Quỳnh.
 
 ## Đã thay đổi
 
 - Đổi toàn bộ bố cục sang cuốn thiệp dọc, nền giấy trắng và mực xanh lá trầm; phong bì, giấy ren, ngọc trai và dải ảnh theo mẫu mới.
-- Màn mở và trang 1 dùng chung các lớp đồ hoạ. Chạm phong bì sẽ hạ mặt phong bì, kéo giấy và ảnh lên, phát nhạc sau tương tác rồi chuyển vào thiệp. Nội dung ẩn và khóa trước thao tác mở.
+- Trang 0 dùng nền hoa lá và bì thư ren đóng kín; trang 1 giữ thiệp đang mở. Chạm phong bì sẽ hạ mặt phong bì, kéo giấy và ảnh lên, phát nhạc sau tương tác rồi chuyển vào thiệp. Nội dung ẩn và khóa trước thao tác mở.
 - Trang 2 dùng ảnh cưới toàn khung và dòng “We are Getting Married”.
 - Không có mục Our Story, đoạn hành trình tình yêu hay phần chân dung kể chuyện.
-- Bố cục tiếp theo: gia đình và giấy ren chứa tên/ngày giờ/địa điểm → lịch trình dự kiến → lịch đánh dấu trái tim → album ảnh lớn/ảnh nhỏ → RSVP → lời chúc → mừng cưới → phong thư cảm ơn luôn mở sẵn với ảnh.
+- Bố cục tiếp theo: gia đình và giấy ren chứa tên/ngày giờ/địa điểm → lịch trình ngày cưới → lịch đánh dấu trái tim → album ảnh lớn/ảnh nhỏ → RSVP → lời chúc → mừng cưới → phong thư cảm ơn luôn mở sẵn với ảnh.
 - Thông tin demo được ghi rõ; không dùng ảnh hoặc API của cặp đôi mẫu.
 
 ## Kiểm thử
@@ -41,7 +41,7 @@ Tham chiếu bố cục: https://jmiiwedding.com/chinhlinhh. Tông trắng xanh 
 
 ## Lịch trình và album
 
-![Lịch trình dự kiến](screenshots/mobile-timeline.jpg)
+![Lịch trình ngày cưới](screenshots/mobile-timeline.jpg)
 
 ![Album](screenshots/desktop-album.jpg)
 
@@ -75,7 +75,7 @@ GitHub Actions lưu báo cáo/ảnh/trace trong artifact `browser-test-evidence`
 
 ## Trang 3, trái tim ngày 29 và phong thư cuối
 
-Hai gia đình ở phía trên; tên, 19:00 Chủ nhật 29/11/2026, địa điểm demo và nút chỉ đường/lưu lịch nằm trong cùng giấy ren. Hoa trắng lá xanh thay hoa đỏ. Font Lora và Be Vietnam Pro hỗ trợ đầy đủ tiếng Việt; bỏ toàn bộ dress code.
+Hai gia đình ở phía trên; tên, 19:00 Chủ nhật 29/11/2026, địa điểm đã xác nhận và nút chỉ đường/lưu lịch nằm trong cùng giấy ren. Hoa trắng lá xanh thay hoa đỏ. Font Lora và Be Vietnam Pro hỗ trợ đầy đủ tiếng Việt; bỏ toàn bộ dress code.
 
 Album dùng một ảnh vuông lớn và dải 18 ảnh nhỏ cuộn ngang, trạng thái ảnh đang chọn, nút trước/sau, bàn phím và lightbox xem ảnh đầy đủ. Kiểm thử xác nhận đổi ảnh, vòng từ ảnh cuối về đầu và đóng/mở lightbox.
 
@@ -84,3 +84,12 @@ Kiểm tra bổ sung khung giấy ren và nội dung không tràn ở 320, 390, 
 ![Trái tim ngày 29](screenshots/mobile-calendar.jpg)
 
 ![Phong thư cảm ơn luôn mở sẵn](screenshots/mobile-closing.jpg)
+
+## Trang 0, địa điểm và chữ Thank you — 28/10/2026
+
+- Nền hoa hồng trắng/lá xanh lấy đúng artwork của mẫu Duy–Hà; phủ lớp xanh tối để tăng tương phản. Chỉ còn một dòng “TRÂN TRỌNG KÍNH MỜI”.
+- Bì thư ren trắng đóng kín, chưa lộ giấy mời hoặc dải ảnh. Bấm dấu sáp/phong bì mới hiện giấy và ảnh, sau đó chuyển vào trang 1. Gate vẫn chặn nội dung, chống mở lặp và tôn trọng reduced motion.
+- Số ngày trong lịch: Be Vietnam Pro 300, 18px; năm 2026: 26px. Giữ trái tim tại ngày 29.
+- Địa điểm chính thức: Nhà văn hoá thôn 3 Công Đình - Phù Đổng - Hà Nội. Nút chỉ đường dùng link Maps do người dùng cung cấp, file ICS chứa đúng địa điểm và không còn nhãn demo cho địa điểm.
+- Timeline: 18:00 đón khách, 18:30 lễ thành hôn, 19:00 dùng tiệc.
+- Trang cuối luôn mở sẵn. Đưa “Hẹn gặp bạn trong ngày vui” xuống ảnh, thay “Cảm ơn bạn!” bằng “Thank you!” với font Ecatherina giống ảnh mẫu. Bỏ hai đoạn phía trên phong thư. Đã chỉnh cỡ chữ sau khi xem ảnh render để nét thư pháp nằm gọn trong ảnh.

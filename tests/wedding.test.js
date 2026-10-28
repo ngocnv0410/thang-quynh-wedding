@@ -19,12 +19,13 @@ test('November calendar starts Sunday, marks the correct wedding date', () => {
  assert.equal(days.indexOf(29)%7,6)
  assert.equal(days.at(-1),30)
 })
-test('Calendar download has UTC event boundaries and demo location disclosure', () => {
+test('Calendar download has UTC event boundaries and the confirmed venue', () => {
  const ics=utils.calendarFile(wedding)
  assert.match(ics,/DTSTART:20261129T120000Z/)
  assert.match(ics,/DTEND:20261129T140000Z/)
  assert.match(ics,/SUMMARY:Tiệc cưới Duy Thắng & Thuý Quỳnh/)
- assert.match(ics,/Địa điểm đang là demo/)
+ assert.match(ics,/LOCATION:Nhà văn hoá thôn 3 Công Đình - Phù Đổng - Hà Nội/)
+ assert.doesNotMatch(ics,/demo|Hoàn Kiếm/i)
  assert.ok(ics.endsWith('END:VCALENDAR\r\n'))
 })
 function app() {

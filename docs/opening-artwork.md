@@ -47,6 +47,15 @@ Hai cụm hoa trắng/lá xanh dùng đúng artwork của mẫu https://jmiiwedd
 
 Trang 3 sử dụng `invitation-paper.png` làm giấy ren chứa tên/ngày giờ/địa điểm và hai chuỗi ngọc trai. Thông tin hai gia đình đặt phía trên. Hoa `floral-white/flowers-right.png` ở cạnh phải. Không dùng phần dress code.
 
-Font hiện dùng Lora và Be Vietnam Pro qua các package Fontsource (có đầy đủ Vietnamese subset), được Vite đóng gói tại chỗ. Các font cũ trong bảng nguồn là tài nguyên tham chiếu lịch sử, không được nạp trong giao diện hiện tại.
+Font hiện dùng Lora và Be Vietnam Pro qua các package Fontsource (có đầy đủ Vietnamese subset), được Vite đóng gói tại chỗ. Font Ecatherina trong bảng nguồn được nạp riêng với tên ClosingScript cho chữ “Thank you!” theo yêu cầu mới. Các font còn lại trong bảng nguồn là tài nguyên tham chiếu lịch sử.
 
 Phong thư cảm ơn cuối trang tái sử dụng các lớp phong bì/dấu sáp, chuyển xanh bằng CSS. Phong thư luôn mở sẵn, một ảnh cưới và dòng cảm ơn hiện ngay như ảnh tham chiếu thứ 4. Dấu sáp chỉ trang trí; không có thao tác mở/khép hay hướng dẫn bấm.
+
+## Trang 0 đóng kín trên nền hoa lá
+
+Hai tài nguyên từ mẫu Duy–Hà được lưu cục bộ:
+
+- `images/floral-white/botanical-background.jpg`: https://w.ladicdn.com/s750x1100/6322a62f2dad980013bb5005/ed70c7df1022719d8aa47cdd8c78c38e-20260824202213-wu0j1.jpg
+- `images/floral-white/closed-envelope.png`: https://w.ladicdn.com/s650x550/6322a62f2dad980013bb5005/fwf-20260824203514-hvfda.png
+
+Trang 0 chỉ hiển thị bì thư ren đóng kín, hoa và dấu sáp trên nền hoa lá. Giấy mời, ảnh và phong bì mở ẩn cho đến khi bấm; khi mở, bì thư đóng xoay/mờ và giấy/ảnh hiện lên trước khi chuyển sang trang 1. Cơ chế khóa nội dung và thời gian chuyển cảnh giữ nguyên.

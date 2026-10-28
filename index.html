@@ -11,12 +11,12 @@
 <meta property="og:type" content="website" />
 <meta property="og:image" content="/images/19.webp" />
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-<link rel="preload" as="image" href="/images/chinh-linh/envelope-back.png" />
+<link rel="preload" as="image" href="/images/floral-white/closed-envelope.png" />
 <link rel="preload" as="image" href="/images/chinh-linh/invitation-paper.png" />
 </head>
 <body class="entry-locked">
 <section id="entry-gate" class="entry-gate" aria-label="Phong bì thiệp cưới">
- <div class="entry-title"><span>THIỆP CƯỚI</span><p>Một lời mời dành riêng cho bạn</p></div>
+ <h2 class="entry-title">TRÂN TRỌNG KÍNH MỜI</h2>
 <div class="cover-canvas entry-stage">
  <img class="cover-ornament" src="/images/chinh-linh/torn-edge.png" alt="" aria-hidden="true"/>
  <img class="cover-pearls pearls-right" src="/images/chinh-linh/botanical.png" alt="" aria-hidden="true"/>
@@ -29,6 +29,7 @@
   <div class="photo-strip"><img src="/images/3.webp" alt="Thắng và Quỳnh trong vườn hoa"/><img src="/images/59.webp" alt="Khoảnh khắc của Thắng và Quỳnh"/></div>
   <img class="cover-bow" src="/images/chinh-linh/small-card.png" alt="" aria-hidden="true"/>
   <div class="envelope-front"><img src="/images/chinh-linh/envelope-front.png" alt="" aria-hidden="true"/></div>
+  <img class="entry-closed-cover" src="/images/floral-white/closed-envelope.png" alt="" aria-hidden="true"/>
   <button id="envelope-seal" aria-label="Mở phong bì để vào thiệp cưới"><img src="/images/chinh-linh/wax-seal.png" alt=""/></button>
  </div>
  </div><p id="entry-status" class="entry-status" role="status">Chạm vào dấu sáp để mở thiệp <span data-icon="arrow-up-right"></span></p>
@@ -72,7 +73,7 @@
    <span class="event-divider" aria-hidden="true"></span>
    <span class="eyebrow">ĐƯỢC TỔ CHỨC VÀO LÚC</span><h3>19:00 · Chủ nhật</h3>
    <div class="event-datetime"><span>THÁNG 11</span><strong>29</strong><span>NĂM 2026</span></div>
-   <div class="event-location"><h4 id="venue-name"></h4><p id="venue-address"></p><span class="demo-tag">ĐỊA ĐIỂM DEMO · SẼ CẬP NHẬT</span></div>
+   <div class="event-location"><h4 id="venue-name"></h4><p id="venue-address"></p></div>
    <div class="event-actions"><a id="map-link" class="formal-map" target="_blank" rel="noopener noreferrer"><span data-icon="pin"></span> Chỉ đường</a><button id="save-date" class="formal-save">Lưu vào lịch <span data-icon="plus"></span></button></div>
   </article>
   <img class="formal-flowers" src="/images/floral-white/flowers-right.png" alt="" aria-hidden="true"/>
@@ -80,8 +81,8 @@
  <p class="invitation-welcome reveal">Hân hạnh được đón tiếp!</p>
 </section>
 <section id="lich-trinh" class="section timeline-section">
- <h2 class="section-script reveal">Timeline</h2><p class="section-note reveal">LỊCH TRÌNH DỰ KIẾN</p>
- <ol class="timeline reveal"><li><span data-icon="heart"></span><div><time>18:30</time><h3>Đón khách</h3><small>Thời gian minh hoạ</small></div></li><li><span data-icon="heart"></span><div><time>19:00</time><h3>Tiệc chung vui</h3></div></li><li><span data-icon="heart"></span><div><time>20:00</time><h3>Lưu lại khoảnh khắc</h3><small>Thời gian minh hoạ</small></div></li></ol>
+ <h2 class="section-script reveal">Timeline</h2><p class="section-note reveal">LỊCH TRÌNH NGÀY CHUNG VUI</p>
+ <ol class="timeline reveal"><li><span data-icon="heart"></span><div><time>18:00</time><h3>Đón khách</h3></div></li><li><span data-icon="heart"></span><div><time>18:30</time><h3>Lễ thành hôn</h3></div></li><li><span data-icon="heart"></span><div><time>19:00</time><h3>Dùng tiệc</h3></div></li></ol>
 
 </section>
 <section id="luu-ngay" class="section calendar-section"><h2 class="section-script reveal">Save the date</h2><div class="calendar-wrap reveal"><div class="calendar-top"><span>THÁNG MƯỜI MỘT</span><strong>2026</strong></div><div class="calendar-week" aria-hidden="true"><span>T2</span><span>T3</span><span>T4</span><span>T5</span><span>T6</span><span>T7</span><span>CN</span></div><div id="calendar" class="calendar" aria-label="Lịch tháng 11 năm 2026"></div></div></section>
@@ -96,16 +97,13 @@
 <section id="loi-chuc" class="section wishes-section"><h2 class="section-script reveal">Your wishes</h2><p class="section-note reveal">GỬI MỘT CHÚT YÊU THƯƠNG</p><form id="wish-form" class="reveal"><label for="wish-name">Tên của bạn</label><input id="wish-name" name="name" required maxlength="80" autocomplete="name" placeholder="Một người thương mến…"/><label for="wish-message">Lời chúc của bạn</label><textarea id="wish-message" name="message" required maxlength="1000" rows="4" placeholder="Chúc hai bạn…"></textarea><button class="primary" type="submit">GỬI LỜI CHÚC <span data-icon="heart"></span></button><p class="form-note">Sổ lưu niệm demo: lời chúc được lưu riêng trên thiết bị của bạn.</p><p id="wish-result" role="status"></p></form><div id="wishes" class="wishes-list reveal" aria-label="Sổ lưu niệm"></div></section>
 <section class="section gift-section reveal"><h2 class="section-script">Gửi trao yêu thương</h2><p>Sự hiện diện của bạn là món quà quý giá nhất.</p><button id="gift-button" class="secondary">Hộp mừng cưới <span data-icon="heart"></span></button></section>
 <footer id="loi-cam-on" class="thank-you">
- <span class="eyebrow">MỘT LỜI CẢM ƠN TỪ TRÁI TIM</span><h2>Hẹn gặp bạn trong ngày vui</h2>
- <p class="closing-intro">Cảm ơn bạn đã dành yêu thương<br>cho hành trình mới của chúng mình.</p>
  <div id="closing-envelope" class="closing-envelope">
   <img class="closing-back" src="/images/chinh-linh/envelope-back.png" alt="" aria-hidden="true"/>
-  <div id="closing-photo" class="closing-photo"><img src="/images/19.webp" alt="Duy Thắng và Thuý Quỳnh bên nhau trong ngày hạnh phúc" loading="lazy"/><div><span>Thương mến gửi bạn</span><strong>Cảm ơn bạn!</strong></div></div>
+  <div id="closing-photo" class="closing-photo"><img src="/images/19.webp" alt="Duy Thắng và Thuý Quỳnh bên nhau trong ngày hạnh phúc" loading="lazy"/><div><span>Hẹn gặp bạn trong ngày vui</span><strong>Thank you!</strong></div></div>
   <div class="closing-front"><img src="/images/chinh-linh/envelope-front.png" alt="" aria-hidden="true"/></div>
   <img class="closing-flower" src="/images/floral-white/flowers-right.png" alt="" aria-hidden="true"/>
   <span id="closing-seal" aria-hidden="true"><img src="/images/chinh-linh/wax-seal.png" alt=""/></span>
  </div>
- <p class="closing-status">Hẹn gặp bạn trong ngày hạnh phúc của chúng mình!</p>
  <p class="closing-signature">Duy Thắng <span>&</span> Thuý Quỳnh</p><span class="closing-date">29.11.2026</span>
  <a class="back-to-top" href="#">Về đầu trang <span data-icon="arrow-up"></span></a>
 </footer>

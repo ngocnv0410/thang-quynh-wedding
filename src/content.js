@@ -6,9 +6,9 @@ export const wedding = {
   date: '2026-11-29T19:00:00+07:00',
   endDate: '2026-11-29T21:00:00+07:00',
   venue: {
-    name: 'Tư gia nhà trai — Demo',
-    address: 'Hoàn Kiếm, Hà Nội (địa chỉ minh hoạ)',
-    mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Hoan+Kiem+Ha+Noi',
+    name: 'Nhà văn hoá thôn 3 Công Đình',
+    address: 'Phù Đổng - Hà Nội',
+    mapsUrl: 'https://maps.app.goo.gl/ndNBkdF58QADRr4o6?g_st=ic',
   },
   // Để trống khi chạy demo. Endpoint thật cần kiểm tra dữ liệu và giới hạn gửi phía server.
   rsvpEndpoint: '',
