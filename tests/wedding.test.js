@@ -9,8 +9,8 @@ import { renderIcons } from '../src/icons.js'
 import { initEntryGate } from '../src/entry-gate.js'
 
 test('Countdown uses Vietnam time and never becomes negative', () => {
- assert.equal(new Date(wedding.date).toISOString(), '2026-11-29T12:00:00.000Z')
- assert.deepEqual(utils.countdownTo(wedding.date, Date.parse('2026-11-28T10:58:57Z')), [1,1,1,3])
+ assert.equal(new Date(wedding.date).toISOString(), '2026-11-29T11:00:00.000Z')
+ assert.deepEqual(utils.countdownTo(wedding.date, Date.parse('2026-11-28T10:58:57Z')), [1,0,1,3])
  assert.deepEqual(utils.countdownTo(wedding.date, Date.parse('2026-11-30T00:00:00Z')), [0,0,0,0])
 })
 test('November calendar starts Sunday, marks the correct wedding date', () => {
@@ -21,7 +21,7 @@ test('November calendar starts Sunday, marks the correct wedding date', () => {
 })
 test('Calendar download has UTC event boundaries and the confirmed venue', () => {
  const ics=utils.calendarFile(wedding)
- assert.match(ics,/DTSTART:20261129T120000Z/)
+ assert.match(ics,/DTSTART:20261129T110000Z/)
  assert.match(ics,/DTEND:20261129T140000Z/)
  assert.match(ics,/SUMMARY:Tiệc cưới Duy Thắng & Thuý Quỳnh/)
  assert.match(ics,/LOCATION:Nhà văn hoá thôn 3 Công Đình - Phù Đổng - Hà Nội/)
@@ -56,17 +56,17 @@ function app() {
 test('Invitation personalizes safely; album selection and lightbox wrap around',async ()=>{
  const {dom,win,doc}=app()
  assert.equal(doc.querySelector('#invited-guest').textContent,'Bạn Ngọc')
- assert.equal(doc.querySelectorAll('.gallery-item').length,18)
+ assert.equal(doc.querySelectorAll('.gallery-item').length,7)
  doc.querySelectorAll('.gallery-item')[3].click()
- assert.match(doc.querySelector('#album-featured-image').src,/39.webp$/)
+ assert.match(doc.querySelector('#album-featured-image').src,/10.webp$/)
  assert.equal(doc.querySelectorAll('.gallery-item[aria-pressed=true]').length,1)
  doc.querySelector('#album-prev').click()
- assert.match(doc.querySelector('#album-counter').textContent,/03 \/ 18/)
+ assert.match(doc.querySelector('#album-counter').textContent,/03 \/ 7/)
  doc.querySelectorAll('.gallery-item')[0].click()
  doc.querySelector('#album-featured').click()
  assert.ok(doc.querySelector('#lightbox').open)
  doc.querySelector('#photo-prev').click()
- assert.match(doc.querySelector('#photo-counter').textContent,/18 \/ 18/)
+ assert.match(doc.querySelector('#photo-counter').textContent,/07 \/ 7/)
  doc.querySelector('#lightbox [data-close]').click()
  assert.equal(doc.querySelector('#lightbox').open,false)
  assert.ok(doc.querySelector('#wedding-site').hidden)

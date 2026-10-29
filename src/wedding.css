@@ -36,10 +36,17 @@
 .event-actions svg{width:4.5cqw;height:4.5cqw}.formal-save{flex-direction:column-reverse}
 .formal-flowers{position:absolute;right:-5%;bottom:-3%;width:27%;height:45%;object-fit:contain;pointer-events:none;z-index:1;transform:rotate(-12deg);filter:drop-shadow(0 4px 3px #2c402314)}
 .invitation-welcome{text-align:center;font:italic 20px/1.7 var(--serif);margin-top:27px}
+/* A landscape photograph bridges the formal invitation and the timeline. */
+.love-scene{position:relative;aspect-ratio:3/2;isolation:isolate;overflow:hidden;container-type:inline-size}
+.love-scene>img{position:absolute;inset:0;object-fit:contain}
+.love-scene:after{content:'';position:absolute;inset:0;background:linear-gradient(#14251bb3,transparent 58%);pointer-events:none}
+.love-caption{position:absolute;top:8%;left:7%;right:7%;z-index:1;color:white;text-align:center;display:flex;align-items:center;flex-direction:column;text-shadow:0 2px 8px #17261d44}
+.love-word{font:400 12cqw/1.15 ClosingScript,cursive;white-space:nowrap}
+.love-rest{font:400 4.2cqw/1.3 var(--serif);letter-spacing:1px;margin-top:7cqw}
 .timeline-section{padding-top:20px;padding-bottom:35px}.timeline{list-style:none;margin:30px 0 45px;padding:0 0 0 25%;position:relative}.timeline:before{content:'';position:absolute;top:15px;bottom:20px;left:calc(25% + 14px);border-left:1px solid #97ad83}.timeline li{position:relative;display:flex;gap:23px;align-items:start;margin-bottom:28px}.timeline li>[data-icon]{border:1px solid #97ad83;border-radius:50%;background:#f5f7ef;width:30px;height:30px;position:relative;flex-shrink:0}.timeline svg{width:14px;height:14px}.timeline time{font:400 21px/1.4 var(--serif)}.timeline h3{font-size:13px}.timeline small{font:8px/1.8 var(--sans);color:var(--muted)}.calendar-section{padding-top:30px}.calendar-wrap{margin-top:25px}.calendar-top{display:flex;align-items:center;justify-content:space-between;padding-bottom:20px;font-size:10px;letter-spacing:1px}.calendar-top strong{font:300 26px/1 var(--sans)}.calendar-week,.calendar{display:grid;grid-template-columns:repeat(7,1fr);text-align:center}.calendar-week{font:10px/1.8 var(--sans);border-bottom:1px solid #c5d4b8;padding-bottom:12px}.calendar{margin-top:8px}.calendar>span{display:grid;place-items:center;aspect-ratio:1.1;font:300 18px/1 var(--sans);position:relative}.calendar .marked{color:white;z-index:1}.calendar .marked:before{content:'';position:absolute;width:39px;height:36px;background:var(--wine);clip-path:path('M19.5 35 C17 31 0 21 0 11 C0 -1 14 -3 19.5 6 C25 -3 39 -1 39 11 C39 21 22 31 19.5 35 Z');z-index:-1}
-/* One square photograph and a scrollable row of thumbnail choices. */
-.album-showcase{margin-top:25px}.album-featured{display:block;position:relative;aspect-ratio:1;width:100%;padding:7px;border:1px solid #d3dccb;background:white;box-shadow:0 8px 30px #2f442513;overflow:hidden;cursor:zoom-in}
-.album-featured>img{width:100%;height:100%;object-fit:cover;object-position:center 40%}
+/* A full portrait photograph and a scrollable row of thumbnail choices. */
+.album-showcase{margin-top:25px}.album-featured{display:block;position:relative;aspect-ratio:2/3;width:100%;padding:7px;border:1px solid #d3dccb;background:white;box-shadow:0 8px 30px #2f442513;overflow:hidden;cursor:zoom-in}
+.album-featured>img{width:100%;height:100%;object-fit:contain;object-position:center;background:#f6f7f1}
 .album-expand{position:absolute;bottom:16px;right:16px;background:#fffefbea;border:1px solid #d3dccb;font:10px/1.6 var(--sans);padding:8px 10px;display:flex;align-items:center;gap:6px;backdrop-filter:blur(6px)}.album-expand svg{width:13px;height:13px}
 .album-navigation{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:13px 0 10px}
 .album-navigation>button{width:44px;height:44px;border:1px solid var(--line);background:transparent;display:grid;place-items:center;color:var(--wine)}.album-navigation>button:hover{background:#eaf0e4}

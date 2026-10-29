@@ -1,4 +1,4 @@
-# Kiểm tra thiệp trắng xanh — 28/10/2026
+# Kiểm tra thiệp trắng xanh — 29/10/2026
 
 Tham chiếu bố cục: https://jmiiwedding.com/chinhlinhh. Tông trắng xanh và hoa: https://jmiiwedding.com/duyanhhamauu. Trang 3 và phong thư cuối theo ảnh người dùng gửi. Ảnh dưới đây được chụp từ Chromium với ảnh và dữ liệu của Thắng & Quỳnh.
 
@@ -14,7 +14,7 @@ Tham chiếu bố cục: https://jmiiwedding.com/chinhlinhh. Tông trắng xanh 
 ## Kiểm thử
 
 - **17/17 logic/DOM** đạt.
-- **19/19 Chromium** đạt, gồm bảy viewport: 320×740, 375×812, 390×844, 430×932, 768×1024, 1440×900, 1920×1080.
+- **20/20 Chromium** đạt, gồm bảy viewport: 320×740, 375×812, 390×844, 430×932, 768×1024, 1440×900, 1920×1080.
 - Kiểm tra khung đầu không tràn ngang, tên/ngày/nút tiếp trong viewport, chặn nội dung trước khi mở, mở một lần, Escape không bỏ qua gate, tải lại quay về màn mở, nhạc, lịch, album, RSVP và lời chúc.
 - Bài riêng xác nhận các lớp phong bì xanh và hoa trắng lá xanh, dải hai ảnh, trang thứ hai và không có Our Story.
 - Đã xem ảnh render màn mở, trang 1, trang 2, lời mời, sự kiện, album và biểu mẫu trên mobile/desktop. Chưa xác nhận Safari/iOS thật.
@@ -75,9 +75,9 @@ GitHub Actions lưu báo cáo/ảnh/trace trong artifact `browser-test-evidence`
 
 ## Trang 3, trái tim ngày 29 và phong thư cuối
 
-Hai gia đình ở phía trên; tên, 19:00 Chủ nhật 29/11/2026, địa điểm đã xác nhận và nút chỉ đường/lưu lịch nằm trong cùng giấy ren. Hoa trắng lá xanh thay hoa đỏ. Font Lora và Be Vietnam Pro hỗ trợ đầy đủ tiếng Việt; bỏ toàn bộ dress code.
+Hai gia đình ở phía trên; tên, 18:00 Chủ nhật 29/11/2026, địa điểm đã xác nhận và nút chỉ đường/lưu lịch nằm trong cùng giấy ren. Hoa trắng lá xanh thay hoa đỏ. Font Lora và Be Vietnam Pro hỗ trợ đầy đủ tiếng Việt; bỏ toàn bộ dress code.
 
-Album dùng một ảnh vuông lớn và dải 18 ảnh nhỏ cuộn ngang, trạng thái ảnh đang chọn, nút trước/sau, bàn phím và lightbox xem ảnh đầy đủ. Kiểm thử xác nhận đổi ảnh, vòng từ ảnh cuối về đầu và đóng/mở lightbox.
+Album dùng một ảnh dọc 2:3 lớn, hiển thị trọn ảnh, và dải 7 ảnh nhỏ cuộn ngang, trạng thái ảnh đang chọn, nút trước/sau, bàn phím và lightbox xem ảnh đầy đủ. Kiểm thử xác nhận đổi ảnh, vòng từ ảnh cuối về đầu và đóng/mở lightbox.
 
 Kiểm tra bổ sung khung giấy ren và nội dung không tràn ở 320, 390, 600, 1440px; lịch chỉ đánh dấu 29 bằng trái tim xanh; phong thư cuối luôn mở sẵn, hiện đúng một ảnh ở cả hai chế độ chuyển động, không có nút/hướng dẫn bấm mở, tải lại vẫn mở sẵn. Không áp bộ lọc màu lên ảnh cưới/QR.
 
@@ -93,3 +93,14 @@ Kiểm tra bổ sung khung giấy ren và nội dung không tràn ở 320, 390, 
 - Địa điểm chính thức: Nhà văn hoá thôn 3 Công Đình - Phù Đổng - Hà Nội. Nút chỉ đường dùng link Maps do người dùng cung cấp, file ICS chứa đúng địa điểm và không còn nhãn demo cho địa điểm.
 - Timeline: 18:00 đón khách, 18:30 lễ thành hôn, 19:00 dùng tiệc.
 - Trang cuối luôn mở sẵn. Đưa “Hẹn gặp bạn trong ngày vui” xuống ảnh, thay “Cảm ơn bạn!” bằng “Thank you!” với font Ecatherina giống ảnh mẫu. Bỏ hai đoạn phía trên phong thư. Đã chỉnh cỡ chữ sau khi xem ảnh render để nét thư pháp nằm gọn trong ảnh.
+
+## Album dọc, Where love begins và giờ mời — 29/10/2026
+
+- Album chỉ dùng ảnh Drive số 3, 4, 6, 10, 11, 12, 17. Đối chiếu bằng tên file trong thư mục Drive đã cung cấp; cả bảy ảnh đều có kích thước 1600×2400. Ảnh lớn dùng tỉ lệ dọc 2:3 và contain để thấy trọn ảnh. Dải ảnh nhỏ, chọn ảnh, nút/phím điều hướng và lightbox tiếp tục hoạt động với đúng bảy ảnh.
+- Chèn ảnh ngang số 9 (1600×1067) ngay trước Timeline, gần tỉ lệ 3:2 gốc. “Where” dùng font thư pháp Ecatherina, “LOVE BEGINS” dùng Lora, đặt trên phần trời có lớp phủ tối. Đã xem ảnh render và tăng khoảng cách giữa hai dòng để chúng không chồng lên nhau.
+- Giờ mời đổi thành 18:00 ngày 29/11/2026. Metadata, đếm ngược và ICS đồng bộ UTC+7 (ICS bắt đầu 11:00 UTC); Timeline vẫn theo lịch trình 18:00 đón khách, 18:30 lễ thành hôn, 19:00 dùng tiệc.
+- Kiểm tra thêm banner nằm đúng trước Timeline, ảnh không tràn ngang ở 320, 390, 1440px, caption nằm trong khoảng trời và ảnh album không bị crop.
+
+![Where love begins](screenshots/mobile-where-love-begins.jpg)
+
+![Album dọc với bảy ảnh đã chọn](screenshots/mobile-album.jpg)

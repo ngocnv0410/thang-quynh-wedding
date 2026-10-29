@@ -25,14 +25,14 @@ Có thể dùng Chromium hệ thống với `CHROMIUM_PATH=/usr/bin/chromium npm
 2. Chạm vào dấu sáp/phong bì: bì thư đóng mở trong phối cảnh, giấy mời và ảnh hiện ra, nhạc bắt đầu và màn mở đầu chuyển vào thiệp. Tôn trọng reduced motion; lỗi phát nhạc không chặn luồng vào.
 3. Trang 1: bố cục phong bì, giấy ren Save the Date, tên hai bạn, ngày cưới và đếm ngược.
 4. Trang 2: ảnh cưới toàn khung với “We are Getting Married”.
-5. Tiếp theo: hai gia đình và khung giấy ren chứa tên/ngày giờ/địa điểm, lịch trình ngày cưới, lịch tháng đánh dấu ngày 29 bằng trái tim, album một ảnh vuông lớn cùng dải ảnh nhỏ, RSVP, lời chúc, mừng cưới và phong thư cảm ơn luôn mở sẵn với một ảnh cưới. Đã bỏ phần kể chuyện tình yêu.
+5. Tiếp theo: hai gia đình và khung giấy ren chứa tên/ngày giờ/địa điểm, lịch trình ngày cưới, lịch tháng đánh dấu ngày 29 bằng trái tim, album một ảnh dọc lớn cùng dải ảnh nhỏ, RSVP, lời chúc, mừng cưới và phong thư cảm ơn luôn mở sẵn với một ảnh cưới. Đã bỏ phần kể chuyện tình yêu.
 
 Thiệp cá nhân hoá: thêm `?to=Bạn%20Ngọc`. Tên khách được hiển thị an toàn bằng textContent. Mỗi lần tải lại link đều trở về màn mở thiệp.
 
 ## Dữ liệu
 
 - Chú rể **Duy Thắng**, cô dâu **Thuý Quỳnh**.
-- Tiệc chung vui **19:00, Chủ nhật 29/11/2026**, múi giờ Việt Nam UTC+7.
+- Giờ mời **18:00, Chủ nhật 29/11/2026**, múi giờ Việt Nam UTC+7.
 - Nhà trai: ông **Nguyễn Duy Toản**, bà **Nguyễn Thị Thanh**.
 - Nhà gái: ông **Lâm Viết Chung**, bà **Nguyễn Thị Hương**.
 - Ảnh từ album Drive đã cung cấp, tối ưu WebP và lưu trong dự án. Không dùng ảnh cặp đôi mẫu.
@@ -43,7 +43,7 @@ Ngày, địa điểm, danh sách ảnh và endpoint RSVP ở `src/content.js`. 
 ## Địa điểm, lịch trình và dữ liệu demo
 
 - Địa điểm: **Nhà văn hoá thôn 3 Công Đình - Phù Đổng - Hà Nội**. [Bản đồ](https://maps.app.goo.gl/ndNBkdF58QADRr4o6?g_st=ic). File lịch tải về dùng cùng địa điểm.
-- Lịch trình: **18:00 đón khách / 18:30 lễ thành hôn / 19:00 dùng tiệc**. Giờ tiệc trên thiệp và file lịch vẫn là 19:00 theo thông tin đã cung cấp.
+- Lịch trình: **18:00 đón khách / 18:30 lễ thành hôn / 19:00 dùng tiệc**. Giờ mời trên thiệp, đếm ngược và file lịch là **18:00** theo cập nhật ngày 29/10/2026.
 - RSVP mặc định lưu riêng trên thiết bị. Để gửi thật, cung cấp API POST nhận `{ name, attendance, count, createdAt }`, đặt `rsvpEndpoint` và cập nhật chú thích demo. Không đưa khoá bí mật vào frontend.
 - Lời chúc lưu riêng trên thiết bị; ba lời chúc minh hoạ có ghi nhãn. Đồng bộ nhiều khách cần backend.
 - Mừng cưới nhà trai: **Techcombank — 1905 0359 9540 16**. QR VietQR được sinh trong dự án, không đặt sẵn số tiền hay lời nhắn. Có sao chép số tài khoản và tải mã PNG. Chưa có thông tin nhà gái nên không hiển thị tài khoản nhà gái.
@@ -51,7 +51,7 @@ Ngày, địa điểm, danh sách ảnh và endpoint RSVP ở `src/content.js`. 
 ## Kiểm chứng và triển khai
 
 - **17 bài logic/DOM**: múi giờ, đếm ngược, lịch, ICS, lưu trữ bị chặn, album, RSVP, lời chúc an toàn, gate chống mở lặp và reduced motion.
-- **19 bài Chromium**: bảy viewport từ 320px đến 1920px, phong bì/mở thiệp, trang 1–2 và loại bỏ Our Story, album, phím điều hướng, tải lịch, nhạc, RSVP/reload và lời chúc.
+- **20 bài Chromium**: bảy viewport từ 320px đến 1920px, phong bì/mở thiệp, trang 1–2 và loại bỏ Our Story, album, phím điều hướng, tải lịch, nhạc, RSVP/reload và lời chúc.
 - Xem [biên bản và ảnh giao diện](docs/visual-review.md).
 - `npm run review:ui` chụp màn mở, trang 1, trang 2 và các phần còn lại. Khởi chạy Vite ở cổng 5173 trước; hỗ trợ `CHROMIUM_PATH` và `REVIEW_DIR`.
 - GitHub Actions chạy test và browser tests trước khi build/triển khai Pages; lưu artifact `browser-test-evidence`.
@@ -81,4 +81,8 @@ Trang 3 theo ảnh tham chiếu: hai gia đình nằm phía trên, tên cô dâu
 
 Lora cho tên và tiêu đề, Be Vietnam Pro cho nội dung/biểu mẫu; font tự lưu trong bản build qua Fontsource, gồm tập ký tự tiếng Việt. Số lịch dùng Be Vietnam Pro 300 ở 18px, năm 2026 ở 26px. Riêng “Thank you!” trên ảnh cuối dùng font Ecatherina theo ảnh tham chiếu; câu hẹn gặp nằm ngay phía trên chữ này, đã bỏ phần lời cảm ơn phía trên phong thư.
 
-Album có một ảnh vuông lớn và 18 ảnh thu nhỏ trong dải cuộn ngang. Chọn ảnh nhỏ hoặc dùng nút/phím điều hướng để đổi ảnh lớn; chạm ảnh lớn mở ảnh đầy đủ trong lightbox. Phong thư cuối luôn mở sẵn với một ảnh cưới; dấu sáp chỉ trang trí, không cần bấm mở.
+Album có một ảnh dọc lớn tỉ lệ 2:3, hiển thị trọn ảnh với object-fit: contain, và 7 ảnh thu nhỏ trong dải cuộn ngang. Chỉ dùng đúng các ảnh Drive số **3, 4, 6, 10, 11, 12, 17** theo thứ tự này. Chọn ảnh nhỏ hoặc dùng nút/phím điều hướng để đổi ảnh lớn; chạm ảnh lớn mở ảnh đầy đủ trong lightbox. Phong thư cuối luôn mở sẵn với một ảnh cưới; dấu sáp chỉ trang trí, không cần bấm mở.
+
+## Ảnh chuyển tiếp trước Timeline
+
+Ảnh ngang **9.jpg** trong Drive đã được lưu thành `public/images/9.webp`, hiển thị tỉ lệ 3:2 trước Timeline. Caption gồm “Where” bằng font Ecatherina (ClosingScript) và “LOVE BEGINS” bằng Lora, màu trắng trên lớp phủ tối ở khoảng trời, không che hai người. Không cắt ảnh ngang thành ảnh dọc.

@@ -59,3 +59,9 @@ Hai tài nguyên từ mẫu Duy–Hà được lưu cục bộ:
 - `images/floral-white/closed-envelope.png`: https://w.ladicdn.com/s650x550/6322a62f2dad980013bb5005/fwf-20260824203514-hvfda.png
 
 Trang 0 chỉ hiển thị bì thư ren đóng kín, hoa và dấu sáp trên nền hoa lá. Giấy mời, ảnh và phong bì mở ẩn cho đến khi bấm; khi mở, bì thư đóng xoay/mờ và giấy/ảnh hiện lên trước khi chuyển sang trang 1. Cơ chế khóa nội dung và thời gian chuyển cảnh giữ nguyên.
+
+## Ảnh Drive chọn ngày 29/10/2026
+
+Các tên file trong Drive được giữ nguyên số khi chuyển WebP: 3.jpg → 3.webp, 4.jpg → 4.webp, 6.jpg → 6.webp, 10.jpg → 10.webp, 11.jpg → 11.webp, 12.jpg → 12.webp, 17.jpg → 17.webp. Đây là toàn bộ danh sách album hiện tại, theo đúng thứ tự người dùng chọn.
+
+Ảnh chuyển tiếp trước Timeline dùng 9.jpg → 9.webp. Caption “Where” dùng cùng font Ecatherina với chữ “Thank you!”, dòng “LOVE BEGINS” dùng Lora. Ảnh ngang giữ tỉ lệ 3:2, caption trắng trên phần trời, có gradient tối hỗ trợ tương phản.
