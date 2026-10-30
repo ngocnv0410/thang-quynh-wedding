@@ -13,7 +13,7 @@ async function setup(send = async () => {}) {
  const store = { send, subscribe(data, error) { reads++; onData = data; onError = error; return () => { unsubscribed++ } } }
  const controller = initGuestbook({ root: doc, connect: async () => store })
  await controller.ready
- return { dom, doc, controller, data: (...args) => onData(...args), error: () => onError(new Error('offline')), get reads() { return reads }, get unsubscribed() { return unsubscribed } }
+ return { dom, doc, controller, data: (...args) => onData(...args), error: code => onError(Object.assign(new Error('offline'), { code })), get reads() { return reads }, get unsubscribed() { return unsubscribed } }
 }
 function submit(app, name = 'Bạn Lan', message = 'Chúc hai bạn hạnh phúc!') {
  app.doc.querySelector('#wish-name').value = name
@@ -23,8 +23,10 @@ function submit(app, name = 'Bạn Lan', message = 'Chúc hai bạn hạnh phúc
 
 test('Firebase config requires the selected project and rejects demo projects in production', () => {
  assert.equal(readFirebaseConfig({}), null)
- const env = { VITE_FIREBASE_API_KEY: ' key ', VITE_FIREBASE_PROJECT_ID: 'demo-thang-quynh', VITE_FIREBASE_APP_ID: 'app' }
+ const env = { VITE_FIREBASE_API_KEY: ' key ', VITE_FIREBASE_PROJECT_ID: 'demo-thang-quynh', VITE_FIREBASE_APP_ID: 'app', VITE_FIREBASE_STORAGE_BUCKET: 'bucket', VITE_FIREBASE_MESSAGING_SENDER_ID: 'sender' }
  assert.equal(readFirebaseConfig(env).authDomain, 'demo-thang-quynh.firebaseapp.com')
+ assert.equal(readFirebaseConfig(env).storageBucket,'bucket')
+ assert.equal(readFirebaseConfig(env).messagingSenderId,'sender')
  assert.equal(readFirebaseConfig({ ...env, PROD: true }), null)
  assert.equal(readFirebaseConfig({ ...env, VITE_FIREBASE_PROJECT_ID: 'chosen-project', PROD: true }).projectId, 'chosen-project')
 })
@@ -85,4 +87,20 @@ test('a duplicate guest wish is explained without clearing their text', async ()
  assert.match(app.doc.querySelector('#wish-result').textContent, /Bạn đã gửi/)
  assert.equal(app.doc.querySelector('#wish-name').value, 'Bạn Lan')
  app.controller.destroy(); app.dom.window.close()
+})
+
+
+test('denied Firestore rules disable sending until a server-confirmed retry succeeds', async () => {
+ let writes=0
+ const app=await setup(async()=>{writes++})
+ app.error('permission-denied')
+ assert.equal(app.doc.querySelector('#wish-form button').disabled,true)
+ submit(app)
+ assert.equal(writes,0)
+ app.doc.querySelector('#retry-wishes').click()
+ app.data([],{fromCache:true})
+ assert.equal(app.doc.querySelector('#wish-form button').disabled,true)
+ app.data([],{fromCache:false})
+ assert.equal(app.doc.querySelector('#wish-form button').disabled,false)
+ app.controller.destroy();app.dom.window.close()
 })

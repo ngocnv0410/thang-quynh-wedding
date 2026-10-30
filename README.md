@@ -45,12 +45,12 @@ Ngày, địa điểm và danh sách ảnh ở `src/content.js`. Tên, bố mẹ
 - Địa điểm: **Nhà văn hoá thôn 3 Công Đình - Phù Đổng - Hà Nội**. [Bản đồ](https://maps.app.goo.gl/ndNBkdF58QADRr4o6?g_st=ic). File lịch tải về dùng cùng địa điểm.
 - Lịch trình: **18:00 đón khách / 18:30 lễ thành hôn / 19:00 dùng tiệc**. Giờ mời trên thiệp, đếm ngược và file lịch là **18:00** theo cập nhật ngày 29/10/2026.
 - Đã bỏ phần xác nhận tham gia (RSVP). Nút nổi đưa khách tới phần gửi lời chúc.
-- Lời chúc dùng Firebase Auth Anonymous + Firestore, cập nhật trực tiếp cho các khách. Đã kiểm thử bằng Firebase Emulator. **Production đang chờ Web config, bật Anonymous Auth và áp dụng rules của project được chọn**; khi thiếu cấu hình, không nhận gửi và không báo lưu giả. Xem [hướng dẫn Firebase](docs/firebase-setup.md).
+- Lời chúc dùng Firebase Auth Anonymous + Firestore, cập nhật trực tiếp cho các khách. Đã kiểm thử bằng Firebase Emulator. **Production đã có Web config của project `thang-quynh` trong `.env.production`; Anonymous Auth đã hoạt động, đang chờ publish Firestore rules để đọc/gửi thật**; khi thiếu cấu hình hoặc bị Firestore từ chối quyền, không nhận gửi và không báo lưu giả. Xem [hướng dẫn Firebase](docs/firebase-setup.md).
 - Mừng cưới nhà trai: **Techcombank — 1905 0359 9540 16**. QR VietQR được sinh trong dự án, không đặt sẵn số tiền hay lời nhắn. Có sao chép số tài khoản và tải mã PNG. Chưa có thông tin nhà gái nên không hiển thị tài khoản nhà gái.
 
 ## Kiểm chứng và triển khai
 
-- **23 bài logic/DOM**: múi giờ, đếm ngược, lịch, ICS, lưu trữ bị chặn, album, trạng thái gửi/tải lời chúc an toàn, gate chống mở lặp và reduced motion.
+- **24 bài logic/DOM**: múi giờ, đếm ngược, lịch, ICS, lưu trữ bị chặn, album, trạng thái gửi/tải lời chúc an toàn, gate chống mở lặp và reduced motion.
 - **20 bài Chromium**: bảy viewport từ 320px đến 1920px, phong bì/mở thiệp, trang 1–2 và loại bỏ Our Story, album, phím điều hướng, tải lịch, nhạc, loại bỏ RSVP, ảnh số 8 trước lịch và lời chúc chưa cấu hình.
 - **5 bài Firestore Rules + 1 luồng Firebase trong Chromium**: xác thực, quyền đọc/ghi, dữ liệu hợp lệ, namespace riêng; gửi từ một khách, khách thứ hai nhận trực tiếp và vẫn thấy khi tải lại.
 - Xem [biên bản và ảnh giao diện](docs/visual-review.md).
@@ -90,4 +90,8 @@ Album có một ảnh dọc lớn tỉ lệ 2:3, hiển thị trọn ảnh với
 
 ## Cập nhật ngày 30/10/2026
 
-Ảnh ngang số 8 nằm ngay trước phần lịch Save the date (sau Timeline). Album vẫn dọc 2:3, thứ tự mới: 4 → 11 → 17 → 3 → 6 → 10 → 12. Không còn form xác nhận tham gia. Sổ lời chúc dùng collection Firebase riêng; xem [cấu hình và quy tắc dữ liệu](docs/firebase-setup.md). Tổng 49 bài kiểm thử đã đạt tại local: 23 unit/DOM, 20 UI, 5 rules, 1 UI Firebase.
+Ảnh ngang số 8 nằm ngay trước phần lịch Save the date (sau Timeline). Album vẫn dọc 2:3, thứ tự mới: 4 → 11 → 17 → 3 → 6 → 10 → 12. Không còn form xác nhận tham gia. Sổ lời chúc dùng collection Firebase riêng; xem [cấu hình và quy tắc dữ liệu](docs/firebase-setup.md). Tổng 50 bài kiểm thử: 24 unit/DOM, 20 UI, 5 rules, 1 UI Firebase.
+
+## Firebase production build
+
+Cả sáu trường Firebase Web config được cung cấp ngày 30/10 nằm trong `.env.production`, Vite đọc khi `npm run build`. Mã ứng dụng lấy giá trị từ `import.meta.env`; không có giá trị Firebase được hardcode trong `src/`. Auth Anonymous của project `thang-quynh` đã hoạt động. Firestore vẫn trả permission-denied; cần chủ project Publish rules đã chuẩn bị, xem [hướng dẫn](docs/firebase-setup.md).

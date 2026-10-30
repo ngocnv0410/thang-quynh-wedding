@@ -7,6 +7,8 @@ export function readFirebaseConfig(env = {}) {
   projectId: value('VITE_FIREBASE_PROJECT_ID'),
   appId: value('VITE_FIREBASE_APP_ID'),
   authDomain: value('VITE_FIREBASE_AUTH_DOMAIN'),
+  storageBucket: value('VITE_FIREBASE_STORAGE_BUCKET'),
+  messagingSenderId: value('VITE_FIREBASE_MESSAGING_SENDER_ID'),
  }
  if (!config.apiKey || !config.projectId || !config.appId) return null
  if (env.PROD && config.projectId.startsWith('demo-')) return null

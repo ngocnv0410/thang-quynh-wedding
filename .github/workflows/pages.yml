@@ -47,10 +47,6 @@ jobs:
       - run: npm run build
         env:
           BASE_PATH: /thang-quynh-wedding/
-          VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
-          VITE_FIREBASE_PROJECT_ID: ${{ vars.VITE_FIREBASE_PROJECT_ID }}
-          VITE_FIREBASE_APP_ID: ${{ vars.VITE_FIREBASE_APP_ID }}
-          VITE_FIREBASE_AUTH_DOMAIN: ${{ vars.VITE_FIREBASE_AUTH_DOMAIN }}
       - name: Check Pages availability
         id: pages
         uses: actions/github-script@v7

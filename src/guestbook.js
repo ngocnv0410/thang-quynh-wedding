@@ -5,7 +5,7 @@ export function initGuestbook({ root = document, connect }) {
  const form = $('#wish-form'), button = form.querySelector('[type=submit]')
  const result = $('#wish-result'), status = $('#wishes-status'), list = $('#wishes'), retry = $('#retry-wishes')
  const label = $('#wish-submit-label')
- let store, unsubscribe, pending = false, destroyed = false, generation = 0
+ let store, unsubscribe, pending = false, permissionsBlocked = false, destroyed = false, generation = 0
  button.disabled = true
 
  function render(wishes) {
@@ -27,11 +27,14 @@ export function initGuestbook({ root = document, connect }) {
   list.setAttribute('aria-busy', 'true')
   unsubscribe = store.subscribe((wishes, { fromCache = false } = {}) => {
    render(wishes)
+   if (!fromCache) { permissionsBlocked = false; button.disabled = pending }
    list.setAttribute('aria-busy', String(fromCache))
    status.textContent = fromCache ? 'Đang kết nối để cập nhật lời chúc…' : wishes.length ? 'Những lời chúc dành cho chúng mình' : 'Hãy là người đầu tiên gửi lời chúc cho chúng mình nhé!'
-  }, () => {
+  }, error => {
    list.setAttribute('aria-busy', 'false')
-   status.textContent = 'Chưa tải được lời chúc. Bạn thử lại nhé.'
+   permissionsBlocked = error.code === 'permission-denied'
+   if (permissionsBlocked) button.disabled = true
+   status.textContent = permissionsBlocked ? 'Sổ lời chúc đang được chuẩn bị. Bạn ghé lại sau nhé.' : 'Chưa tải được lời chúc. Bạn thử lại nhé.'
    retry.hidden = false
   })
  }
@@ -52,7 +55,7 @@ export function initGuestbook({ root = document, connect }) {
  }
  async function submit(event) {
   event.preventDefault()
-  if (!store || pending) return
+  if (!store || pending || permissionsBlocked) return
   let wish
   try { wish = validateWish({ name: $('#wish-name').value, message: $('#wish-message').value }) }
   catch (error) { result.textContent = error.message; return }
@@ -71,7 +74,7 @@ export function initGuestbook({ root = document, connect }) {
   } finally {
    clearTimeout(waiting)
    pending = false
-   button.disabled = false
+   button.disabled = permissionsBlocked
    form.setAttribute('aria-busy', 'false')
    label.textContent = 'GỬI LỜI CHÚC'
   }

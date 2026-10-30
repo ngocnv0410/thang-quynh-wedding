@@ -13,7 +13,7 @@ Tham chiếu bố cục: https://jmiiwedding.com/chinhlinhh. Tông trắng xanh 
 
 ## Kiểm thử
 
-- **23/23 logic/DOM** đạt.
+- **24/24 logic/DOM** đạt.
 - **20/20 Chromium** đạt, gồm bảy viewport: 320×740, 375×812, 390×844, 430×932, 768×1024, 1440×900, 1920×1080.
 - Kiểm tra khung đầu không tràn ngang, tên/ngày/nút tiếp trong viewport, chặn nội dung trước khi mở, mở một lần, Escape không bỏ qua gate, tải lại quay về màn mở, nhạc, lịch, album, phần lời chúc và việc bỏ RSVP.
 - Bài riêng xác nhận các lớp phong bì xanh và hoa trắng lá xanh, dải hai ảnh, trang thứ hai và không có Our Story.
@@ -112,8 +112,12 @@ Kiểm tra bổ sung khung giấy ren và nội dung không tràn ở 320, 390, 
 - Bỏ toàn bộ phần xác nhận tham gia và đường dẫn cũ; nút nổi đổi thành Gửi lời chúc.
 - Bỏ lời chúc demo và lưu localStorage. Firebase Anonymous Auth + Firestore dùng namespace riêng, transaction xác nhận server trước khi báo thành công; onSnapshot hiển thị các lời chúc mới nhất cho mọi khách.
 - **5/5 rules và 1/1 UI Firebase** đạt bằng Emulator/SDK thật. Hai browser context độc lập đã gửi/nhận dữ liệu và tải lại vẫn thấy; dữ liệu HTML được render như văn bản. Đây là môi trường kiểm thử, không phải Firebase production.
-- **Production chưa được cấu hình**: chờ lựa chọn project/Web config, bật Anonymous Auth và áp dụng rules. Trang thật không nhận gửi khi thiếu cấu hình. Chi tiết ở [firebase-setup.md](firebase-setup.md).
+- **Production đã có build config project `thang-quynh`**; Anonymous Auth thành công. Firestore đang chặn quyền đọc/gửi và cần chủ project publish rules. Trang thật không nhận gửi khi server chưa cấp quyền. Chi tiết ở [firebase-setup.md](firebase-setup.md).
 
 ![Ảnh số 8 trước Save the date](screenshots/mobile-before-save-date.jpg)
 
 ![Album đã đổi thứ tự](screenshots/mobile-album.jpg)
+
+## Kết nối build production
+
+Sáu trường Firebase Web config ở `.env.production`; mã ứng dụng chỉ đọc biến build. Đã bổ sung kiểm tra hai trường storageBucket/messagingSenderId và trạng thái Firestore từ chối quyền: gửi bị khóa đến khi Thử tải lại nhận được dữ liệu do server xác nhận. Chẩn đoán project thật cho thấy Anonymous Auth hoạt động, Firestore trả permission-denied. Không tạo lời chúc giả trên production.

@@ -1,28 +1,30 @@
 # Kết nối sổ lời chúc Firebase
 
-Phần lời chúc đã chuyển sang Firebase Authentication (Anonymous) và Cloud Firestore. Đã kiểm thử SDK thật với Firebase Emulator: gửi, lưu, cập nhật sang khách thứ hai, tải lại trang, chặn sửa/xoá và kiểm tra dữ liệu. **Chưa cấu hình project production và chưa triển khai rules lên Firebase thật.** Không tự dùng project của mẫu Ngọc–Thuỷ.
+Phần lời chúc đã chuyển sang Firebase Authentication (Anonymous) và Cloud Firestore. Đã kiểm thử SDK thật với Firebase Emulator: gửi, lưu, cập nhật sang khách thứ hai, tải lại trang, chặn sửa/xoá và kiểm tra dữ liệu. **Project production đã được chọn: `thang-quynh`, đầy đủ sáu trường Web config ở `.env.production`.** Anonymous Auth đã được kiểm tra thành công. Firestore hiện trả `PERMISSION_DENIED` cho cả truy vấn công khai và đã xác thực; cần publish rules trước khi khách gửi/đọc lời chúc thật. Không có phiên đăng nhập Firebase quản trị trong môi trường này để tự triển khai rules.
 
-## Cấu hình cần cung cấp
+## Cấu hình build đã áp dụng
 
 Từ Firebase Console → Project settings → Your apps → Web app, lấy `firebaseConfig` của project được chọn. Cần `apiKey`, `projectId`, `appId`; `authDomain` có thể suy ra từ project. Đây là cấu hình Web được Firebase thiết kế để dùng trong trình duyệt, không phải service account hay khoá quản trị.
 
-Ánh xạ vào build:
+Vite tự đọc `.env.production` ở chế độ build production. Cả sáu thông số chỉ nằm trong file cấu hình build; mã trong `src/` chỉ đọc biến môi trường, không hardcode giá trị. Kết nối GitHub hiện không có quyền sửa Actions Secrets/Variables, nên workflow sử dụng file build config này thay vì nhận các biến rỗng từ GitHub Settings.
 
-| Firebase Web config | Biến Vite / GitHub |
+| Firebase Web config | Biến build |
 | --- | --- |
-| apiKey | GitHub Secret `VITE_FIREBASE_API_KEY` |
-| projectId | GitHub Variable `VITE_FIREBASE_PROJECT_ID` |
-| appId | GitHub Variable `VITE_FIREBASE_APP_ID` |
-| authDomain | GitHub Variable `VITE_FIREBASE_AUTH_DOMAIN` (tuỳ chọn) |
+| apiKey | `VITE_FIREBASE_API_KEY` |
+| authDomain | `VITE_FIREBASE_AUTH_DOMAIN` |
+| projectId | `VITE_FIREBASE_PROJECT_ID` |
+| storageBucket | `VITE_FIREBASE_STORAGE_BUCKET` |
+| messagingSenderId | `VITE_FIREBASE_MESSAGING_SENDER_ID` |
+| appId | `VITE_FIREBASE_APP_ID` |
 
-Workflow Pages đã truyền các biến trên vào bước build. Local dùng `.env.local` theo `.env.example`. Không điền service-account JSON, private key hoặc token quản trị vào các biến `VITE_`.
+`.env.production` được version-control có chủ ý vì chứa **Firebase Web config công khai** vốn được nhúng trong JavaScript trình duyệt. Không chứa service account, private key hay token quản trị. File `.env.local` vẫn bị gitignore; có thể dùng cho override tại local. Cấu hình production không tự áp dụng cho Vite development hoặc các bài kiểm thử Emulator.
 
 Trong project được chọn:
 
 1. Tạo Cloud Firestore database `(default)` nếu chưa có.
 2. Bật Authentication → Sign-in method → Anonymous.
 3. Áp dụng match rule trong [firestore.rules](../firestore.rules).
-4. Điền Web config, build/deploy lại website.
+4. Web config đã sẵn sàng; sau khi publish rules, khách có thể bấm Thử tải lại hoặc tải lại trang để kết nối.
 
 **Nếu dùng chung project với thiệp khác:** gộp match `/weddings/thang-quynh-20261129/wishes/{guestId}` vào rules hiện có và giữ nguyên các match của thiệp cũ. Không thay toàn bộ rules của project chung bằng file dành riêng của repo này. Cần quyền Firebase Console/CLI của chủ project để triển khai rules; quyền push GitHub không cấp quyền Firebase.
 
@@ -47,3 +49,10 @@ npm run test:ui
 ```
 
 `test:firebase` cần Java 21; tự khởi động Auth/Firestore Emulator với project `demo-thang-quynh`. Gồm 5 bài rules và một luồng trình duyệt thật dùng hai browser context độc lập. Không truy cập hoặc ghi dữ liệu vào Firebase production. GitHub Actions chạy cả bộ kiểm thử trước khi triển khai Pages.
+
+## Kiểm tra project thật ngày 30/10/2026
+
+- Anonymous Auth: HTTP 200, tạo được phiên khách; tài khoản QA tạm được dọn sau kiểm tra, không viết lời chúc thử vào production.
+- Truy vấn 50 lời chúc trong collection đúng namespace: HTTP 403 `PERMISSION_DENIED / Missing or insufficient permissions`, ở cả trạng thái public và đã xác thực.
+- Cần chủ project mở [Firebase Console của thang-quynh](https://console.firebase.google.com/project/thang-quynh/firestore), tab Rules, áp dụng [firestore.rules](../firestore.rules) rồi Publish. Sau đó kiểm tra lại quyền đọc/gửi từ website.
+- Khi Firestore từ chối quyền, trang khóa nút gửi và giữ khả năng Thử tải lại. Không báo đã lưu thành công khi server chưa chấp nhận.
