@@ -44,9 +44,18 @@ jobs:
             playwright-firebase-report/
             test-results-firebase/
           retention-days: 14
-      - run: npm run build
+      - name: Build with Firebase Repository Secrets
+        run: |
+          node scripts/check-build-env.mjs
+          npm run build
         env:
           BASE_PATH: /thang-quynh-wedding/
+          VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
+          VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
+          VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
+          VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
+          VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
+          VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
       - name: Check Pages availability
         id: pages
         uses: actions/github-script@v7

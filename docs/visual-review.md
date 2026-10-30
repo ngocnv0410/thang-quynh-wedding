@@ -120,4 +120,6 @@ Kiểm tra bổ sung khung giấy ren và nội dung không tràn ở 320, 390, 
 
 ## Kết nối build production
 
-Sáu trường Firebase Web config ở `.env.production`; mã ứng dụng chỉ đọc biến build. Đã bổ sung kiểm tra hai trường storageBucket/messagingSenderId và trạng thái Firestore từ chối quyền: gửi bị khóa đến khi Thử tải lại nhận được dữ liệu do server xác nhận. Chẩn đoán project thật cho thấy Anonymous Auth hoạt động, Firestore trả permission-denied. Không tạo lời chúc giả trên production.
+Sáu trường Firebase Web config được truyền từ Repository Secrets vào bước build; mã ứng dụng chỉ đọc biến build. Đã bổ sung kiểm tra hai trường storageBucket/messagingSenderId và trạng thái Firestore từ chối quyền: gửi bị khóa đến khi Thử tải lại nhận được dữ liệu do server xác nhận. Chẩn đoán project thật cho thấy Anonymous Auth hoạt động, Firestore trả permission-denied. Không tạo lời chúc giả trên production.
+
+Cập nhật nguồn cấu hình deploy: toàn bộ sáu trường dùng `${{ secrets.VITE_FIREBASE_* }}`, không dùng Variables; `.env.production` đã được xoá khỏi phiên bản hiện tại. Bước build dừng nếu thiếu/rỗng một secret và không in giá trị. Không thay đổi bố cục thiệp.

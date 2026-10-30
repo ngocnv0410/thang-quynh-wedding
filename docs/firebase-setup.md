@@ -1,14 +1,14 @@
 # Kết nối sổ lời chúc Firebase
 
-Phần lời chúc đã chuyển sang Firebase Authentication (Anonymous) và Cloud Firestore. Đã kiểm thử SDK thật với Firebase Emulator: gửi, lưu, cập nhật sang khách thứ hai, tải lại trang, chặn sửa/xoá và kiểm tra dữ liệu. **Project production đã được chọn: `thang-quynh`, đầy đủ sáu trường Web config ở `.env.production`.** Anonymous Auth đã được kiểm tra thành công. Firestore hiện trả `PERMISSION_DENIED` cho cả truy vấn công khai và đã xác thực; cần publish rules trước khi khách gửi/đọc lời chúc thật. Không có phiên đăng nhập Firebase quản trị trong môi trường này để tự triển khai rules.
+Phần lời chúc đã chuyển sang Firebase Authentication (Anonymous) và Cloud Firestore. Đã kiểm thử SDK thật với Firebase Emulator: gửi, lưu, cập nhật sang khách thứ hai, tải lại trang, chặn sửa/xoá và kiểm tra dữ liệu. **Project production đã được chọn: `thang-quynh`, sáu trường Web config được cấp qua GitHub Repository Secrets khi build.** Anonymous Auth đã được kiểm tra thành công. Firestore hiện trả `PERMISSION_DENIED` cho cả truy vấn công khai và đã xác thực; cần publish rules trước khi khách gửi/đọc lời chúc thật. Không có phiên đăng nhập Firebase quản trị trong môi trường này để tự triển khai rules.
 
 ## Cấu hình build đã áp dụng
 
 Từ Firebase Console → Project settings → Your apps → Web app, lấy `firebaseConfig` của project được chọn. Cần `apiKey`, `projectId`, `appId`; `authDomain` có thể suy ra từ project. Đây là cấu hình Web được Firebase thiết kế để dùng trong trình duyệt, không phải service account hay khoá quản trị.
 
-Vite tự đọc `.env.production` ở chế độ build production. Cả sáu thông số chỉ nằm trong file cấu hình build; mã trong `src/` chỉ đọc biến môi trường, không hardcode giá trị. Kết nối GitHub hiện không có quyền sửa Actions Secrets/Variables, nên workflow sử dụng file build config này thay vì nhận các biến rỗng từ GitHub Settings.
+Workflow `.github/workflows/pages.yml` cấp cả sáu thông số từ **Repository Secrets** trực tiếp vào bước build. Mã ứng dụng chỉ đọc `import.meta.env`, không hardcode giá trị. Không dùng GitHub Variables cho các trường này.
 
-| Firebase Web config | Biến build |
+| Firebase Web config | Repository Secret |
 | --- | --- |
 | apiKey | `VITE_FIREBASE_API_KEY` |
 | authDomain | `VITE_FIREBASE_AUTH_DOMAIN` |
@@ -17,7 +17,9 @@ Vite tự đọc `.env.production` ở chế độ build production. Cả sáu t
 | messagingSenderId | `VITE_FIREBASE_MESSAGING_SENDER_ID` |
 | appId | `VITE_FIREBASE_APP_ID` |
 
-`.env.production` được version-control có chủ ý vì chứa **Firebase Web config công khai** vốn được nhúng trong JavaScript trình duyệt. Không chứa service account, private key hay token quản trị. File `.env.local` vẫn bị gitignore; có thể dùng cho override tại local. Cấu hình production không tự áp dụng cho Vite development hoặc các bài kiểm thử Emulator.
+Đã bỏ `.env.production` khỏi phiên bản hiện tại và khôi phục gitignore cho mọi file `.env.*` trừ `.env.example`. Local có thể tạo `.env.local` từ file mẫu. `scripts/check-build-env.mjs` kiểm tra đủ sáu biến trước khi build; nếu thiếu hoặc rỗng, build dừng và chỉ báo tên biến, không in giá trị.
+
+Secrets chỉ được truyền ở bước build, không truyền vào các bài kiểm thử; Firebase Emulator tiếp tục dùng project demo tách biệt. Firebase Web config vẫn được Vite nhúng vào JavaScript trình duyệt theo thiết kế của Firebase, không phải khoá quản trị.
 
 Trong project được chọn:
 

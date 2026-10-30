@@ -45,7 +45,7 @@ Ngày, địa điểm và danh sách ảnh ở `src/content.js`. Tên, bố mẹ
 - Địa điểm: **Nhà văn hoá thôn 3 Công Đình - Phù Đổng - Hà Nội**. [Bản đồ](https://maps.app.goo.gl/ndNBkdF58QADRr4o6?g_st=ic). File lịch tải về dùng cùng địa điểm.
 - Lịch trình: **18:00 đón khách / 18:30 lễ thành hôn / 19:00 dùng tiệc**. Giờ mời trên thiệp, đếm ngược và file lịch là **18:00** theo cập nhật ngày 29/10/2026.
 - Đã bỏ phần xác nhận tham gia (RSVP). Nút nổi đưa khách tới phần gửi lời chúc.
-- Lời chúc dùng Firebase Auth Anonymous + Firestore, cập nhật trực tiếp cho các khách. Đã kiểm thử bằng Firebase Emulator. **Production đã có Web config của project `thang-quynh` trong `.env.production`; Anonymous Auth đã hoạt động, đang chờ publish Firestore rules để đọc/gửi thật**; khi thiếu cấu hình hoặc bị Firestore từ chối quyền, không nhận gửi và không báo lưu giả. Xem [hướng dẫn Firebase](docs/firebase-setup.md).
+- Lời chúc dùng Firebase Auth Anonymous + Firestore, cập nhật trực tiếp cho các khách. Đã kiểm thử bằng Firebase Emulator. **Production đã có Web config của project `thang-quynh` qua GitHub Repository Secrets ở bước build; Anonymous Auth đã hoạt động, đang chờ publish Firestore rules để đọc/gửi thật**; khi thiếu cấu hình hoặc bị Firestore từ chối quyền, không nhận gửi và không báo lưu giả. Xem [hướng dẫn Firebase](docs/firebase-setup.md).
 - Mừng cưới nhà trai: **Techcombank — 1905 0359 9540 16**. QR VietQR được sinh trong dự án, không đặt sẵn số tiền hay lời nhắn. Có sao chép số tài khoản và tải mã PNG. Chưa có thông tin nhà gái nên không hiển thị tài khoản nhà gái.
 
 ## Kiểm chứng và triển khai
@@ -94,4 +94,6 @@ Album có một ảnh dọc lớn tỉ lệ 2:3, hiển thị trọn ảnh với
 
 ## Firebase production build
 
-Cả sáu trường Firebase Web config được cung cấp ngày 30/10 nằm trong `.env.production`, Vite đọc khi `npm run build`. Mã ứng dụng lấy giá trị từ `import.meta.env`; không có giá trị Firebase được hardcode trong `src/`. Auth Anonymous của project `thang-quynh` đã hoạt động. Firestore vẫn trả permission-denied; cần chủ project Publish rules đã chuẩn bị, xem [hướng dẫn](docs/firebase-setup.md).
+Cả sáu trường Firebase Web config được cấp qua GitHub Repository Secrets ở bước build; Vite nhận chúng khi `npm run build`. Mã ứng dụng lấy giá trị từ `import.meta.env`; không có giá trị Firebase được hardcode trong `src/`. Auth Anonymous của project `thang-quynh` đã hoạt động. Firestore vẫn trả permission-denied; cần chủ project Publish rules đã chuẩn bị, xem [hướng dẫn](docs/firebase-setup.md).
+
+Workflow kiểm tra đủ sáu Repository Secrets `VITE_FIREBASE_*` trước khi build, dừng khi thiếu hoặc rỗng và không log giá trị. Đã bỏ `.env.production` khỏi phiên bản hiện tại; local dùng `.env.local` theo `.env.example`.
