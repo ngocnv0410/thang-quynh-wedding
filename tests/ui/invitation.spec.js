@@ -56,7 +56,7 @@ for(const size of viewports){
   expect(layout.date.bottom+20).toBeLessThan(layout.action.top)
   await page.screenshot({path:testInfo.outputPath('cover.png')})
   await testInfo.attach('Cover', {path:testInfo.outputPath('cover.png'),contentType:'image/png'})
-  for(const section of ['#loi-moi','#ngay-chung-doi','#album','#xac-nhan','#loi-chuc']){
+  for(const section of ['#loi-moi','#ngay-chung-doi','#album','#before-save-date','#loi-chuc']){
    await page.locator(section).scrollIntoViewIfNeeded()
    expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBe(size.width)
   }
@@ -111,9 +111,9 @@ test('album shows the seven requested full portrait photos and supports keyboard
  expect(portrait.height/portrait.width).toBeCloseTo(1.5,2)
  await expect(page.locator('#album-featured-image')).toHaveCSS('object-fit','contain')
  const files=await page.locator('.gallery-item img').evaluateAll(images=>images.map(img=>img.getAttribute('src').split('/').at(-1)))
- expect(files).toEqual(['3.webp','4.webp','6.webp','10.webp','11.webp','12.webp','17.webp'])
+ expect(files).toEqual(['4.webp','11.webp','17.webp','3.webp','6.webp','10.webp','12.webp'])
  await page.locator('.gallery-item').nth(5).click()
- await expect(page.locator('#album-featured-image')).toHaveAttribute('src',/12.webp$/)
+ await expect(page.locator('#album-featured-image')).toHaveAttribute('src',/10.webp$/)
  await expect(page.locator('.gallery-item[aria-pressed=true]')).toHaveCount(1)
  await expect(page.locator('#album-counter')).toHaveText('06 / 7')
  await page.keyboard.press('End')
@@ -135,40 +135,17 @@ test('album shows the seven requested full portrait photos and supports keyboard
  await expect(page.locator('#lightbox')).toBeHidden()
 })
 
-test('RSVP validates input, stores locally, and persists after reload',async({page})=>{
+test('RSVP is removed and the floating action goes to the public guestbook',async({page})=>{
  await enterWedding(page)
- await page.locator('#xac-nhan').scrollIntoViewIfNeeded()
- await page.locator('#rsvp-form button').click()
- await expect(page.locator('#guest-name')).toBeFocused()
- await page.locator('#guest-name').fill('Bạn Minh')
- await page.locator('#guest-count').selectOption('3')
- await page.locator('#rsvp-form button').click()
- await expect(page.locator('#rsvp-result')).toContainText('chưa gửi đến cô dâu chú rể')
- expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('tq-rsvp')).count)).toBe(3)
- await page.reload()
- await openGate(page)
- await expect(page.locator('#guest-name')).toHaveValue('Bạn Minh')
- await expect(page.locator('#guest-count')).toHaveValue('3')
- await page.locator('[name=attendance][value=no]').check()
- await expect(page.locator('#guest-count')).toBeDisabled()
- await page.locator('#rsvp-form button').click()
- expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('tq-rsvp')).count)).toBe(0)
-})
-
-test('wish text is safe, survives reload, and gift links back to wishes',async({page})=>{
- await enterWedding(page)
- const message='<img src=x onerror=alert(1)> Hạnh phúc nhé!'
- await page.locator('#wish-name').fill('Bạn Lan')
- await page.locator('#wish-message').fill(message)
- await page.locator('#wish-form button').click()
- await expect(page.locator('.wish-card').first()).toContainText(message)
- await expect(page.locator('.wish-card img')).toHaveCount(0)
- await page.reload()
- await openGate(page)
- await expect(page.locator('.wish-card').first()).toContainText(message)
+ await expect(page.locator('#xac-nhan,#rsvp-form,[name=attendance]')).toHaveCount(0)
+ await expect(page.locator('.floating-wishes')).toHaveAttribute('href','#loi-chuc')
+ await expect(page.locator('.floating-wishes')).toHaveText('Gửi lời chúc')
+ await page.locator('#loi-chuc').scrollIntoViewIfNeeded()
+ await expect(page.locator('#wishes-status')).toContainText('Sổ lời chúc đang được chuẩn bị')
+ await expect(page.locator('#wish-form button[type=submit]')).toBeDisabled()
+ await expect(page.locator('.wish-card')).toHaveCount(0)
  await page.locator('#gift-button').click()
  await expect(page.locator('#gift-dialog')).toContainText('Techcombank')
- await expect(page.locator('#gift-account-number')).toHaveText('1905 0359 9540 16')
  await page.locator('#gift-to-wishes').click()
  await expect(page.locator('#wish-name')).toBeFocused()
 })
@@ -186,20 +163,16 @@ test('calendar download contains correct UTC time and the confirmed venue',async
  expect(contents).not.toMatch(/demo|Hoàn Kiếm/i)
 })
 
-test('reduced motion reveals content and disabled storage produces honest error',async({page})=>{
- await page.emulateMedia({reducedMotion:'reduce'})
+test('unconfigured guestbook never claims a local save, even with storage blocked',async({page})=>{
  await page.addInitScript(()=>{Storage.prototype.setItem=()=>{throw new Error('blocked')}})
  await enterWedding(page)
  await expect(page.locator('#loi-moi .reveal').first()).toHaveCSS('opacity','1')
- await page.locator('#guest-name').fill('Bạn An')
- await page.locator('#rsvp-form button').click()
- await expect(page.locator('#rsvp-result')).toContainText('Trình duyệt chưa cho phép lưu')
  await page.locator('#wish-name').fill('Bạn An')
- await page.locator('#wish-message').fill('Chúc mừng hai bạn!')
- await page.locator('#wish-form button').click()
- await expect(page.locator('#wish-result')).toContainText('Trình duyệt đang chặn lưu trữ')
+ await page.locator('#wish-message').fill('Chúc hai bạn hạnh phúc!')
+ await expect(page.locator('#wish-form button[type=submit]')).toBeDisabled()
+ await expect(page.locator('#wish-result')).toBeEmpty()
+ await expect(page.locator('.wish-card')).toHaveCount(0)
 })
-
 
 test('background music plays only on user action and can be paused',async({page})=>{
  await enterWedding(page)
@@ -377,5 +350,23 @@ test('landscape photo nine and calligraphy sit before the timeline without cropp
   expect(await scene.evaluate(el=>el.nextElementSibling.id)).toBe('lich-trinh')
   expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBe(width)
   await scene.screenshot({path:testInfo.outputPath(`where-love-begins-${width}.png`)})
+ }
+})
+
+
+test('photo eight sits immediately before the Save the date calendar',async({page},testInfo)=>{
+ await enterWedding(page)
+ for(const width of [320,390,1440]){
+  await page.setViewportSize({width,height:900})
+  const photo=page.locator('#before-save-date')
+  await photo.scrollIntoViewIfNeeded()
+  await photo.locator('img').evaluate(img=>img.decode())
+  await expect(photo.locator('img')).toHaveAttribute('src',/8.webp$/)
+  await expect(photo.locator('img')).toHaveCSS('object-fit','contain')
+  expect(await photo.evaluate(el=>el.nextElementSibling.id)).toBe('luu-ngay')
+  const bounds=await photo.boundingBox()
+  expect(bounds.width/bounds.height).toBeCloseTo(1.5,2)
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBe(width)
+  await photo.screenshot({path:testInfo.outputPath(`photo-eight-${width}.png`)})
  }
 })

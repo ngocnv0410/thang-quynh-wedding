@@ -1,0 +1,24 @@
+rules_version = '2';
+service cloud.firestore {
+ match /databases/{database}/documents {
+  // This collection is separate from all other invitations in a shared project.
+  match /weddings/thang-quynh-20261129/wishes/{guestId} {
+   allow get: if true;
+   allow list: if request.query.limit != null && request.query.limit <= 50;
+   allow create: if request.auth != null
+    && request.auth.uid == guestId
+    && request.resource.data.keys().hasAll(['name', 'message', 'createdAt'])
+    && request.resource.data.keys().hasOnly(['name', 'message', 'createdAt'])
+    && request.resource.data.name is string
+    && request.resource.data.name.size() >= 1
+    && request.resource.data.name.size() <= 80
+    && request.resource.data.name.matches('(?s).*[^\\s\\p{Z}\\p{Cf}].*')
+    && request.resource.data.message is string
+    && request.resource.data.message.size() >= 1
+    && request.resource.data.message.size() <= 1000
+    && request.resource.data.message.matches('(?s).*[^\\s\\p{Z}\\p{Cf}].*')
+    && request.resource.data.createdAt == request.time;
+   allow update, delete: if false;
+  }
+ }
+}

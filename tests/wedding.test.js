@@ -41,8 +41,9 @@ function app() {
  win.scrollTo=()=>{}
  win.HTMLMediaElement.prototype.play=()=>Promise.resolve()
  win.HTMLMediaElement.prototype.pause=()=>{}
- let source=readFileSync(new URL('../src/main.js',import.meta.url),'utf8').replace(/^import .*\n/gm,'').replaceAll('import.meta.env.BASE_URL',"'/'")
+ let source=readFileSync(new URL('../src/main.js',import.meta.url),'utf8').replace(/^import .*\n/gm,'').replaceAll('import.meta.env.BASE_URL',"'/'").replaceAll('import.meta.env','({})')
  const ctx=dom.getInternalVMContext()
+ ctx.initGuestbook=()=>({})
  ctx.wedding=wedding
  ctx.initEntryGate=options=>initEntryGate({...options,root:win.document,reducedMotion:()=>false,schedule:()=>0})
  ctx.renderIcons=(root=win.document)=>renderIcons(root)
@@ -58,7 +59,7 @@ test('Invitation personalizes safely; album selection and lightbox wrap around',
  assert.equal(doc.querySelector('#invited-guest').textContent,'Bạn Ngọc')
  assert.equal(doc.querySelectorAll('.gallery-item').length,7)
  doc.querySelectorAll('.gallery-item')[3].click()
- assert.match(doc.querySelector('#album-featured-image').src,/10.webp$/)
+ assert.match(doc.querySelector('#album-featured-image').src,/3.webp$/)
  assert.equal(doc.querySelectorAll('.gallery-item[aria-pressed=true]').length,1)
  doc.querySelector('#album-prev').click()
  assert.match(doc.querySelector('#album-counter').textContent,/03 \/ 7/)
@@ -73,28 +74,6 @@ test('Invitation personalizes safely; album selection and lightbox wrap around',
  doc.querySelector('#envelope-seal').click()
  assert.ok(doc.querySelector('.envelope').classList.contains('is-open'))
  await new Promise(resolve=>setImmediate(resolve))
- dom.window.close()
-})
-test('RSVP stores attendance accurately and explicitly reports local demo',()=>{
- const {dom,win,doc}=app()
- doc.querySelector('#guest-name').value='Bạn Hà'
- doc.querySelector('[value=no]').checked=true
- doc.querySelector('#rsvp-form').dispatchEvent(new win.Event('submit',{cancelable:true}))
- const saved=JSON.parse(win.localStorage.getItem('tq-rsvp'))
- assert.equal(saved.name,'Bạn Hà');assert.equal(saved.count,0)
- assert.match(doc.querySelector('#rsvp-result').textContent,/chưa gửi đến cô dâu chú rể/)
- dom.window.close()
-})
-test('Guestbook renders untrusted guest text without HTML injection',()=>{
- const {dom,win,doc}=app()
- const payload='<img src=x onerror=alert(1)>'
- doc.querySelector('#wish-name').value=payload
- doc.querySelector('#wish-message').value=payload
- doc.querySelector('#wish-form').dispatchEvent(new win.Event('submit',{cancelable:true}))
- assert.equal(doc.querySelector('.wish-card p').textContent,payload)
- assert.equal(doc.querySelector('.wish-card img'),null)
- assert.equal(JSON.parse(win.localStorage.getItem('tq-wishes')).length,1)
- assert.match(doc.querySelector('#wish-result').textContent,/thiết bị/)
  dom.window.close()
 })
 test('Every static image, audio, and gallery asset exists locally',()=>{

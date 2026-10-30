@@ -10,8 +10,6 @@ export const wedding = {
     address: 'Phù Đổng - Hà Nội',
     mapsUrl: 'https://maps.app.goo.gl/ndNBkdF58QADRr4o6?g_st=ic',
   },
-  // Để trống khi chạy demo. Endpoint thật cần kiểm tra dữ liệu và giới hạn gửi phía server.
-  rsvpEndpoint: '',
   gift: {
     groom: {
       bankName: 'Techcombank',
@@ -19,10 +17,5 @@ export const wedding = {
       accountNumber: '19050359954016',
     },
   },
-  gallery: ['3.webp', '4.webp', '6.webp', '10.webp', '11.webp', '12.webp', '17.webp'],
-  demoWishes: [
-    { name: 'Một người bạn', message: 'Chúc hai bạn một đời bình an, một nhà đầy ắp tiếng cười và luôn nắm tay nhau qua mọi mùa yêu.', demo: true },
-    { name: 'Người thương mến', message: 'Mong hai bạn luôn nhìn nhau bằng ánh mắt dịu dàng như hôm nay. Hạnh phúc thật nhiều nhé!', demo: true },
-    { name: 'Gia đình & bạn bè', message: 'Trăm năm tình viên mãn, bạc đầu nghĩa phu thê. Chúc mừng ngày chung đôi của Thắng và Quỳnh!', demo: true },
-  ],
+  gallery: ['4.webp', '11.webp', '17.webp', '3.webp', '6.webp', '10.webp', '12.webp'],
 }

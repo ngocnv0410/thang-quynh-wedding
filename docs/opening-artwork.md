@@ -62,6 +62,8 @@ Trang 0 chỉ hiển thị bì thư ren đóng kín, hoa và dấu sáp trên n�
 
 ## Ảnh Drive chọn ngày 29/10/2026
 
-Các tên file trong Drive được giữ nguyên số khi chuyển WebP: 3.jpg → 3.webp, 4.jpg → 4.webp, 6.jpg → 6.webp, 10.jpg → 10.webp, 11.jpg → 11.webp, 12.jpg → 12.webp, 17.jpg → 17.webp. Đây là toàn bộ danh sách album hiện tại, theo đúng thứ tự người dùng chọn.
+Các tên file trong Drive được giữ nguyên số khi chuyển WebP: 3.jpg → 3.webp, 4.jpg → 4.webp, 6.jpg → 6.webp, 10.jpg → 10.webp, 11.jpg → 11.webp, 12.jpg → 12.webp, 17.jpg → 17.webp. Đây là bảy ảnh của album. Cập nhật ngày 30/10 đưa ảnh thứ 2, 5, 7 lên đầu: 4, 11, 17, 3, 6, 10, 12.
 
 Ảnh chuyển tiếp trước Timeline dùng 9.jpg → 9.webp. Caption “Where” dùng cùng font Ecatherina với chữ “Thank you!”, dòng “LOVE BEGINS” dùng Lora. Ảnh ngang giữ tỉ lệ 3:2, caption trắng trên phần trời, có gradient tối hỗ trợ tương phản.
+
+Ảnh ngang 8.jpg → 8.webp được chèn ngay trước lịch Save the date, giữ nguyên tỉ lệ 3:2 và màu gốc.

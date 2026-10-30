@@ -7,3 +7,9 @@ dist/
 test-results/
 playwright-report/
 artifacts/
+
+.firebase/
+*-debug.log
+*-debug.*.log
+test-results-firebase/
+playwright-firebase-report/

@@ -13,10 +13,13 @@
     "test:all": "npm test && npm run test:ui",
     "gift:qr": "node scripts/generate-gift-qr.mjs",
     "pretest": "npm run gift:qr",
-    "prebuild": "npm run gift:qr"
+    "prebuild": "npm run gift:qr",
+    "test:firebase": "firebase emulators:exec --only auth,firestore --project demo-thang-quynh \"node scripts/test-firebase.mjs\""
   },
   "devDependencies": {
+    "@firebase/rules-unit-testing": "^6.0.0",
     "@playwright/test": "^1.64.1",
+    "firebase-tools": "^15.34.2",
     "jsdom": "^26.1.0",
     "jsqr": "^1.4.0",
     "pngjs": "^7.0.0",
@@ -25,6 +28,7 @@
   },
   "dependencies": {
     "@fontsource/be-vietnam-pro": "^5.3.0",
-    "@fontsource/lora": "^5.3.0"
+    "@fontsource/lora": "^5.3.0",
+    "firebase": "^13.1.0"
   }
 }

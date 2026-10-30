@@ -8,8 +8,10 @@ import '@fontsource/lora/500.css'
 import './wedding.css'
 import { initEntryGate } from './entry-gate.js'
 import { renderIcons } from './icons.js'
+import { initGuestbook } from './guestbook.js'
+import { connectFirebaseWishes } from './firebase-wishes.js'
 import { wedding } from './content.js'
-import { countdownTo, calendarDays, calendarFile, readStorage, writeStorage } from './utils.js'
+import { countdownTo, calendarDays, calendarFile } from './utils.js'
 renderIcons()
 const $ = selector => document.querySelector(selector)
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -71,31 +73,7 @@ $('#lightbox').addEventListener('keydown',event=>{if(event.key==='ArrowLeft')sho
 let touchStart=0
 $('#lightbox-image').addEventListener('touchstart',event=>touchStart=event.changedTouches[0].clientX,{passive:true})
 $('#lightbox-image').addEventListener('touchend',event=>{const delta=event.changedTouches[0].clientX-touchStart;if(Math.abs(delta)>50)showPhoto(currentPhoto+(delta<0?1:-1))},{passive:true})
-const savedRSVP=readStorage('tq-rsvp',null)
-if(savedRSVP&&typeof savedRSVP.name==='string'){$('#guest-name').value=savedRSVP.name;$('#rsvp-result').textContent='Bạn đã lưu lời hẹn trên thiết bị này. Có thể cập nhật lại bên trên.'}
-if (savedRSVP && ['yes','no'].includes(savedRSVP.attendance)) {
- $(`[name=attendance][value=${savedRSVP.attendance}]`).checked=true
- if (Number.isInteger(savedRSVP.count) && savedRSVP.count>=1 && savedRSVP.count<=5) $('#guest-count').value=String(savedRSVP.count)
- $('#guest-count').disabled=savedRSVP.attendance==='no'
-}
-const attendanceRadios=document.querySelectorAll('[name=attendance]')
-attendanceRadios.forEach(input=>input.addEventListener('change',()=>{$('#guest-count').disabled=$('[name=attendance]:checked').value==='no'}))
-$('#rsvp-form').addEventListener('submit',async event=>{
- event.preventDefault();const data=new FormData(event.currentTarget);const name=String(data.get('name')||'').trim();if(!name){$('#guest-name').setCustomValidity('Bạn điền tên giúp chúng mình nhé.');$('#guest-name').reportValidity();return}
- const response={name,attendance:data.get('attendance'),count:data.get('attendance')==='yes'?Number(data.get('count')):0,createdAt:new Date().toISOString()}
- const submit=event.currentTarget.querySelector('[type=submit]');submit.disabled=true
- try {
-  if(wedding.rsvpEndpoint){const r=await fetch(wedding.rsvpEndpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(response)});if(!r.ok)throw new Error('send');$('#rsvp-result').textContent='Cảm ơn bạn! Lời hẹn đã được gửi đến chúng mình.'}
-  else{if(!writeStorage('tq-rsvp',response))throw new Error('storage');$('#rsvp-result').textContent=`Cảm ơn ${name}! Lời hẹn được lưu trên thiết bị này (demo), chưa gửi đến cô dâu chú rể.`}
- }catch{$('#rsvp-result').textContent=wedding.rsvpEndpoint?'Chưa gửi được lời hẹn. Bạn thử lại nhé.':'Trình duyệt chưa cho phép lưu. Bạn thử lại ở chế độ duyệt web thông thường nhé.'}finally{submit.disabled=false}
-})
-$('#guest-name').addEventListener('input',()=>$('#guest-name').setCustomValidity(''))
-let wishes=readStorage('tq-wishes',[])
-if(!Array.isArray(wishes))wishes=[]
-wishes=wishes.filter(w=>w&&typeof w.name==='string'&&typeof w.message==='string').slice(0,30)
-function renderWishes(){const list=$('#wishes');list.replaceChildren();[...wishes,...wedding.demoWishes].forEach(wish=>{const card=document.createElement('article');card.className='wish-card';const p=document.createElement('p');p.textContent=wish.message;const name=document.createElement('h3');name.textContent=wish.name;const label=document.createElement('small');label.textContent=wish.demo?'LỜI CHÚC MINH HOẠ':'LƯU TRÊN THIẾT BỊ NÀY';card.append(p,name,label);list.append(card)})}
-renderWishes()
-$('#wish-form').addEventListener('submit',event=>{event.preventDefault();const data=new FormData(event.currentTarget);const name=String(data.get('name')||'').trim().slice(0,80);const message=String(data.get('message')||'').trim().slice(0,1000);if(!name||!message){$('#wish-result').textContent='Bạn điền tên và lời chúc trước khi gửi nhé.';return}const next=[{name,message},...wishes].slice(0,30);if(!writeStorage('tq-wishes',next)){$('#wish-result').textContent='Chưa lưu được. Trình duyệt đang chặn lưu trữ.';return}wishes=next;renderWishes();event.currentTarget.reset();$('#wish-result').textContent='Đã lưu lời chúc trên thiết bị của bạn. Cảm ơn bạn thật nhiều!';toast('Đã lưu một chút yêu thương ♡')})
+initGuestbook({ connect: () => connectFirebaseWishes(import.meta.env) })
 const groomGift = wedding.gift.groom
 $('#gift-bank-name').textContent = groomGift.bankName
 $('#gift-account-number').textContent = groomGift.accountNumber.match(/.{1,4}/g).join(' ')

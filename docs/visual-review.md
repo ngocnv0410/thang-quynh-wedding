@@ -1,4 +1,4 @@
-# Kiểm tra thiệp trắng xanh — 29/10/2026
+# Kiểm tra thiệp trắng xanh — 30/10/2026
 
 Tham chiếu bố cục: https://jmiiwedding.com/chinhlinhh. Tông trắng xanh và hoa: https://jmiiwedding.com/duyanhhamauu. Trang 3 và phong thư cuối theo ảnh người dùng gửi. Ảnh dưới đây được chụp từ Chromium với ảnh và dữ liệu của Thắng & Quỳnh.
 
@@ -8,14 +8,14 @@ Tham chiếu bố cục: https://jmiiwedding.com/chinhlinhh. Tông trắng xanh 
 - Trang 0 dùng nền hoa lá và bì thư ren đóng kín; trang 1 giữ thiệp đang mở. Chạm phong bì sẽ hạ mặt phong bì, kéo giấy và ảnh lên, phát nhạc sau tương tác rồi chuyển vào thiệp. Nội dung ẩn và khóa trước thao tác mở.
 - Trang 2 dùng ảnh cưới toàn khung và dòng “We are Getting Married”.
 - Không có mục Our Story, đoạn hành trình tình yêu hay phần chân dung kể chuyện.
-- Bố cục tiếp theo: gia đình và giấy ren chứa tên/ngày giờ/địa điểm → lịch trình ngày cưới → lịch đánh dấu trái tim → album ảnh lớn/ảnh nhỏ → RSVP → lời chúc → mừng cưới → phong thư cảm ơn luôn mở sẵn với ảnh.
+- Bố cục tiếp theo: gia đình và giấy ren chứa tên/ngày giờ/địa điểm → lịch trình ngày cưới → lịch đánh dấu trái tim → album ảnh lớn/ảnh nhỏ → lời chúc Firebase → mừng cưới → phong thư cảm ơn luôn mở sẵn với ảnh.
 - Thông tin demo được ghi rõ; không dùng ảnh hoặc API của cặp đôi mẫu.
 
 ## Kiểm thử
 
-- **17/17 logic/DOM** đạt.
+- **23/23 logic/DOM** đạt.
 - **20/20 Chromium** đạt, gồm bảy viewport: 320×740, 375×812, 390×844, 430×932, 768×1024, 1440×900, 1920×1080.
-- Kiểm tra khung đầu không tràn ngang, tên/ngày/nút tiếp trong viewport, chặn nội dung trước khi mở, mở một lần, Escape không bỏ qua gate, tải lại quay về màn mở, nhạc, lịch, album, RSVP và lời chúc.
+- Kiểm tra khung đầu không tràn ngang, tên/ngày/nút tiếp trong viewport, chặn nội dung trước khi mở, mở một lần, Escape không bỏ qua gate, tải lại quay về màn mở, nhạc, lịch, album, phần lời chúc và việc bỏ RSVP.
 - Bài riêng xác nhận các lớp phong bì xanh và hoa trắng lá xanh, dải hai ảnh, trang thứ hai và không có Our Story.
 - Đã xem ảnh render màn mở, trang 1, trang 2, lời mời, sự kiện, album và biểu mẫu trên mobile/desktop. Chưa xác nhận Safari/iOS thật.
 
@@ -45,9 +45,9 @@ Tham chiếu bố cục: https://jmiiwedding.com/chinhlinhh. Tông trắng xanh 
 
 ![Album](screenshots/desktop-album.jpg)
 
-## Xác nhận
+## Lời chúc
 
-![RSVP](screenshots/mobile-rsvp.jpg)
+![Sổ lời chúc đang chờ kết nối project thật](screenshots/mobile-wishes.jpg)
 
 Ảnh toàn section dùng reduced motion để các khối hiện đủ khi chụp. Các luồng mở thiệp và bảy viewport còn được kiểm tra với chuyển động thông thường. Một số bài tương tác biểu mẫu dùng reduced motion để tách lỗi biểu mẫu khỏi chuyển động cuộn.
 
@@ -104,3 +104,16 @@ Kiểm tra bổ sung khung giấy ren và nội dung không tràn ở 320, 390, 
 ![Where love begins](screenshots/mobile-where-love-begins.jpg)
 
 ![Album dọc với bảy ảnh đã chọn](screenshots/mobile-album.jpg)
+
+## Ảnh số 8, thứ tự album và Firebase — 30/10/2026
+
+- Ảnh ngang số 8 nằm giữa Timeline và phần lịch Save the date, tỉ lệ 3:2 và không crop.
+- Thứ tự album: 4, 11, 17, 3, 6, 10, 12; ưu tiên ảnh thứ 2, 5, 7 của thứ tự trước.
+- Bỏ toàn bộ phần xác nhận tham gia và đường dẫn cũ; nút nổi đổi thành Gửi lời chúc.
+- Bỏ lời chúc demo và lưu localStorage. Firebase Anonymous Auth + Firestore dùng namespace riêng, transaction xác nhận server trước khi báo thành công; onSnapshot hiển thị các lời chúc mới nhất cho mọi khách.
+- **5/5 rules và 1/1 UI Firebase** đạt bằng Emulator/SDK thật. Hai browser context độc lập đã gửi/nhận dữ liệu và tải lại vẫn thấy; dữ liệu HTML được render như văn bản. Đây là môi trường kiểm thử, không phải Firebase production.
+- **Production chưa được cấu hình**: chờ lựa chọn project/Web config, bật Anonymous Auth và áp dụng rules. Trang thật không nhận gửi khi thiếu cấu hình. Chi tiết ở [firebase-setup.md](firebase-setup.md).
+
+![Ảnh số 8 trước Save the date](screenshots/mobile-before-save-date.jpg)
+
+![Album đã đổi thứ tự](screenshots/mobile-album.jpg)
