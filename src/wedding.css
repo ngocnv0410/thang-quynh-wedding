@@ -132,3 +132,5 @@ body.hero-in-view .floating-controls{opacity:1;visibility:visible}body.hero-in-v
 
 .calendar-photo{aspect-ratio:3/2;overflow:hidden;margin-top:15px}.calendar-photo>img{object-fit:contain}
 .wishes-status{font:11px/1.9 var(--sans);text-align:center;color:var(--muted);margin-top:26px}.retry-wishes{display:block;margin:12px auto 0;padding:9px 16px;border:1px solid var(--line);background:transparent;color:var(--wine);font:11px/1.8 var(--sans);min-height:44px}.wishes-list:empty{margin-top:0}.wishes-section button:disabled{opacity:.55;cursor:default}.wishes-section button[aria-busy=true]{cursor:wait}.wish-card h3{overflow-wrap:anywhere}
+
+.gift-side{text-transform:uppercase}.gift-account-holder{font:500 12px/1.7 var(--sans);letter-spacing:.5px;color:var(--wine);margin-top:5px;text-align:center}

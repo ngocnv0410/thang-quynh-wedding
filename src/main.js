@@ -10,8 +10,9 @@ import { initEntryGate } from './entry-gate.js'
 import { renderIcons } from './icons.js'
 import { initGuestbook } from './guestbook.js'
 import { connectFirebaseWishes } from './firebase-wishes.js'
-import { wedding } from './content.js'
+import { weddingForPath } from './content.js'
 import { countdownTo, calendarDays, calendarFile } from './utils.js'
+const wedding = weddingForPath(location.pathname)
 renderIcons()
 const $ = selector => document.querySelector(selector)
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -34,12 +35,12 @@ music.addEventListener('error', () => toast('Nhạc chưa tải được. Bạn 
 $('#venue-name').textContent=wedding.venue.name
 $('#venue-address').textContent=wedding.venue.address
 $('#map-link').href=wedding.venue.mapsUrl
-calendarDays(2026,11).forEach(day => { const el=document.createElement('span'); el.textContent=day??''; if(day===29){el.className='marked';el.setAttribute('aria-label','29 tháng 11, ngày tiệc cưới')} $('#calendar').append(el) })
+calendarDays(2026,11).forEach(day => { const el=document.createElement('span'); el.textContent=day??''; if(day===wedding.day){el.className='marked';el.setAttribute('aria-label',`${wedding.day} tháng 11, ngày tiệc cưới`)} $('#calendar').append(el) })
 const units=['NGÀY','GIỜ','PHÚT','GIÂY']
 units.forEach(unit=>{const el=document.createElement('div');const n=document.createElement('strong');const label=document.createElement('span');label.textContent=unit;el.append(n,label);$('#countdown').append(el)})
 function updateCountdown(){countdownTo(wedding.date).forEach((n,i)=>$('#countdown').children[i].firstChild.textContent=String(n).padStart(2,'0'));if(Date.now()>=new Date(wedding.date).getTime())$('#countdown-label').textContent='NGÀY HẠNH PHÚC ĐÃ ĐẾN ♡'}
 updateCountdown();setInterval(updateCountdown,1000)
-$('#save-date').addEventListener('click',()=>{const url=URL.createObjectURL(new Blob([calendarFile(wedding)],{type:'text/calendar;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='thang-quynh-29-11-2026.ics';a.click();setTimeout(()=>URL.revokeObjectURL(url),5000);toast('Đã tải lịch tiệc cưới tại Nhà văn hoá thôn 3 Công Đình.')})
+$('#save-date').addEventListener('click',()=>{const url=URL.createObjectURL(new Blob([calendarFile(wedding)],{type:'text/calendar;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download=`thang-quynh-${wedding.day}-11-2026.ics`;a.click();setTimeout(()=>URL.revokeObjectURL(url),5000);toast('Đã tải lịch tiệc cưới tại Nhà văn hoá thôn 3 Công Đình.')})
 let currentPhoto=0
 function selectAlbumPhoto(index, scrollThumbnail=false) {
  currentPhoto=(index+wedding.gallery.length)%wedding.gallery.length
@@ -74,12 +75,14 @@ let touchStart=0
 $('#lightbox-image').addEventListener('touchstart',event=>touchStart=event.changedTouches[0].clientX,{passive:true})
 $('#lightbox-image').addEventListener('touchend',event=>{const delta=event.changedTouches[0].clientX-touchStart;if(Math.abs(delta)>50)showPhoto(currentPhoto+(delta<0?1:-1))},{passive:true})
 initGuestbook({ connect: () => connectFirebaseWishes(import.meta.env) })
-const groomGift = wedding.gift.groom
-$('#gift-bank-name').textContent = groomGift.bankName
-$('#gift-account-number').textContent = groomGift.accountNumber.match(/.{1,4}/g).join(' ')
+const gift = wedding.selectedGift
+$('#gift-bank-name').textContent = gift.bankName
+$('#gift-account-number').textContent = gift.accountNumber.match(/.{1,4}/g).join(' ')
+$('#gift-account-holder').textContent = gift.accountHolder || ''
+$('#gift-account-holder').hidden = !gift.accountHolder
 $('#copy-gift-account').addEventListener('click', async () => {
  try {
-  await navigator.clipboard.writeText(groomGift.accountNumber)
+  await navigator.clipboard.writeText(gift.accountNumber)
   $('#gift-copy-result').textContent = 'Đã sao chép số tài khoản.'
  } catch {
   $('#gift-copy-result').textContent = 'Chưa sao chép được. Bạn nhấn giữ số tài khoản để sao chép nhé.'

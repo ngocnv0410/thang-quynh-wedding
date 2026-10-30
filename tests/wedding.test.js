@@ -3,7 +3,8 @@ import assert from 'node:assert/strict'
 import { readFileSync, existsSync } from 'node:fs'
 import vm from 'node:vm'
 import { JSDOM } from 'jsdom'
-import { wedding } from '../src/content.js'
+import { wedding, weddingForPath } from '../src/content.js'
+import { renderInvitationHtml } from '../src/invitation-html.js'
 import * as utils from '../src/utils.js'
 import { renderIcons } from '../src/icons.js'
 import { initEntryGate } from '../src/entry-gate.js'
@@ -29,7 +30,7 @@ test('Calendar download has UTC event boundaries and the confirmed venue', () =>
  assert.ok(ics.endsWith('END:VCALENDAR\r\n'))
 })
 function app() {
- const html=readFileSync(new URL('../index.html',import.meta.url),'utf8')
+ const html=renderInvitationHtml(readFileSync(new URL('../index.html',import.meta.url),'utf8'),weddingForPath('/'))
  const dom=new JSDOM(html,{url:'https://example.test/?to=Bạn%20Ngọc',runScripts:'outside-only'})
  const win=dom.window
  win.matchMedia=()=>({matches:false})
@@ -44,7 +45,7 @@ function app() {
  let source=readFileSync(new URL('../src/main.js',import.meta.url),'utf8').replace(/^import .*\n/gm,'').replaceAll('import.meta.env.BASE_URL',"'/'").replaceAll('import.meta.env','({})')
  const ctx=dom.getInternalVMContext()
  ctx.initGuestbook=()=>({})
- ctx.wedding=wedding
+ ctx.weddingForPath=weddingForPath
  ctx.initEntryGate=options=>initEntryGate({...options,root:win.document,reducedMotion:()=>false,schedule:()=>0})
  ctx.renderIcons=(root=win.document)=>renderIcons(root)
  Object.assign(ctx,utils)

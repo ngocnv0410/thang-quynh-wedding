@@ -4,6 +4,14 @@ Thiệp cưới tiếng Việt theo bố cục Chinh–Linh: giấy trắng có 
 
 Website: https://ngocnv0410.github.io/thang-quynh-wedding/
 
+## Hai đường dẫn gửi thiệp
+
+- **Nhà trai:** https://ngocnv0410.github.io/thang-quynh-wedding/nha-trai/ — 18:00, Chủ nhật **29/11/2026**, giữ nguyên nội dung và QR Techcombank **19050359954016**.
+- **Nhà gái:** https://ngocnv0410.github.io/thang-quynh-wedding/nha-gai/ — 18:00, Thứ Bảy **28/11/2026**, QR Techcombank **19036000582013**, chủ tài khoản **LAM THI THUY QUYNH**.
+- Link gốc tiếp tục mở bản nhà trai. Cả hai vẫn hỗ trợ `?to=Tên%20khách`; địa điểm, bố mẹ, ảnh, nhạc, lịch trình và sổ lời chúc Firebase dùng chung.
+- Ngày trên phong bì, trang chính, thông tin tiệc, thứ, dấu tim lịch, đếm ngược, file ICS và metadata chia sẻ đều theo prefix. Hai sự kiện ICS có UID khác nhau.
+- Build tạo sẵn `dist/nha-trai/index.html` và `dist/nha-gai/index.html`; GitHub Pages mở trực tiếp và tải lại được, không cần rewrite hay thêm GitHub Secret/rule Firebase. `postbuild` xác nhận cả ba trang có ngày/QR và đường dẫn tài nguyên đúng base.
+
 ## Chạy dự án
 
 Node.js 22.12+ hoặc 24.
@@ -45,13 +53,13 @@ Ngày, địa điểm và danh sách ảnh ở `src/content.js`. Tên, bố mẹ
 - Địa điểm: **Nhà văn hoá thôn 3 Công Đình - Phù Đổng - Hà Nội**. [Bản đồ](https://maps.app.goo.gl/ndNBkdF58QADRr4o6?g_st=ic). File lịch tải về dùng cùng địa điểm.
 - Lịch trình: **18:00 đón khách / 18:30 lễ thành hôn / 19:00 dùng tiệc**. Giờ mời trên thiệp, đếm ngược và file lịch là **18:00** theo cập nhật ngày 29/10/2026.
 - Đã bỏ phần xác nhận tham gia (RSVP). Nút nổi đưa khách tới phần gửi lời chúc.
-- Lời chúc dùng Firebase Auth Anonymous + Firestore, cập nhật trực tiếp cho các khách. Đã kiểm thử bằng Firebase Emulator. **Production đã có Web config của project `thang-quynh` qua GitHub Repository Secrets ở bước build; Anonymous Auth đã hoạt động, đang chờ publish Firestore rules để đọc/gửi thật**; khi thiếu cấu hình hoặc bị Firestore từ chối quyền, không nhận gửi và không báo lưu giả. Xem [hướng dẫn Firebase](docs/firebase-setup.md).
-- Mừng cưới nhà trai: **Techcombank — 1905 0359 9540 16**. QR VietQR được sinh trong dự án, không đặt sẵn số tiền hay lời nhắn. Có sao chép số tài khoản và tải mã PNG. Chưa có thông tin nhà gái nên không hiển thị tài khoản nhà gái.
+- Lời chúc dùng Firebase Auth Anonymous + Firestore, cập nhật trực tiếp cho các khách. Đã kiểm thử bằng Firebase Emulator. **Production đã có Web config của project `thang-quynh` qua GitHub Repository Secrets ở bước build; Anonymous Auth và Firestore rules đã hoạt động; đã xác nhận gửi/lưu, đồng bộ sang trình duyệt thứ hai và tải lại trên production**; khi thiếu cấu hình hoặc bị Firestore từ chối quyền, không nhận gửi và không báo lưu giả. Xem [hướng dẫn Firebase](docs/firebase-setup.md).
+- Mừng cưới nhà trai: **Techcombank — 1905 0359 9540 16**. QR VietQR được sinh trong dự án, không đặt sẵn số tiền hay lời nhắn. Có sao chép số tài khoản và tải mã PNG. Bản nhà gái dùng **Techcombank — 19036000582013 — LAM THI THUY QUYNH**.
 
 ## Kiểm chứng và triển khai
 
-- **24 bài logic/DOM**: múi giờ, đếm ngược, lịch, ICS, lưu trữ bị chặn, album, trạng thái gửi/tải lời chúc an toàn, gate chống mở lặp và reduced motion.
-- **20 bài Chromium**: bảy viewport từ 320px đến 1920px, phong bì/mở thiệp, trang 1–2 và loại bỏ Our Story, album, phím điều hướng, tải lịch, nhạc, loại bỏ RSVP, ảnh số 8 trước lịch và lời chúc chưa cấu hình.
+- **28 bài logic/DOM**: múi giờ, đếm ngược, lịch, ICS, lưu trữ bị chặn, album, trạng thái gửi/tải lời chúc an toàn, gate chống mở lặp và reduced motion.
+- **24 bài Chromium**: bảy viewport từ 320px đến 1920px, phong bì/mở thiệp, trang 1–2 và loại bỏ Our Story, album, phím điều hướng, tải lịch, nhạc, loại bỏ RSVP, ảnh số 8 trước lịch và lời chúc chưa cấu hình.
 - **5 bài Firestore Rules + 1 luồng Firebase trong Chromium**: xác thực, quyền đọc/ghi, dữ liệu hợp lệ, namespace riêng; gửi từ một khách, khách thứ hai nhận trực tiếp và vẫn thấy khi tải lại.
 - Xem [biên bản và ảnh giao diện](docs/visual-review.md).
 - `npm run review:ui` chụp màn mở, trang 1, trang 2 và các phần còn lại. Khởi chạy Vite ở cổng 5173 trước; hỗ trợ `CHROMIUM_PATH` và `REVIEW_DIR`.
@@ -90,10 +98,14 @@ Album có một ảnh dọc lớn tỉ lệ 2:3, hiển thị trọn ảnh với
 
 ## Cập nhật ngày 30/10/2026
 
-Ảnh ngang số 8 nằm ngay trước phần lịch Save the date (sau Timeline). Album vẫn dọc 2:3, thứ tự mới: 4 → 11 → 17 → 3 → 6 → 10 → 12. Không còn form xác nhận tham gia. Sổ lời chúc dùng collection Firebase riêng; xem [cấu hình và quy tắc dữ liệu](docs/firebase-setup.md). Tổng 50 bài kiểm thử: 24 unit/DOM, 20 UI, 5 rules, 1 UI Firebase.
+Ảnh ngang số 8 nằm ngay trước phần lịch Save the date (sau Timeline). Album vẫn dọc 2:3, thứ tự mới: 4 → 11 → 17 → 3 → 6 → 10 → 12. Không còn form xác nhận tham gia. Sổ lời chúc dùng collection Firebase riêng; xem [cấu hình và quy tắc dữ liệu](docs/firebase-setup.md). Tổng 58 bài kiểm thử: 28 unit/DOM, 24 UI, 5 rules, 1 UI Firebase.
 
 ## Firebase production build
 
-Cả sáu trường Firebase Web config được cấp qua GitHub Repository Secrets ở bước build; Vite nhận chúng khi `npm run build`. Mã ứng dụng lấy giá trị từ `import.meta.env`; không có giá trị Firebase được hardcode trong `src/`. Auth Anonymous của project `thang-quynh` đã hoạt động. Firestore vẫn trả permission-denied; cần chủ project Publish rules đã chuẩn bị, xem [hướng dẫn](docs/firebase-setup.md).
+Cả sáu trường Firebase Web config được cấp qua GitHub Repository Secrets ở bước build; Vite nhận chúng khi `npm run build`. Mã ứng dụng lấy giá trị từ `import.meta.env`; không có giá trị Firebase được hardcode trong `src/`. Auth Anonymous của project `thang-quynh` đã hoạt động. Firestore rules đã được chủ project Publish; đã kiểm tra gửi/lưu/đồng bộ và tải lại thành công trên website thật, xem [hướng dẫn](docs/firebase-setup.md).
 
 Workflow kiểm tra đủ sáu Repository Secrets `VITE_FIREBASE_*` trước khi build, dừng khi thiếu hoặc rỗng và không log giá trị. Đã bỏ `.env.production` khỏi phiên bản hiện tại; local dùng `.env.local` theo `.env.example`.
+
+## Kiểm chứng hai prefix
+
+Tổng **58 bài kiểm thử**: 28 unit/DOM, 24 UI, 5 Firestore rules và 1 UI Firebase. Bổ sung kiểm tra ngày/thứ, metadata HTML tĩnh, prefix dưới GitHub Pages, UID lịch riêng, đếm ngược, QR nhà gái giải mã lại PNG, sao chép STK và tải đúng QR cho từng bên. UI Firebase gửi từ bản nhà gái và nhận/lưu qua bản nhà trai. Mỗi lần build tự kiểm tra HTML và tài nguyên cả ba đường dẫn. QR không cố định số tiền; tên tài khoản nhà gái hiển thị cạnh mã, ứng dụng ngân hàng tra cứu chủ tài khoản theo STK.

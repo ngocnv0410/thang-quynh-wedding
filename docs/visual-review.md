@@ -123,3 +123,15 @@ Kiểm tra bổ sung khung giấy ren và nội dung không tràn ở 320, 390, 
 Sáu trường Firebase Web config được truyền từ Repository Secrets vào bước build; mã ứng dụng chỉ đọc biến build. Đã bổ sung kiểm tra hai trường storageBucket/messagingSenderId và trạng thái Firestore từ chối quyền: gửi bị khóa đến khi Thử tải lại nhận được dữ liệu do server xác nhận. Chẩn đoán project thật cho thấy Anonymous Auth hoạt động, Firestore trả permission-denied. Không tạo lời chúc giả trên production.
 
 Cập nhật nguồn cấu hình deploy: toàn bộ sáu trường dùng `${{ secrets.VITE_FIREBASE_* }}`, không dùng Variables; `.env.production` đã được xoá khỏi phiên bản hiện tại. Bước build dừng nếu thiếu/rỗng một secret và không in giá trị. Không thay đổi bố cục thiệp.
+
+
+## Hai prefix nhà trai / nhà gái — 30/10/2026
+
+Đã kiểm tra bản build với base `/thang-quynh-wedding/`, mở trực tiếp và tải lại `/nha-trai/` và `/nha-gai/` trên Chromium 390×844 và 1440×1000. Cả bốn lượt trả HTTP 200, không có lỗi JavaScript, không có tài nguyên 404 và không tràn ngang. Đã xem thủ công ảnh thiệp/lịch/QR cho cả hai bên, gồm hộp QR nhà gái trên desktop. Giữ cùng layout trắng xanh, phong bì đóng khi vào và mở theo thao tác; bản nhà trai giữ ngày 29, bản nhà gái đổi sang Thứ Bảy ngày 28.
+
+- [Nhà trai: thiệp](screenshots/nha-trai-invitation-mobile.png), [lịch](screenshots/nha-trai-calendar-mobile.png), [QR](screenshots/nha-trai-gift-mobile.png).
+- [Nhà gái: thiệp](screenshots/nha-gai-invitation-mobile.png), [lịch](screenshots/nha-gai-calendar-mobile.png), [QR](screenshots/nha-gai-gift-mobile.png).
+- QR nhà gái: Techcombank BIN 970407, STK 19036000582013; tên chủ tài khoản LAM THI THUY QUYNH hiển thị rõ. Cả PNG gốc, ảnh mã đã render ở 320/390/1440px và PNG tải xuống đều được giải mã lại để kiểm tra số tài khoản.
+- Cả hai bản đã kiểm tra metadata tĩnh, tên khách, dấu tim lịch, đếm ngược, thứ/ngày giờ, file ICS có UID/ngày riêng, tải lại vẫn đúng bản và copy đúng STK.
+- 58 bài kiểm thử: 28 unit/DOM, 24 UI và 6 Firebase (5 rules + 1 luồng Chromium). Luồng Firebase Emulator gửi ở prefix nhà gái, nhận và tải lại ở prefix nhà trai; không viết thêm lời chúc thử vào production.
+- Build tạo sẵn hai thư mục prefix cho GitHub Pages; `postbuild` kiểm tra cả ba HTML, không còn placeholder và mọi tài nguyên dùng đúng BASE_PATH.

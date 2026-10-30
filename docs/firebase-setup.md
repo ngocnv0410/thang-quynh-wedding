@@ -1,6 +1,6 @@
 # Kết nối sổ lời chúc Firebase
 
-Phần lời chúc đã chuyển sang Firebase Authentication (Anonymous) và Cloud Firestore. Đã kiểm thử SDK thật với Firebase Emulator: gửi, lưu, cập nhật sang khách thứ hai, tải lại trang, chặn sửa/xoá và kiểm tra dữ liệu. **Project production đã được chọn: `thang-quynh`, sáu trường Web config được cấp qua GitHub Repository Secrets khi build.** Anonymous Auth đã được kiểm tra thành công. Firestore hiện trả `PERMISSION_DENIED` cho cả truy vấn công khai và đã xác thực; cần publish rules trước khi khách gửi/đọc lời chúc thật. Không có phiên đăng nhập Firebase quản trị trong môi trường này để tự triển khai rules.
+Phần lời chúc đã chuyển sang Firebase Authentication (Anonymous) và Cloud Firestore. Đã kiểm thử SDK thật với Firebase Emulator: gửi, lưu, cập nhật sang khách thứ hai, tải lại trang, chặn sửa/xoá và kiểm tra dữ liệu. **Project production đã được chọn: `thang-quynh`, sáu trường Web config được cấp qua GitHub Repository Secrets khi build.** Chủ project đã Publish rules; đã xác nhận gửi/lưu, đồng bộ sang trình duyệt thứ hai và tải lại trên website production thành công. Hai prefix nhà trai/nhà gái dùng chung collection và các rules đã có, không cần Publish lại cho thay đổi đường dẫn.
 
 ## Cấu hình build đã áp dụng
 
@@ -54,7 +54,8 @@ npm run test:ui
 
 ## Kiểm tra project thật ngày 30/10/2026
 
-- Anonymous Auth: HTTP 200, tạo được phiên khách; tài khoản QA tạm được dọn sau kiểm tra, không viết lời chúc thử vào production.
-- Truy vấn 50 lời chúc trong collection đúng namespace: HTTP 403 `PERMISSION_DENIED / Missing or insufficient permissions`, ở cả trạng thái public và đã xác thực.
-- Cần chủ project mở [Firebase Console của thang-quynh](https://console.firebase.google.com/project/thang-quynh/firestore), tab Rules, áp dụng [firestore.rules](../firestore.rules) rồi Publish. Sau đó kiểm tra lại quyền đọc/gửi từ website.
+- Anonymous Auth: HTTP 200, tạo được phiên khách; tài khoản QA tạm được dọn sau kiểm tra, đã kiểm tra gửi một lời chúc QA được gắn nhãn rõ ràng. Tài khoản Auth QA tạm đã được dọn; bản ghi “KIỂM TRA KẾT NỐI — có thể xoá” còn trong Firestore để chủ project xoá bằng Console.
+- Sau khi chủ project Publish rules: đọc công khai thành công; gửi qua giao diện thật thành công, trình duyệt thứ hai nhận trực tiếp, tải lại vẫn còn dữ liệu.
+- Đã xác nhận client không thể xoá bản ghi, đúng rules. Chủ project xoá bản ghi QA trong Firebase Console khi thuận tiện.
+- Hai prefix `/nha-trai/` và `/nha-gai/` vẫn đọc/ghi collection hiện có `weddings/thang-quynh-20261129/wishes`. Ngày trong tên namespace là mã định danh cũ để giữ dữ liệu, không phải ngày hiển thị của bản nhà gái.
 - Khi Firestore từ chối quyền, trang khóa nút gửi và giữ khả năng Thử tải lại. Không báo đã lưu thành công khi server chưa chấp nhận.

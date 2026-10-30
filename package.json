@@ -14,7 +14,8 @@
     "gift:qr": "node scripts/generate-gift-qr.mjs",
     "pretest": "npm run gift:qr",
     "prebuild": "npm run gift:qr",
-    "test:firebase": "firebase emulators:exec --only auth,firestore --project demo-thang-quynh \"node scripts/test-firebase.mjs\""
+    "test:firebase": "firebase emulators:exec --only auth,firestore --project demo-thang-quynh \"node scripts/test-firebase.mjs\"",
+    "postbuild": "node scripts/check-built-invitations.mjs"
   },
   "devDependencies": {
     "@firebase/rules-unit-testing": "^6.0.0",

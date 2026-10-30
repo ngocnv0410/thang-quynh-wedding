@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test'
 
-async function enter(page) {
+async function enter(page, prefix) {
  await page.emulateMedia({ reducedMotion: 'reduce' })
- await page.goto('/')
+ await page.goto(`/${prefix}/`)
  await page.locator('#envelope-seal').click()
  await expect(page.locator('#entry-gate')).toBeHidden()
  await page.locator('#loi-chuc').scrollIntoViewIfNeeded()
@@ -13,7 +13,7 @@ test('Firebase saves and streams a wish to a second visitor and persists after r
  const first = await browser.newContext({ viewport: { width: 390, height: 844 } })
  const second = await browser.newContext({ viewport: { width: 390, height: 844 } })
  const writer = await first.newPage(), reader = await second.newPage()
- await enter(writer); await enter(reader)
+ await enter(writer, 'nha-gai'); await enter(reader, 'nha-trai')
  const name = `Bạn Lan ${Date.now()}`, message = '<img src=x onerror=alert(1)> Chúc hai bạn hạnh phúc!'
  await writer.locator('#wish-name').fill(name)
  await writer.locator('#wish-message').fill(message)
