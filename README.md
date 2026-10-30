@@ -2,12 +2,12 @@
 
 Thiệp cưới tiếng Việt theo bố cục Chinh–Linh: giấy trắng có vân, phong bì xanh lá trầm, giấy ren, hoa trắng lá xanh, ngọc trai và dải ảnh. Nội dung hiển thị dạng một cuốn thiệp dọc trên điện thoại và máy tính. Không có mục Our Story.
 
-Website: https://ngocnv0410.github.io/thang-quynh-wedding/
+Website: https://thangquynhwedding.io.vn/
 
 ## Hai đường dẫn gửi thiệp
 
-- **Nhà trai:** https://ngocnv0410.github.io/thang-quynh-wedding/nha-trai/ — 18:00, Chủ nhật **29/11/2026**, giữ nguyên nội dung và QR Techcombank **19050359954016**.
-- **Nhà gái:** https://ngocnv0410.github.io/thang-quynh-wedding/nha-gai/ — 18:00, Thứ Bảy **28/11/2026**, QR Techcombank **19036000582013**, chủ tài khoản **LAM THI THUY QUYNH**.
+- **Nhà trai:** https://thangquynhwedding.io.vn/nha-trai/ — 18:00, Chủ nhật **29/11/2026**, giữ nguyên nội dung và QR Techcombank **19050359954016**.
+- **Nhà gái:** https://thangquynhwedding.io.vn/nha-gai/ — 18:00, Thứ Bảy **28/11/2026**, QR Techcombank **19036000582013**, chủ tài khoản **LAM THI THUY QUYNH**.
 - Link gốc tiếp tục mở bản nhà trai. Cả hai vẫn hỗ trợ `?to=Tên%20khách`; địa điểm, bố mẹ, ảnh, nhạc, lịch trình và sổ lời chúc Firebase dùng chung.
 - Ngày trên phong bì, trang chính, thông tin tiệc, thứ, dấu tim lịch, đếm ngược, file ICS và metadata chia sẻ đều theo prefix. Hai sự kiện ICS có UID khác nhau.
 - Build tạo sẵn `dist/nha-trai/index.html` và `dist/nha-gai/index.html`; GitHub Pages mở trực tiếp và tải lại được, không cần rewrite hay thêm GitHub Secret/rule Firebase. `postbuild` xác nhận cả ba trang có ngày/QR và đường dẫn tài nguyên đúng base.
@@ -66,7 +66,7 @@ Ngày, địa điểm và danh sách ảnh ở `src/content.js`. Tên, bố mẹ
 - GitHub Actions chạy test và browser tests trước khi build/triển khai Pages; lưu artifact `browser-test-evidence`.
 - Chưa kiểm chứng Safari/iOS thật.
 
-Với GitHub Pages, workflow đặt `BASE_PATH=/thang-quynh-wedding/`. Hosting domain riêng dùng `npm run build` với base `/`, output `dist/`.
+Domain chính thức là **https://thangquynhwedding.io.vn**. GitHub Pages workflow build với `BASE_PATH=/` để ảnh, nhạc, CSS và JavaScript tải từ gốc domain. `public/CNAME` ghi nhận tên miền và được chép vào `dist/`. Hai prefix vẫn là `/nha-trai/` và `/nha-gai/`. Chỉ dùng `BASE_PATH=/thang-quynh-wedding/` nếu chuyển lại hosting dưới đường dẫn repository. Firebase tiếp tục dùng các Repository Secrets hiện có và cùng collection; không đổi `VITE_FIREBASE_AUTH_DOMAIN` sang domain website.
 
 ## Nguồn
 

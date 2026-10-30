@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import { weddingForPath } from './src/content.js'
 import { renderInvitationHtml } from './src/invitation-html.js'
 export default defineConfig({
-  // Đặt BASE_PATH=/thang-quynh-wedding/ khi build trên GitHub Pages.
+  // Domain riêng dùng /; chỉ đặt /thang-quynh-wedding/ khi host dưới repo path.
   base: process.env.BASE_PATH || '/',
   plugins: [{
     name: 'wedding-invitation-prefixes',

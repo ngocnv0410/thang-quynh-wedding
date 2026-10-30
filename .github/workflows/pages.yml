@@ -49,7 +49,8 @@ jobs:
           node scripts/check-build-env.mjs
           npm run build
         env:
-          BASE_PATH: /thang-quynh-wedding/
+          # Custom domain serves the invitation at the site root.
+          BASE_PATH: /
           VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
           VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
           VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
